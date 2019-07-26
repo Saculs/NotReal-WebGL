@@ -3,23 +3,50 @@
 <head>
   <title>!IR</title>
   <link rel='shortcut icon' href='favicon.png' type='image/png' />
+  <!--<link href="Style.css" rel="stylesheet" type="text/css"/>-->
+  <style>@font-face {
+    font-family: "Syne";
+    src: url("Syne-extra.otf");
+}
+
+h1 { 
+    color:white;
+    position:absolute;
+    visibility: hidden;
+    top:50%;
+    z-index:100; 
+    width:100%; 
+    text-align: center; 
+    transform: translate(0,-100%); 
+    font-family: 'Syne'; 
+    font-weight: 100; 
+    letter-spacing: 40px; 
+    text-transform: uppercase;
+    font-size: 24px; 
+}</style>
   <meta charset="utf-8">
 </head>
 <body style="margin: 0;">
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.3.5/Tween.min.js"></script>
   <script src="js/three/build/three.min.js"></script>
   <script src="js/OrbitControls.js"></script>
   <script src="js/three/examples/js/loaders/GLTFLoader.js"></script>
   <script src="main.js"></script>
+
+  <h1 id="example"></div>
   
   <script>
 
     // Set up the scene, camera, and renderer as global variables.
     var scene, camera, renderer;
 
+    var logo;
     var model;
     var skate;
     var cubee;
+    var plane;
+
+//var tween;
 
     var plane, numberOfVerticies;
     var currentWaveHeight = 10;
@@ -83,6 +110,8 @@ function fragmentShader() {
       camera.position.set(-3,0,0);
       scene.add(camera);
 
+      var app = document.getElementById('example')
+      app.textContent="newtext";
 
       // Create an event listener that resizes the renderer with the browser window.
       window.addEventListener('resize', function() {
@@ -117,7 +146,47 @@ function onDocumentMouseDown( event ) {
 	if ( intersects.length > 0 )
 	{
     clicker(intersects[ 0 ].object);
+    animateVector3(camera.position,{x: cubee.position.x - 2, y: cubee.position.y,z: cubee.position.z});
 	}
+}
+
+function animateScale(vectorToAnimate, target, options){
+  console.log("animating");
+    // create the tween
+    var tween = new TWEEN.Tween(vectorToAnimate).to(target, 2000)
+        .easing(TWEEN.Easing.Elastic.InOut)
+        .onComplete(function(){
+          setTimeout(function() {
+            logo.visible = false;
+          
+}, 3000);
+        });
+        tween.onUpdate(function(){
+          logo.scale.x = vectorToAnimate.x;
+    logo.scale.y = vectorToAnimate.y;
+    logo.scale.z = vectorToAnimate.z;
+    //camera.lookAt(cubee);
+});
+    // start the tween
+    tween.start();
+}
+
+function animateMove(vectorToAnimate, target, options){
+  console.log("animating");
+    // create the tween
+    var tween = new TWEEN.Tween(vectorToAnimate).to(target, 6000)
+        .easing(TWEEN.Easing.Quadratic.InOut)
+        .onComplete(function(){
+          console.log('done');
+        });
+        tween.onUpdate(function(){
+    camera.position.x = vectorToAnimate.x;
+    camera.position.y = vectorToAnimate.y;
+    camera.position.z = vectorToAnimate.z;
+    //camera.lookAt(cubee);
+});
+    // start the tween
+    tween.start();
 }
 
 function onDocumentMouseMove( event ) {
@@ -134,6 +203,11 @@ function onDocumentMouseMove( event ) {
             model.scale.set(0.0022,0.0022,0.0022);
             canvas.style.cursor = "pointer";
             }
+            if(intersects[0].object.name == "skate" ){
+            skate.rotation.x += 0.005;
+            skate.scale.set(0.55,0.55,0.55);
+            canvas.style.cursor = "pointer";
+            }
             if(intersects[0].object.name == "flag"){
             plane.rotation.x += 0.005;
             plane.scale.set(0.022,0.022,0.022);
@@ -141,6 +215,7 @@ function onDocumentMouseMove( event ) {
             }
         } else {
           model.scale.set(0.002,0.002,0.002);
+          skate.scale.set(0.5,0.5,0.5);
           plane.scale.set(0.02,0.02,0.02);
             canvas.style.cursor = "default";
         }
@@ -183,7 +258,7 @@ function clicker(obj){
         plane.scale.set(0.02,0.02,0.02);
         plane.rotation.y = getRadian(-90);
         plane.rotation.z = getRadian(90);
-        plane.position.set(10,3,-3);
+        plane.position.set(10,3,-4);
         plane.name = "flag";
         numberOfVerticies = plane.geometry.vertices.length;
         initPlane();
@@ -218,7 +293,7 @@ function clicker(obj){
       var geometry = new THREE.BoxGeometry( 0.1, 0.1, 0.1 );
       var mater = new THREE.MeshBasicMaterial( {color: 0xffffff} );
       var cube = new THREE.Mesh( geometry, mater);
-      scene.add( cube );
+      //scene.add( cube );
 
       let ambientLight = new THREE.AmbientLight(0x505050);
       scene.add(ambientLight);
@@ -253,25 +328,32 @@ function clicker(obj){
         skate.rotation.y = 90;
         skate.scale.set(0.5,0.5,0.5);
         skate.position.set(5,1.2,-2.5);
+        skate.name = "skate";
         //skate.callback = function() { console.log("Hello world!");};
+        logo.traverse(function (o) {
+    if (o.isMesh) {
+     o.name = "skate";
+    }
+  });
         scene.add(skate);
       });
 
       var loaderLogo = new THREE.GLTFLoader();
       loaderLogo.load( "models/notReal.glb", function(gltf){
-        modell = gltf.scene;
-        //modell.rotation.x += 90;
-        //modell.rotation.z = 90;
-        modell.rotation.y = 90;
-        modell.scale.set(-0.8,0.8,0.8);
-        modell.position.set(1,0,-0.8);
-        modell.traverse(function (o) {
+        logo = gltf.scene;
+        //logo.rotation.x += 90;
+        //logo.rotation.z = 90;
+        logo.rotation.y = 90;
+        //logo.scale.set(-0.8,0.8,0.8);
+        logo.scale.set(0,0.8,0.8);
+        logo.position.set(1,0,-0.8);
+        logo.traverse(function (o) {
     if (o.isMesh) {
      o.material = materiall;
     }
   });
-        //modell.material.set(material);
-        scene.add(modell);
+        scene.add(logo);
+        animateScale({x:-0.8,y:0.8,z:0},{x:-0.8,y:0.8,z:0.8} );
       });
 
       var geometr = new THREE.BoxGeometry( 1, 1, 1 );
@@ -308,6 +390,9 @@ function clicker(obj){
        skate.position.y = -3*Math.sin(t*0.0005) - 1.5;
       }
 
+      if(plane){ plane.rotation.z += 0.001;
+      }
+
 
       for(var j = 0; j < rowSize+1; j++) {
             for(var i = 0; i < rowSize+1; i++) {
@@ -326,7 +411,7 @@ function clicker(obj){
 
 
 
-
+        TWEEN.update();
       // Render the scene.
       renderer.render(scene, camera);
       controls.update();

@@ -9,6 +9,33 @@
     src: url("Syne-extra.otf");
 }
 
+#player{
+  visibility:hidden;
+}
+
+.vimeo-wrapper {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+  
+   pointer-events: none;
+   overflow: hidden;
+   z-index: 99 !important; 
+}
+.vimeo-wrapper iframe {
+   width: 100vw;
+   height: 56.25vw; /* Given a 16:9 aspect ratio, 9/16*100 = 56.25 */
+   min-height: 100vh;
+   min-width: 177.77vh; /* Given a 16:9 aspect ratio, 16/9*100 = 177.77 */
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+}
+
+
 h1 { 
     color:white;
     position:absolute;
@@ -22,7 +49,7 @@ h1 {
     font-weight: 100; 
     letter-spacing: 40px; 
     text-transform: uppercase;
-    font-size: 24px; 
+    font-size: 28px; 
 }</style>
   <meta charset="utf-8">
 </head>
@@ -33,7 +60,7 @@ h1 {
   <script src="js/three/examples/js/loaders/GLTFLoader.js"></script>
   <script src="main.js"></script>
 
-  <h1 id="example"></div>
+  <h1 id="example"></h1>
   
   <script>
 
@@ -45,6 +72,8 @@ h1 {
     var skate;
     var cubee;
     var plane;
+
+    var controls;
 
 //var tween;
 
@@ -99,19 +128,23 @@ function fragmentShader() {
 
       // Create a renderer and add it to the DOM.
       renderer = new THREE.WebGLRenderer({antialias:true});
-      renderer.setSize(WIDTH, HEIGHT);
+      renderer.setSize(WIDTH, HEIGHT);  
 
 
       document.body.appendChild(renderer.domElement);
 
       // Create a camera, zoom it out from the model a bit, and add it to the scene.
-      camera = new THREE.PerspectiveCamera(45, WIDTH / HEIGHT, 0.1, 20000);
+      camera = new THREE.PerspectiveCamera(45, WIDTH / HEIGHT, 0.001, 20000);
       //camera.position.set(-3,6,0);
-      camera.position.set(-3,0,0);
+      //camera.position.set(-3,0,0);
+      camera.position.set(-400,0,0);
+      animateMove(camera.position,{x:-3,y:0,z:0});
       scene.add(camera);
 
-      var app = document.getElementById('example')
-      app.textContent="newtext";
+      var example = document.getElementById('example');
+      example.textContent="Virtual";
+
+      var vimeo = document.getElementById('player');
 
       // Create an event listener that resizes the renderer with the browser window.
       window.addEventListener('resize', function() {
@@ -146,47 +179,102 @@ function onDocumentMouseDown( event ) {
 	if ( intersects.length > 0 )
 	{
     clicker(intersects[ 0 ].object);
-    animateVector3(camera.position,{x: cubee.position.x - 2, y: cubee.position.y,z: cubee.position.z});
+    animateMove(camera.position,{x: cubee.position.x - 2, y: cubee.position.y,z: cubee.position.z},cubee.position);
+    setTimeout((function() {
+      vimeo.style.visibility = 'visible';
+    },2000));
 	}
 }
 
 function animateScale(vectorToAnimate, target, options){
   console.log("animating");
+    var speed = 200;
     // create the tween
     var tween = new TWEEN.Tween(vectorToAnimate).to(target, 2000)
         .easing(TWEEN.Easing.Elastic.InOut)
         .onComplete(function(){
           setTimeout(function() {
             logo.visible = false;
-          
-}, 3000);
+            //example.style.visibility = 'visible';
+            setTimeout(function() {
+              example.style.visibility = 'visible';
+              example.innerHTML="Augmented";
+              setTimeout(function() {
+                example.innerHTML="Motion";
+                setTimeout(function() {
+                  example.innerHTML="AI";
+                  setTimeout(function() {
+                    example.innerHTML="PR";
+                    setTimeout(function() {
+                      example.innerHTML="Creative";
+                      setTimeout(function() {
+                        example.innerHTML="something";
+                        setTimeout(function() {
+                          example.innerHTML="";
+                            plane.visible = true;
+                            model.visible = true;
+                            skate.visible = true;
+                        }, speed);
+                      }, speed);
+                    }, speed);
+                  }, speed);
+                }, speed);
+              }, speed);
+            }, 200);
+          }, 4000);
         });
         tween.onUpdate(function(){
           logo.scale.x = vectorToAnimate.x;
     logo.scale.y = vectorToAnimate.y;
     logo.scale.z = vectorToAnimate.z;
-    //camera.lookAt(cubee);
+
 });
     // start the tween
     tween.start();
 }
 
-function animateMove(vectorToAnimate, target, options){
+function animateMove(vectorToAnimate, target, lookAt){
   console.log("animating");
     // create the tween
-    var tween = new TWEEN.Tween(vectorToAnimate).to(target, 6000)
+    var tween = new TWEEN.Tween(vectorToAnimate).to(target, 4000)
         .easing(TWEEN.Easing.Quadratic.InOut)
         .onComplete(function(){
           console.log('done');
         });
         tween.onUpdate(function(){
-    camera.position.x = vectorToAnimate.x;
-    camera.position.y = vectorToAnimate.y;
-    camera.position.z = vectorToAnimate.z;
-    //camera.lookAt(cubee);
-});
-    // start the tween
-    tween.start();
+          camera.position.x = vectorToAnimate.x;
+          camera.position.y = vectorToAnimate.y;
+          camera.position.z = vectorToAnimate.z;
+        if(lookAt){
+            controls.target = {x:vectorToAnimate.x +2,y: vectorToAnimate.y,z:vectorToAnimate.z};
+          }
+        });
+        /*
+        if(lookAt){
+      var vec = camera.lookAt;
+      var tween2 = new TWEEN.Tween(vec).to(lookAt, 4000)
+        .easing(TWEEN.Easing.Quadratic.InOut)
+        .onComplete(function(){
+          console.log('done');
+        });
+        tween2.onUpdate(function(){
+          //console.log(camera.lookAt,vec);
+          //camera.lookAt(vec);
+          controls.target = vec;
+        });
+        tween2.start(); 
+      }*/
+       // start the tween
+  tween.start();
+}
+
+function scroll(e){
+  if(e < 0 && camera.position.y >= 0){
+      animateMove(camera.position,{x: -3 , y: /*camera.position.y*/ - 8,z: 0},{x:0,y:-8,z:0});
+    }
+    else if(camera.position.y < 0){
+      animateMove(camera.position,{x: -3, y: 0, z: 0},{x:0,y:0,z:0});
+    }
 }
 
 function onDocumentMouseMove( event ) {
@@ -240,7 +328,34 @@ function clicker(obj){
   }
 	obj.geometry.colorsNeedUpdate = true;
 }
+
+window.addEventListener("wheel", function(e) {
+  var e = window.event || e; // old IE support
+	var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+  scroll(delta);
+  
+  console.log("scrolled "+ delta.toString());
+  //camera.position.y += event.wheelDeltaY * 0.1;;
+}, true);
         
+//Space background is a large sphere
+var spacetex = new THREE.TextureLoader().load("https://s3-us-west-2.amazonaws.com/s.cdpn.io/96252/space.jpg");
+  var spacesphereGeo = new THREE.SphereGeometry(15,15,15);
+  var spacesphereMat = new THREE.MeshPhongMaterial();
+  spacesphereMat.map = spacetex;
+
+  var spacesphere = new THREE.Mesh(spacesphereGeo,spacesphereMat);
+  
+  //spacesphere needs to be double sided as the camera is within the spacesphere
+  spacesphere.material.side = THREE.DoubleSide;
+  
+  spacesphere.material.map.wrapS = THREE.RepeatWrapping; 
+  spacesphere.material.map.wrapT = THREE.RepeatWrapping;
+  spacesphere.material.map.repeat.set( 5, 3);
+  
+  scene.add(spacesphere);
+
+
         let uniforms = {
         colorB: {type: 'vec3', value: new THREE.Color(0xACB6E5)},
         colorA: {type: 'vec3', value: new THREE.Color(0x74ebd5)}
@@ -260,6 +375,7 @@ function clicker(obj){
         plane.rotation.z = getRadian(90);
         plane.position.set(10,3,-4);
         plane.name = "flag";
+        plane.visible = false;
         numberOfVerticies = plane.geometry.vertices.length;
         initPlane();
         scene.add(plane);
@@ -311,8 +427,9 @@ function clicker(obj){
         model.rotation.z = 30.4;
         model.rotation.y = 155.4;
         model.scale.set(0.002,0.002,0.002);
-        model.position.set(5,1.2,2.5);
+        model.position.set(4,1.2,2.5);
         model.name="tv";
+        model.visible = false;
         model.callback = function() { console.log("Hello world!");};
         scene.add(model);
       });
@@ -328,7 +445,7 @@ function clicker(obj){
         skate.rotation.y = 90;
         skate.scale.set(0.5,0.5,0.5);
         skate.position.set(5,1.2,-2.5);
-        skate.name = "skate";
+        skate.visible = false;
         //skate.callback = function() { console.log("Hello world!");};
         logo.traverse(function (o) {
     if (o.isMesh) {
@@ -353,14 +470,15 @@ function clicker(obj){
     }
   });
         scene.add(logo);
-        animateScale({x:-0.8,y:0.8,z:0},{x:-0.8,y:0.8,z:0.8} );
+        animateScale({x:0.8,y:0.8,z:0},{x:-0.8,y:0.8,z:0.8} );
       });
 
       var geometr = new THREE.BoxGeometry( 1, 1, 1 );
       var cubee = new THREE.Mesh( geometr, mater);
-      cubee.position.set(5,1.2,2.5);
+      cubee.position.set(4,1.2,2.5);
       cubee.callback = function() { console.log("Hello world!");};
       cubee.name = "name";
+      //cubee.visible = false;
       scene.add(cubee);
 
       var geoGround = new THREE.PlaneBufferGeometry( 100,100 );

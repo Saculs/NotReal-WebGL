@@ -68,7 +68,7 @@ h1 {
     var scene, camera, renderer;
 
     var logo;
-    var model;
+    var tv;
     var skate;
     var cubee;
     var plane;
@@ -89,14 +89,14 @@ h1 {
     function vertexShader() {
   return `
     varying vec3 vUv; 
-    varying vec4 modelViewPosition; 
+    varying vec4 tvViewPosition; 
     varying vec3 vecNormal;
 
     void main() {
       vUv = position; 
-      vec4 modelViewPosition = modelViewMatrix * vec4(position, 1.0);
-      vecNormal = (modelViewMatrix * vec4(normal, 0.0)).xyz; //????????
-      gl_Position = projectionMatrix * modelViewPosition; 
+      vec4 tvViewPosition = tvViewMatrix * vec4(position, 1.0);
+      vecNormal = (tvViewMatrix * vec4(normal, 0.0)).xyz; //????????
+      gl_Position = projectionMatrix * tvViewPosition; 
     }
   `
 }
@@ -133,7 +133,7 @@ function fragmentShader() {
 
       document.body.appendChild(renderer.domElement);
 
-      // Create a camera, zoom it out from the model a bit, and add it to the scene.
+      // Create a camera, zoom it out from the tv a bit, and add it to the scene.
       camera = new THREE.PerspectiveCamera(45, WIDTH / HEIGHT, 0.001, 20000);
       //camera.position.set(-3,6,0);
       //camera.position.set(-3,0,0);
@@ -157,18 +157,12 @@ function fragmentShader() {
 
 
       // initialize object to perform world/screen calculations
-      var raycaster = new THREE.Raycaster(); 
-      var mouse = new THREE.Vector2(), INTERSECTED;
-
-//////////////////////////////////////////
-    //    Mousedown find the Obj
-//////////////////////////////////////////
-	// when the mouse moves, call the given function
+  var raycaster = new THREE.Raycaster(); 
+  var mouse = new THREE.Vector2(), INTERSECTED;
 	document.addEventListener( 'mousedown', onDocumentMouseDown, false );
-   document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+  document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 
    //All Clickable Objects
-   var targetList = [model,cubee, skate];
 
 function onDocumentMouseDown( event ) {
 	mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
@@ -184,6 +178,59 @@ function onDocumentMouseDown( event ) {
       vimeo.style.visibility = 'visible';
     },2000));
 	}
+}
+
+function onDocumentMouseMove( event ) {
+	mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+  mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;	
+  
+  raycaster.setFromCamera( mouse, camera );
+  var clickable = ["tv","flag", "skate", "cubee"];
+  var intersects = raycaster.intersectObjects( scene.children, true );
+  var canvas = document.body.getElementsByTagName('canvas')[0];
+  if (intersects.length > 0 && clickable.includes(intersects[0].object.name)) {
+    console.log(intersects[0].object.name);
+    if(intersects[0].object.name == "tv"){
+        tv.rotation.x += 0.005;
+        tv.scale.set(0.0022,0.0022,0.0022);
+        canvas.style.cursor = "pointer";
+    }
+            if(intersects[0].object.name == "skate" ){
+              skate.rotation.x += 0.005;
+              skate.scale.set(0.55,0.55,0.55);
+              canvas.style.cursor = "pointer";
+            }
+            if(intersects[0].object.name == "flag"){
+              plane.rotation.x += 0.005;
+              plane.scale.set(0.022,0.022,0.022);
+              canvas.style.cursor = "pointer";
+            }
+    } else {
+      tv.scale.set(0.002,0.002,0.002);
+      skate.scale.set(0.5,0.5,0.5);
+      plane.scale.set(0.02,0.02,0.02);
+      canvas.style.cursor = "default";
+    }
+}
+function clicker(obj){
+  console.log(obj);
+    console.group('intersection');
+	     console.log(obj.point);
+  console.log(obj.rotation)
+    console.groupEnd();
+  
+        //window.open('http://www.pericror.com/', '_blank');
+
+  
+  if(obj.active === true){
+    obj.material.color.setRGB(0,1,0);
+    obj.active = false;
+  }
+  else{
+    obj.material.color.setRGB(1,0,0);
+    obj.active = true;
+  }
+	obj.geometry.colorsNeedUpdate = true;
 }
 
 function animateScale(vectorToAnimate, target, options){
@@ -212,7 +259,7 @@ function animateScale(vectorToAnimate, target, options){
                         setTimeout(function() {
                           example.innerHTML="";
                             plane.visible = true;
-                            model.visible = true;
+                            tv.visible = true;
                             skate.visible = true;
                         }, speed);
                       }, speed);
@@ -242,6 +289,7 @@ function animateMove(vectorToAnimate, target, lookAt){
           console.log('done');
         });
         tween.onUpdate(function(){
+          console.log("tween update ", vectorToAnimate);
           camera.position.x = vectorToAnimate.x;
           camera.position.y = vectorToAnimate.y;
           camera.position.z = vectorToAnimate.z;
@@ -269,64 +317,16 @@ function animateMove(vectorToAnimate, target, lookAt){
 }
 
 function scroll(e){
-  if(e < 0 && camera.position.y >= 0){
+  console.log(camera.position.y);
+  if(e < 0 && camera.position.y >-1 && camera.position.y < 1){
       animateMove(camera.position,{x: -3 , y: /*camera.position.y*/ - 8,z: 0},{x:0,y:-8,z:0});
     }
     else if(camera.position.y < 0){
       animateMove(camera.position,{x: -3, y: 0, z: 0},{x:0,y:0,z:0});
     }
-}
-
-function onDocumentMouseMove( event ) {
-	mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-  mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;	
-  
-  raycaster.setFromCamera( mouse, camera );
-  var intersects = raycaster.intersectObjects( scene.children, true );
-  var canvas = document.body.getElementsByTagName('canvas')[0];
-  if (intersects.length > 0) {
-    console.log(intersects[0])
-            if(intersects[0].object.name == "name" || intersects[0].object.name == "tv" ){
-            model.rotation.x += 0.005;
-            model.scale.set(0.0022,0.0022,0.0022);
-            canvas.style.cursor = "pointer";
-            }
-            if(intersects[0].object.name == "skate" ){
-            skate.rotation.x += 0.005;
-            skate.scale.set(0.55,0.55,0.55);
-            canvas.style.cursor = "pointer";
-            }
-            if(intersects[0].object.name == "flag"){
-            plane.rotation.x += 0.005;
-            plane.scale.set(0.022,0.022,0.022);
-            canvas.style.cursor = "pointer";
-            }
-        } else {
-          model.scale.set(0.002,0.002,0.002);
-          skate.scale.set(0.5,0.5,0.5);
-          plane.scale.set(0.02,0.02,0.02);
-            canvas.style.cursor = "default";
-        }
-}
-function clicker(obj){
-  console.log(obj);
-    console.group('intersection');
-	     console.log(obj.point);
-  console.log(obj.rotation)
-    console.groupEnd();
-  
-        //window.open('http://www.pericror.com/', '_blank');
-
-  
-  if(obj.active === true){
-    obj.material.color.setRGB(0,1,0);
-    obj.active = false;
-  }
-  else{
-    obj.material.color.setRGB(1,0,0);
-    obj.active = true;
-  }
-	obj.geometry.colorsNeedUpdate = true;
+    else if(e < 0 && camera.position.y > 1){
+      animateMove(camera.position,{x: -3, y: 0, z: 0},{x:0,y:0,z:0});
+    }
 }
 
 window.addEventListener("wheel", function(e) {
@@ -422,16 +422,21 @@ var spacetex = new THREE.TextureLoader().load("https://s3-us-west-2.amazonaws.co
       loader.load( "models/TV.glb", function(gltf){
         //var material = new THREE.MeshLambertMaterial({color: 0x55B663});
         //mesh = new THREE.Mesh(geometry, material);
-        model = gltf.scene;
-        model.rotation.x = 90;
-        model.rotation.z = 30.4;
-        model.rotation.y = 155.4;
-        model.scale.set(0.002,0.002,0.002);
-        model.position.set(4,1.2,2.5);
-        model.name="tv";
-        model.visible = false;
-        model.callback = function() { console.log("Hello world!");};
-        scene.add(model);
+        tv = gltf.scene;
+        tv.rotation.x = 90;
+        tv.rotation.z = 30.4;
+        tv.rotation.y = 155.4;
+        tv.scale.set(0.002,0.002,0.002);
+        tv.position.set(4,1.2,2.5);
+        tv.name="tv";
+        tv.visible = false;
+        tv.callback = function() { console.log("Hello world!");};
+        tv.traverse(function (o) {
+          if (o.isMesh) {
+            o.name = "tv";
+          }
+        });
+        scene.add(tv);
       });
       
       // Load in the mesh and add it to the scene.
@@ -447,11 +452,11 @@ var spacetex = new THREE.TextureLoader().load("https://s3-us-west-2.amazonaws.co
         skate.position.set(5,1.2,-2.5);
         skate.visible = false;
         //skate.callback = function() { console.log("Hello world!");};
-        logo.traverse(function (o) {
-    if (o.isMesh) {
-     o.name = "skate";
-    }
-  });
+        skate.traverse(function (o) {
+          if (o.isMesh) {
+            o.name = "skate";
+          }
+        });
         scene.add(skate);
       });
 
@@ -477,7 +482,7 @@ var spacetex = new THREE.TextureLoader().load("https://s3-us-west-2.amazonaws.co
       var cubee = new THREE.Mesh( geometr, mater);
       cubee.position.set(4,1.2,2.5);
       cubee.callback = function() { console.log("Hello world!");};
-      cubee.name = "name";
+      cubee.name = "cubee";
       //cubee.visible = false;
       scene.add(cubee);
 
@@ -497,9 +502,9 @@ var spacetex = new THREE.TextureLoader().load("https://s3-us-west-2.amazonaws.co
 
       // Read more about requestAnimationFrame at http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
       requestAnimationFrame(animate);
-      if(model) model.rotation.z += 0.001;
-      if(model) model.rotation.y += 0.0001;
-      if(model) model.position.y = -0.2*Math.sin(t*0.01) + 1.5;
+      if(tv) tv.rotation.z += 0.001;
+      if(tv) tv.rotation.y += 0.0001;
+      if(tv) tv.position.y = -0.2*Math.sin(t*0.01) + 1.5;
 
 
       if(skate){ skate.rotation.z += 0.001;

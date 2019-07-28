@@ -1,70 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <title>!IR</title>
-  <link rel='shortcut icon' href='favicon.png' type='image/png' />
-  <!--<link href="Style.css" rel="stylesheet" type="text/css"/>-->
-  <style>@font-face {
-    font-family: "Syne";
-    src: url("Syne-extra.otf");
-}
-
-#player{
-  visibility:hidden;
-}
-
-.vimeo-wrapper {
-   position: fixed;
-   top: 0;
-   left: 0;
-   width: 100%;
-   height: 100%;
-  
-   pointer-events: none;
-   overflow: hidden;
-   z-index: 99 !important; 
-}
-.vimeo-wrapper iframe {
-   width: 100vw;
-   height: 56.25vw; /* Given a 16:9 aspect ratio, 9/16*100 = 56.25 */
-   min-height: 100vh;
-   min-width: 177.77vh; /* Given a 16:9 aspect ratio, 16/9*100 = 177.77 */
-   position: absolute;
-   top: 50%;
-   left: 50%;
-   transform: translate(-50%, -50%);
-}
-
-
-h1 { 
-    color:white;
-    position:absolute;
-    visibility: hidden;
-    top:50%;
-    z-index:100; 
-    width:100%; 
-    text-align: center; 
-    transform: translate(0,-100%); 
-    font-family: 'Syne'; 
-    font-weight: 100; 
-    letter-spacing: 40px; 
-    text-transform: uppercase;
-    font-size: 28px; 
-}</style>
-  <meta charset="utf-8">
-</head>
-<body style="margin: 0;">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.3.5/Tween.min.js"></script>
-  <script src="js/three/build/three.min.js"></script>
-  <script src="js/OrbitControls.js"></script>
-  <script src="js/three/examples/js/loaders/GLTFLoader.js"></script>
-  <script type="text/javascript" src="js/main.js"></script>
-
-  <h1 id="example"></h1>
-  <div class="popup"><div class="text"></div></div>
-  
-  <script>
+$(function () {
 
     // Set up the scene, camera, and renderer as global variables.
     var scene, camera, renderer;
@@ -75,13 +9,11 @@ h1 {
     var cubee;
     var plane;
 
-    var targets = [tv,skate,cubee,plane];
-
     var controls;
 
 //var tween;
 
-    var numberOfVerticies;
+    var plane, numberOfVerticies;
     var currentWaveHeight = 10;
     var rowSize = 150;
     var maxHeight = 20;
@@ -173,32 +105,20 @@ function fragmentShader() {
      event.clientY = event.touches[0].clientY;
      onDocumentMouseDown(event);
    }
-   var clickable = ["tv","flag", "skate", "cubee"];
+
 function onDocumentMouseDown( event ) {
 	mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
 	mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;	
 	raycaster.setFromCamera( mouse, camera );
-	var intersects = raycaster.intersectObjects(scene.children,true);
-  var to;
-  var namee = intersects[0].object.name;
-	if ( intersects.length > 0 && clickable.includes(intersects[0].object.name))
+	var intersects = raycaster.intersectObjects(scene.children);
+	
+	if ( intersects.length > 0 )
 	{
-    if(namee == "tv" ){
-        to = cubee;
-    }
-    if(namee == "flag"){
-      to = plane;
-    }
-    if(namee == "skate"){
-      to = skate;
-    }
     clicker(intersects[ 0 ].object);
-    animateMove(camera.position,{x: to.position.x - 3, y: to.position.y,z: to.position.z},cubee.position);
-    /*
-    $('.text').empty();
-    $('.popup').append("<div class='text'><p>"+ intersects[0].object.name +"</p></div>");
+    animateMove(camera.position,{x: cubee.position.x - 2, y: cubee.position.y,z: cubee.position.z},cubee.position);
+    $('.text').show();
+    $('.popup').append("<div class='text'><p>TEEEEEEEEXT</p></div>");
     $('.popup').show();
-    */
 	}
 }
 
@@ -207,6 +127,7 @@ function onDocumentMouseMove( event ) {
   mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;	
   
   raycaster.setFromCamera( mouse, camera );
+  var clickable = ["tv","flag", "skate", "cubee"];
   var intersects = raycaster.intersectObjects( scene.children, true );
   var canvas = document.body.getElementsByTagName('canvas')[0];
   if (intersects.length > 0 && clickable.includes(intersects[0].object.name)) {
@@ -234,11 +155,15 @@ function onDocumentMouseMove( event ) {
     }
 }
 function clicker(obj){
+  console.log(obj);
     console.group('intersection');
-	    console.log(obj.point);
-      console.log(obj.rotation)
+	     console.log(obj.point);
+  console.log(obj.rotation)
     console.groupEnd();
-  //window.open('http://www.pericror.com/', '_blank');  
+  
+        //window.open('http://www.pericror.com/', '_blank');
+
+  
   if(obj.active === true){
     obj.material.color.setRGB(0,1,0);
     obj.active = false;
@@ -301,7 +226,7 @@ function animateMove(vectorToAnimate, target, lookAt){
   console.log("animating");
     // create the tween
     var tween = new TWEEN.Tween(vectorToAnimate).to(target, 4000)
-        .easing(TWEEN.Easing.Quadratic.Out)
+        .easing(TWEEN.Easing.Quadratic.InOut)
         .onComplete(function(){
           console.log('done');
         });
@@ -557,7 +482,4 @@ var spacetex = new THREE.TextureLoader().load("https://s3-us-west-2.amazonaws.co
       controls.update();
 
     }
-  </script>
-
-</body>
-</html>
+});

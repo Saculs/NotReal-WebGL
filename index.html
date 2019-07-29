@@ -80,6 +80,8 @@ var arch;
 
 var controls;
 
+var clickable = ["tv","flag","skate", "synth"];
+
 //var tween;
 
 var numberOfVerticies;
@@ -174,7 +176,6 @@ function onDocumentTouchStart(event){
  event.clientY = event.touches[0].clientY;
  onDocumentMouseDown(event);
 }
-var clickable = ["tv","flag","skate", "synth"];
 
 function onDocumentMouseDown( event ) {
 mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
@@ -197,6 +198,18 @@ if(namee == "skate"){
 if(namee == "synth"){
   to = synth;
 }
+switch(namee) {
+  case "instance_3":
+  window.open('http://www.zenbauhaus.wordpress.com/', '_blank');  
+  case "Cone":
+  window.open('http://www.notreal.xyz/', '_blank');   
+    break;
+  case "Plane":
+  window.open('https://www.instagram.com/notreal_virtual/', '_blank'); 
+    break;
+  default:
+    // code block
+}
 clicker(intersects[ 0 ].object);
 animateMove(camera.position,{x: to.position.x - 3, y: to.position.y,z: to.position.z},to.position);
 
@@ -207,35 +220,56 @@ $('.text').empty();
 }
 }
 
+function lerp (start, end, amt){
+  return (1-amt)*start+amt*end
+}
+
 function onDocumentMouseMove( event ) {
+
+    mouseX = (event.clientX - window.innerWidth / 2) ;
+    mouseY = (event.clientY - window.innerHeight / 2);
+    if(mouseX != 0){
+      mouseX = mouseX  / (window.innerWidth / 2);
+    }
+    if(mouseY != 0){
+      mouseY = mouseY  / (window.innerHeight / 2);
+    }
+
+    //console.log( mouseX, mouseY);
+    camera.position.z =  0 - mouseX;
+    camera.position.y = 0 + mouseY;
+    //set up camera position
+    //camera.lookAt(scene.position);
+
 mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
 mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;	
 
 raycaster.setFromCamera( mouse, camera );
 var intersects = raycaster.intersectObjects( scene.children, true );
 var canvas = document.body.getElementsByTagName('canvas')[0];
-if (intersects.length > 0 && clickable.includes(intersects[0].object.name)) {
 console.log(intersects[0].object.name);
+if (intersects.length > 0 && clickable.includes(intersects[0].object.name)) {
+
 if(intersects[0].object.name == "tv"){
     tv.rotation.x += 0.005;
     tv.scale.set(0.01,0.01,0.01);
-    canvas.style.cursor = "pointer";
+
 }
         if(intersects[0].object.name == "skate" ){
           skate.rotation.x += 0.005;
           skate.scale.set(0.55,0.55,0.55);
-          canvas.style.cursor = "pointer";
+
         }
         if(intersects[0].object.name == "flag"){
           plane.rotation.x += 0.005;
           plane.scale.set(0.01,0.01,0.01);
-          canvas.style.cursor = "pointer";
+      
         }
         if(intersects[0].object.name == "synth"){
     //tv.rotation.x += 0.005;
     tv.scale.set(0.01,0.01,0.01);
-    canvas.style.cursor = "pointer";
 }
+canvas.style.cursor = "pointer";
 } else {
   //tv.scale.set(0.008,0.008,0.008);
   skate.scale.set(0.5,0.5,0.5);
@@ -320,6 +354,7 @@ var tween = new TWEEN.Tween(vectorToAnimate).to(target, 4000)
       camera.position.z = vectorToAnimate.z;
     if(lookAt){
         controls.target = {x:vectorToAnimate.x +2,y: vectorToAnimate.y,z:vectorToAnimate.z};
+        //camera.lookAt({x:vectorToAnimate.x + 2,y: vectorToAnimate.y,z:vectorToAnimate.z});
       }
     });
     /*
@@ -343,13 +378,16 @@ tween.start();
 
 function scroll(e){
 console.log("scroll " + e);
-if(e < 0 && camera.position.y >-5 && camera.position.y < 1){
-  animateMove(camera.position,{x: -3 , y: /*camera.position.y*/ - 5,z: 0},{x:0,y:-5,z:0});
+if(e < 0 && camera.position.z > -1.1 && camera.position.z < 1.1 && camera.position.x < 0){
+  console.log("move 1");
+  animateMove(camera.position,{x: 12 , y: 0,z: 0},{x:11,y:0,z:0});
 }
-else if(e > 0 && camera.position.y < 0){
+else if(e > 0 && camera.position.x > 10){
+  console.log("move 2");
   animateMove(camera.position,{x: -3, y: 0, z: 0},{x:0,y:0,z:0});
 }
-else if(e < 0 && camera.position.y > 1){
+else if(e < 0 && camera.position.x < 10 ){
+  console.log("move 3");
   animateMove(camera.position,{x: -3, y: 0, z: 0},{x:0,y:0,z:0});
 }
 }
@@ -440,21 +478,26 @@ vertexShader: vertexShader(),
   scene.add(ambientLight);
 
   var materiall = new THREE.MeshPhongMaterial({color: 0xffffff, roughness: 0,flatShading:true});
-
+  var igAlpha = new THREE.TextureLoader().load("models/igAlphaa.png");
+  var igMat = new THREE.MeshPhongMaterial({color: 0xffffff, alphaMap: igAlpha,transparent: true, opacity: 0.8});
+  var fbAlpha = new THREE.TextureLoader().load("models/fbAlpha.png");
+  var fbMat = new THREE.MeshPhongMaterial({color: 0xffffff, alphaMap: fbAlpha,transparent: true, opacity: 0.8});
   var usloader = new THREE.GLTFLoader();
-  usloader.load( "models/us.glb", function(gltf){
-      us = gltf.scene;
+  usloader.load( "models/ussse.glb", function(gltf){
+      us = gltf.scene;  
     //us.rotation.x = 90;
     //us.rotation.z = 30.4;
-    us.rotation.y = -95;
-    us.scale.set(0.4,0.4,0.4);
-    us.position.set(0,-5,0);
-    us.name="use";
+    //us.rotation.y = -95;
+    us.scale.set(0.7,0.7,0.7);
+    us.position.set(18,-0.8,0);
+    //us.name="use";
     us.visible = true;
     //us.callback = function() { console.log("Hello world!");};
     us.traverse(function (o) {
       if (o.isMesh) {
-        o.name = "us";
+        clickable.push(o.name.toString());
+        if(o.name == "Plane") o.material = igMat;
+        if(o.name == "Plane001") o.material = fbMat;
       }
     });
     scene.add(us);

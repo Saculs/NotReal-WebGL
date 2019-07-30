@@ -63,6 +63,12 @@ h1 {
 
   <h1 id="example"></h1>
   <div class="popup"><div class="text"></div></div>
+
+  <video id="video" loop crossOrigin="anonymous" webkit-playsinline style="display:none">
+			<!--<source src="textures/sintel.ogv" type='video/ogg; codecs="theora, vorbis"'>-->
+			<source src="clean_vid.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
+	</video>
+
   <script>
     
 // Set up the scene, camera, and renderer as global variables.
@@ -77,6 +83,9 @@ var phone;
 var vr;
 var vid;
 var arch;
+
+
+var video;
 
 var controls;
 
@@ -151,7 +160,10 @@ function init() {
   var example = document.getElementById('example');
   example.textContent="Virtual";
 
-  var vimeo = document.getElementById('player');
+  
+  video = document.getElementById( 'video' );
+	video.play();
+	videoTexture = new THREE.VideoTexture( video );
 
   // Create an event listener that resizes the renderer with the browser window.
   window.addEventListener('resize', function() {
@@ -235,6 +247,10 @@ function onDocumentMouseMove( event ) {
       mouseY = mouseY  / (window.innerHeight / 2);
     }
 
+    /*
+    camera.position.x += ( mouseX - camera.position.x ) * 0.05;
+        camera.position.y += ( - mouseY - camera.position.y ) * 0.05;
+        */
     //console.log( mouseX, mouseY);
     camera.position.z =  0 - mouseX;
     camera.position.y = 0 + mouseY;
@@ -284,14 +300,14 @@ console.group('intersection');
 console.groupEnd();
 //window.open('http://www.pericror.com/', '_blank');  
 if(obj.active === true){
-obj.material.color.setRGB(0,1,0);
+//obj.material.color.setRGB(0,1,0);
 obj.active = false;
 }
 else{
-obj.material.color.setRGB(1,0,0);
+//obj.material.color.setRGB(1,0,0);
 obj.active = true;
 }
-obj.geometry.colorsNeedUpdate = true;
+//obj.geometry.colorsNeedUpdate = true;
 }
 
 function animateScale(vectorToAnimate, target, options){
@@ -506,7 +522,7 @@ vertexShader: vertexShader(),
   // Load in the mesh and add it to the scene.
   var loader = new THREE.GLTFLoader();
   loader.load( "models/TV.glb", function(gltf){
-    //var material = new THREE.MeshLambertMaterial({color: 0x55B663});
+    var videoMat = new THREE.MeshLambertMaterial({ map : videoTexture});
     //mesh = new THREE.Mesh(geometry, material);
     tv = gltf.scene;
     tv.rotation.x = 90;
@@ -519,6 +535,7 @@ vertexShader: vertexShader(),
     tv.callback = function() { console.log("Hello world!");};
     tv.traverse(function (o) {
       if (o.isMesh) {
+        if(o.name == "Retro_TV_2") o.material= videoMat;
         o.name = "tv";
       }
     });

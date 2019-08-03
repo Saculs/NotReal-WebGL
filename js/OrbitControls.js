@@ -120,213 +120,202 @@ THREE.OrbitControls = function ( object, domElement ) {
 		state = STATE.NONE;
 
 	};
-function Quat2Angle( x, y, z, w ) {
- 
-    var pitch, roll, yaw;
- 
-    var test = x * y + z * w;
- 
-    if (test > 0.499) {
-        yaw = 2 * Math.atan2(x, w);
-        pitch = Math.PI / 2;
-        roll = 0;
- 
-        var euler = new THREE.Vector3( pitch, roll, yaw);
-        return euler;
-    }
- 
-    if (test < -0.499) {
-        yaw = -2 * Math.atan2(x, w);
-        pitch = -Math.PI / 2;
-        roll = 0;
-        var euler = new THREE.Vector3( pitch, roll, yaw);
-        return euler;
-    }
- 
-    var sqx = x * x;
-    var sqy = y * y;
-    var sqz = z * z;
-    yaw = Math.atan2(2 * y * w - 2 * x * z, 1 - 2 * sqy - 2 * sqz);
-    pitch = Math.asin(2 * test);
-    roll = Math.atan2(2 * x * w - 2 * y * z, 1 - 2 * sqx - 2 * sqz);
- 
-    var euler = new THREE.Vector3( pitch, roll, yaw);
- 
-    return euler;
-}
-var setObjectQuaternion = function () {
- 
-    var zee = new THREE.Vector3( 0, 0, 1 );
- 
-    var euler = new THREE.Euler();
- 
-    var q0 = new THREE.Quaternion();
- 
-    var q1 = new THREE.Quaternion(  - Math.sqrt( 0.5 ), 0, 0,  Math.sqrt( 0.5 ) );
- 
-    return function ( quaternion, alpha, beta, gamma, orient ) {
- 
-        euler.set( beta, alpha, - gamma, 'YXZ' );
- 
-        quaternion.setFromEuler( euler );
- 
-        quaternion.multiply( q1 );
- 
-        quaternion.multiply( q0.setFromAxisAngle( zee, - orient ) );
- 
-    }
- 
-}();
 
-function onDeviceOrientationChangeEvent( event ) {
+	var setObjectQuaternion = function () {
  
-    scope.deviceOrientation = event;
- 
-}	
- 
-function onScreenOrientationChangeEvent( event ) {
- 
-    scope.screenOrientation = window.orientation || 0;
- 
-}
- 
-window.addEventListener( 'deviceorientation', onDeviceOrientationChangeEvent, false );
-window.addEventListener( 'orientationchange', onScreenOrientationChangeEvent, false );
+		var zee = new THREE.Vector3( 0, 0, 1 );
+	 
+		var euler = new THREE.Euler();
+	 
+		var q0 = new THREE.Quaternion();
+	 
+		var q1 = new THREE.Quaternion(  - Math.sqrt( 0.5 ), 0, 0,  Math.sqrt( 0.5 ) );
+	 
+		return function ( quaternion, alpha, beta, gamma, orient ) {
+	 
+			euler.set( beta, alpha, - gamma, 'YXZ' );
+	 
+			quaternion.setFromEuler( euler );
+	 
+			quaternion.multiply( q1 );
+	 
+			quaternion.multiply( q0.setFromAxisAngle( zee, - orient ) );
+	 
+		}
+	 
+	}();
 
+	function Quat2Angle( x, y, z, w ) {
+ 
+		var pitch, roll, yaw;
+	 
+		var test = x * y + z * w;
+	 
+		if (test > 0.499) {
+			yaw = 2 * Math.atan2(x, w);
+			pitch = Math.PI / 2;
+			roll = 0;
+	 
+			var euler = new THREE.Vector3( pitch, roll, yaw);
+			return euler;
+		}
+	 
+		if (test < -0.499) {
+			yaw = -2 * Math.atan2(x, w);
+			pitch = -Math.PI / 2;
+			roll = 0;
+			var euler = new THREE.Vector3( pitch, roll, yaw);
+			return euler;
+		}
+	 
+		var sqx = x * x;
+		var sqy = y * y;
+		var sqz = z * z;
+		yaw = Math.atan2(2 * y * w - 2 * x * z, 1 - 2 * sqy - 2 * sqz);
+		pitch = Math.asin(2 * test);
+		roll = Math.atan2(2 * x * w - 2 * y * z, 1 - 2 * sqx - 2 * sqz);
+	 
+		var euler = new THREE.Vector3( pitch, roll, yaw);
+	 
+		return euler;
+	}
+
+	function onDeviceOrientationChangeEvent( event ) {
+ 
+		scope.deviceOrientation = event;
+	 
+	}
+	 
+	function onScreenOrientationChangeEvent( event ) {
+	 
+		scope.screenOrientation = window.orientation || 0;
+	 
+	}
+	 
+	window.addEventListener( 'deviceorientation', onDeviceOrientationChangeEvent, false );
+	window.addEventListener( 'orientationchange', onScreenOrientationChangeEvent, false );
 
 	// this method is exposed, but perhaps it would be better if we can make it private...
 	this.update = function () {
-
+ 
 		var offset = new THREE.Vector3();
-
+	 
+		var lastGamma = 0,
+			lastBeta = 0;
+	 
 		// so camera.up is the orbit axis
 		var quat = new THREE.Quaternion().setFromUnitVectors( object.up, new THREE.Vector3( 0, 1, 0 ) );
 		var quatInverse = quat.clone().inverse();
-
+	 
 		var lastPosition = new THREE.Vector3();
 		var lastQuaternion = new THREE.Quaternion();
-
+	 
 		return function update() {
-
+	 
 			var position = scope.object.position;
-			var offset = new THREE.Vector3();
- 
-			var lastGamma = 0,
-				lastBeta = 0;
-		 
-			// so camera.up is the orbit axis
-			var quat = new THREE.Quaternion().setFromUnitVectors( object.up, new THREE.Vector3( 0, 1, 0 ) );
-			var quatInverse = quat.clone().inverse();
-		 
-			var lastPosition = new THREE.Vector3();
-			var lastQuaternion = new THREE.Quaternion();
-		 
-			return function update() {
-		 
-				var position = scope.object.position;
-		 
-				offset.copy( position ).sub( scope.target );
-		 
-				// rotate offset to "y-axis-is-up" space
-				offset.applyQuaternion( quat );
-		 
-				// angle from z-axis around y-axis
-				spherical.setFromVector3( offset );
-		 
-				if ( scope.autoRotate && state === STATE.NONE ) {
-		 
-					rotateLeft( getAutoRotationAngle() );
-		 
-				}
-		 
-				spherical.theta += sphericalDelta.theta;
-				spherical.phi += sphericalDelta.phi;
-		 
-				// restrict theta to be between desired limits
-				spherical.theta = Math.max( scope.minAzimuthAngle, Math.min( scope.maxAzimuthAngle, spherical.theta ) );
-		 
-				// restrict phi to be between desired limits
-				spherical.phi = Math.max( scope.minPolarAngle, Math.min( scope.maxPolarAngle, spherical.phi ) );
-		 
-				spherical.makeSafe();
-		 
-		 
-				spherical.radius *= scale;
-		 
-				// restrict radius to be between desired limits
-				spherical.radius = Math.max( scope.minDistance, Math.min( scope.maxDistance, spherical.radius ) );
-		 
-				// move target to panned location
-				scope.target.add( panOffset );
-		 
-				offset.setFromSpherical( spherical );
-		 
-				// rotate offset back to "camera-up-vector-is-up" space
-				offset.applyQuaternion( quatInverse );
-		 
-				position.copy( scope.target ).add( offset );
-		 
-				scope.object.lookAt( scope.target );
-		 
-				if ( scope.enableDamping === true ) {
-		 
-					sphericalDelta.theta *= ( 1 - scope.dampingFactor );
-					sphericalDelta.phi *= ( 1 - scope.dampingFactor );
-		 
-				} else {
-		 
-					sphericalDelta.set( 0, 0, 0 );
-		 
-				}
-		 
-				scale = 1;
-				panOffset.set( 0, 0, 0 );
-		 
-				// update condition is:
-				// min(camera displacement, camera rotation in radians)^2 > EPS
-				// using small-angle approximation cos(x/2) = 1 - x^2 / 8
-		 
-				if ( zoomChanged ||
-					lastPosition.distanceToSquared( scope.object.position ) > EPS ||
-					8 * ( 1 - lastQuaternion.dot( scope.object.quaternion ) ) > EPS ) {
-		 
-					scope.dispatchEvent( changeEvent );
-		 
-					lastPosition.copy( scope.object.position );
-					lastQuaternion.copy( scope.object.quaternion );
-					zoomChanged = false;
-		 
-					return true;
-		 
-				}
-		 
-				// Gyroscope Additions
-				if ('undefined' === typeof scope.deviceOrientation) {
-					return false;
-				}
-		 
-				var alpha = scope.deviceOrientation.alpha ? THREE.Math.degToRad(scope.deviceOrientation.alpha) : 0;
-				var beta = scope.deviceOrientation.beta ? THREE.Math.degToRad(scope.deviceOrientation.beta) : 0;
-				var gamma = scope.deviceOrientation.gamma ? THREE.Math.degToRad(scope.deviceOrientation.gamma) : 0;
-				var orient = scope.screenOrientation ? THREE.Math.degToRad(scope.screenOrientation) : 0;
-		 
-				var currentQ = new THREE.Quaternion().copy(scope.object.quaternion);
-		 
-				setObjectQuaternion(currentQ, alpha, beta, gamma, orient);
-				var currentAngle = Quat2Angle(currentQ.x, currentQ.y, currentQ.z, currentQ.w);
-				var radDeg = 180 / Math.PI;
-		 
-				rotateLeft(lastGamma - currentAngle.z);
-				lastGamma = currentAngle.z;
-		 
-				rotateUp(lastBeta - currentAngle.y);
-				lastBeta = currentAngle.y;
-		 
+	 
+			offset.copy( position ).sub( scope.target );
+	 
+			// rotate offset to "y-axis-is-up" space
+			offset.applyQuaternion( quat );
+	 
+			// angle from z-axis around y-axis
+			spherical.setFromVector3( offset );
+	 
+			if ( scope.autoRotate && state === STATE.NONE ) {
+	 
+				rotateLeft( getAutoRotationAngle() );
+	 
+			}
+	 
+			spherical.theta += sphericalDelta.theta;
+			spherical.phi += sphericalDelta.phi;
+	 
+			// restrict theta to be between desired limits
+			spherical.theta = Math.max( scope.minAzimuthAngle, Math.min( scope.maxAzimuthAngle, spherical.theta ) );
+	 
+			// restrict phi to be between desired limits
+			spherical.phi = Math.max( scope.minPolarAngle, Math.min( scope.maxPolarAngle, spherical.phi ) );
+	 
+			spherical.makeSafe();
+	 
+	 
+			spherical.radius *= scale;
+	 
+			// restrict radius to be between desired limits
+			spherical.radius = Math.max( scope.minDistance, Math.min( scope.maxDistance, spherical.radius ) );
+	 
+			// move target to panned location
+			scope.target.add( panOffset );
+	 
+			offset.setFromSpherical( spherical );
+	 
+			// rotate offset back to "camera-up-vector-is-up" space
+			offset.applyQuaternion( quatInverse );
+	 
+			position.copy( scope.target ).add( offset );
+	 
+			scope.object.lookAt( scope.target );
+	 
+			if ( scope.enableDamping === true ) {
+	 
+				sphericalDelta.theta *= ( 1 - scope.dampingFactor );
+				sphericalDelta.phi *= ( 1 - scope.dampingFactor );
+	 
+			} else {
+	 
+				sphericalDelta.set( 0, 0, 0 );
+	 
+			}
+	 
+			scale = 1;
+			panOffset.set( 0, 0, 0 );
+	 
+			// update condition is:
+			// min(camera displacement, camera rotation in radians)^2 > EPS
+			// using small-angle approximation cos(x/2) = 1 - x^2 / 8
+	 
+			if ( zoomChanged ||
+				lastPosition.distanceToSquared( scope.object.position ) > EPS ||
+				8 * ( 1 - lastQuaternion.dot( scope.object.quaternion ) ) > EPS ) {
+	 
+				scope.dispatchEvent( changeEvent );
+	 
+				lastPosition.copy( scope.object.position );
+				lastQuaternion.copy( scope.object.quaternion );
+				zoomChanged = false;
+	 
+				return true;
+	 
+			}
+	 
+			// Gyroscope Additions
+			if ('undefined' === typeof scope.deviceOrientation) {
 				return false;
-		 
-			};
-		 
-		}();
+			}
+	 
+			var alpha = scope.deviceOrientation.alpha ? THREE.Math.degToRad(scope.deviceOrientation.alpha) : 0;
+			var beta = scope.deviceOrientation.beta ? THREE.Math.degToRad(scope.deviceOrientation.beta) : 0;
+			var gamma = scope.deviceOrientation.gamma ? THREE.Math.degToRad(scope.deviceOrientation.gamma) : 0;
+			var orient = scope.screenOrientation ? THREE.Math.degToRad(scope.screenOrientation) : 0;
+	 
+			var currentQ = new THREE.Quaternion().copy(scope.object.quaternion);
+	 
+			setObjectQuaternion(currentQ, alpha, beta, gamma, orient);
+			var currentAngle = Quat2Angle(currentQ.x, currentQ.y, currentQ.z, currentQ.w);
+			var radDeg = 180 / Math.PI;
+	 
+			rotateLeft(lastGamma - currentAngle.z);
+			lastGamma = currentAngle.z;
+	 
+			rotateUp(lastBeta - currentAngle.y);
+			lastBeta = currentAngle.y;
+	 
+			return false;
+	 
+		};
+	 
+	}();
 
 	this.dispose = function () {
 

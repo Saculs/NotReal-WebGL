@@ -149,6 +149,7 @@ h3 {
 }
 </style>
   <meta charset="utf-8">
+  <meta name="mobile-web-app-capable" content="yes">
 </head>
 <body style="margin: 0;">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -284,6 +285,8 @@ function init() {
 
   var WIDTH = window.innerWidth,
       HEIGHT = window.innerHeight;
+      window.scrollTo(0,1);
+
 
   var ori = (WIDTH > HEIGHT) ? false : true;
   console.log("ori ", ori.toString());

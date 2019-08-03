@@ -285,6 +285,9 @@ function init() {
   var WIDTH = window.innerWidth,
       HEIGHT = window.innerHeight;
 
+  var ori = (WIDTH > HEIGHT) ? false : true;
+  console.log("ori ", ori.toString());
+
   // Create a renderer and add it to the DOM.
   renderer = new THREE.WebGLRenderer({antialias:true});
   renderer.setSize(WIDTH, HEIGHT);  
@@ -483,7 +486,7 @@ if(intersects[0].object.name == "tv"){
         }
         if(intersects[0].object.name == "flag"){
           plane.rotation.x += 0.005;
-          plane.scale.set(0.01,0.01,0.01);
+          plane.scale.set(0.008,0.008,0.008);
       
         }
         if(intersects[0].object.name == "synth"){
@@ -494,7 +497,7 @@ canvas.style.cursor = "pointer";
 } else {
   //tv.scale.set(0.008,0.008,0.008);
   skate.scale.set(0.5,0.5,0.5);
-  plane.scale.set(0.008,0.008,0.008);
+  plane.scale.set(0.006,0.006,0.006);
   canvas.style.cursor = "default";
 }
 }
@@ -657,10 +660,15 @@ spacesphere.material.map.repeat.set( 5, 3);
     var envMap = new THREE.TextureLoader().load('models/envMap.jpg');
     let vlajkaMat =  new THREE.MeshLambertMaterial({ map : envMap});
     plane = new THREE.Mesh(new THREE.PlaneGeometry(150, 200, rowSize, rowSize), vlajkaMat);
-    plane.scale.set(0.008,0.008,0.008);
+    plane.scale.set(0.006,0.006,0.006);
     plane.rotation.y = getRadian(-90);
     plane.rotation.z = getRadian(90);
-    plane.position.set(5,2,-3);
+    if(ori){
+      plane.position.set(7,2.2,-1.3);
+    }else{
+      plane.position.set(5,2,-3);
+    }
+    
     plane.name = "flag";
     plane.visible = false;
     numberOfVerticies = plane.geometry.vertices.length;
@@ -718,12 +726,18 @@ var textureCube = cubeloader.load( [
   var fbMat = new THREE.MeshPhongMaterial({color: 0xffffff, alphaMap: fbAlpha,transparent: true, opacity: 0.8});
   var usloader = new THREE.GLTFLoader();
   usloader.load( "models/ussse.glb", function(gltf){
-      us = gltf.scene;  
-    //us.rotation.x = 90;
+    us = gltf.scene;  
+    if(ori)us.rotation.x = 92;
     //us.rotation.z = 30.4;
     //us.rotation.y = -95;
-    us.scale.set(0.7,0.7,0.7);
-    us.position.set(18,-0.8,0);
+    if(ori){
+      us.scale.set(0.3,0.3,0.3);
+    }
+    else
+    {
+      us.scale.set(0.7,0.7,0.7);
+    }
+    us.position.set(18,ori ? -0.2 : -0.8,0);
     //us.name="use";
     us.visible = true;
     //us.callback = function() { console.log("Hello world!");};
@@ -747,7 +761,12 @@ var textureCube = cubeloader.load( [
     tv.rotation.z = 30.4;
     tv.rotation.y = 155.4;
     tv.scale.set(0.01,0.01,0.01);
-    tv.position.set(4,1.2,2.5);
+    if(ori == true){
+      tv.position.set(6,1.9,1);
+    }
+    else {
+      tv.position.set(4,1.2,2.5);
+    }
     tv.name="tv";
     tv.visible = false;
     tv.callback = function() { console.log("Hello world!");};
@@ -769,7 +788,12 @@ var textureCube = cubeloader.load( [
     arch.rotation.z = 30.4;
     arch.rotation.y = 155.4;
     arch.scale.set(0.05,0.05,0.05);
-    arch.position.set(2,-0.6,2.5);  
+    if(ori){
+      arch.position.set(4,-0.4,0.6);  
+    }
+    else { 
+      arch.position.set(2,-0.6,2.5);  
+    }
     arch.name="arch";
     arch.visible = true;
     arch.callback = function() { console.log("Hello world!");};
@@ -789,7 +813,12 @@ var textureCube = cubeloader.load( [
     synth.rotation.x = 90;
     synth.rotation.z = 30.4;
     synth.rotation.y = 158.4;
-    synth.scale.set(0.4,0.4,0.4);
+    synth.scale.set(0.32,0.32,0.32);
+    if(ori){
+      synth.position.set(5,2.2,0);
+    }else{
+      synth.position.set(2,1,0);
+    }
     synth.position.set(2,1,0);
     synth.name="synth";
     synth.visible = true;
@@ -809,7 +838,12 @@ var textureCube = cubeloader.load( [
     vid.rotation.z = 35.4;
     vid.rotation.y = -158.4;
     vid.scale.set(0.4,0.4,0.4);
-    vid.position.set(2,0.2,-2.5);
+    if(ori){
+      vid.position.set(4,0.2,-0.8);
+    }
+    else{
+      vid.position.set(2,0.2,-2.5);
+    }
     vid.name="vide";
     vid.visible = true;
     //synth.callback = function() { console.log("Hello world!");};
@@ -828,7 +862,12 @@ var textureCube = cubeloader.load( [
     vr.rotation.z = 30.4;
     vr.rotation.y = 158.4;
     vr.scale.set(0.7,0.7,0.7);
-    vr.position.set(1,-0.6,-1.5);
+    if(ori){
+      vr.position.set(5,-0.8,1);
+    }else{
+      vr.position.set(1,-0.6,-1.5);
+    }
+    
     vr.name="vr";
     vr.visible = true;
     //synth.callback = function() { console.log("Hello world!");};
@@ -917,7 +956,11 @@ var textureCube = cubeloader.load( [
     logo.rotation.y = 90;
     //logo.scale.set(-0.8,0.8,0.8);
     logo.scale.set(0,0.8,0.8);
-    logo.position.set(1,0,-0.8);
+    if(ori == true){
+      logo.position.set(3,0,-0.9);
+    }else{
+      logo.position.set(1,0,-0.8);
+    }
     logo.traverse(function (o) {
 if (o.isMesh) {
  o.material = materiall;

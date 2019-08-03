@@ -6,6 +6,10 @@
   <!--<link href="Style.css" rel="stylesheet" type="text/css"/>-->
   <style>
 
+canvas {
+    display: block; /* fix necessary to remove space at bottom of canvas */
+}
+
 
 #fade {
   display: none;
@@ -312,6 +316,11 @@ function init() {
     camera.updateProjectionMatrix();
   });
 
+
+
+  document.addEventListener('touchstart', handleTouchStart, false);        
+document.addEventListener('touchmove', handleTouchMove, false);
+
   var xDown = null;                                                        
 var yDown = null;
 
@@ -363,14 +372,6 @@ var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2(), INTERSECTED;
 document.addEventListener( 'mousedown', onDocumentMouseDown, false );
 document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-document.addEventListener('touchstart', onDocumentTouchStart, false )
-
-function onDocumentTouchStart(event){
- event.preventDefault();
- event.clientX = event.touches[0].clientX;
- event.clientY = event.touches[0].clientY;
- onDocumentMouseDown(event);
-}
 
 function onDocumentMouseDown( event ) {
 mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
@@ -933,7 +934,7 @@ if (o.isMesh) {
   //scene.add(ground);
 
   // Add OrbitControls so that we can pan around with the mouse.
- //controls = new THREE.OrbitControls(camera, renderer.domElement);
+ controls = new THREE.OrbitControls(camera, renderer.domElement);
 
 }
 // Renders the scene and updates the render as needed.

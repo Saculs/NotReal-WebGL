@@ -4,7 +4,66 @@
   <title>!IR</title>
   <link rel='shortcut icon' href='favicon.png' type='image/png' />
   <!--<link href="Style.css" rel="stylesheet" type="text/css"/>-->
-  <style>@font-face {
+  <style>
+
+
+#fade {
+  display: none;
+  position: fixed;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  z-index: 1001;
+  -moz-opacity: 0.8;
+  opacity: .80;
+  filter: alpha(opacity=80);
+}
+
+
+
+#light {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  max-width: 600px;
+  max-height: 360px;
+  margin-left: -300px;
+  margin-top: -180px;
+  z-index: 1002;
+  overflow: visible;
+}
+
+#boxclose {
+  float: right;
+  cursor: pointer;
+  color: #fff;
+  /*border: 1px solid #AEAEAE;*/
+  border-radius: 3px;
+  
+  font-size: 31px;
+  font-weight: bold;
+  display: inline-block;
+  line-height: 0px;
+  padding: 11px 3px;
+  position: absolute;
+  right: 2px;
+  top: 2px;
+  z-index: 1002;
+  opacity: 0.9;
+}
+
+.boxclose:before {
+  content: "×";
+}
+
+#fade:hover ~ #boxclose {
+  display:none;
+}
+  
+@font-face {
     font-family: "Syne";
     src: url("Syne-extra.otf");
 }
@@ -44,13 +103,44 @@ h1 {
     z-index:100; 
     width:100%; 
     text-align: center; 
-    transform: translate(0,-100%); 
+    /*transform: translate(0,-100%); */
     font-family: 'Syne'; 
     font-weight: 100; 
     letter-spacing: 40px; 
     text-transform: uppercase;
     font-size: 28px; 
-}</style>
+}
+
+h3 { 
+    color:white;
+
+    z-index:100; 
+
+    right: 0;
+   /* transform: translate(0,-100%); */
+    font-family: 'Syne'; 
+    font-weight: 100; 
+    text-transform: uppercase;
+    font-size: 22px;
+}
+
+#info {
+  padding-left: 50%;
+}
+
+#container {
+  position: absolute;
+  top: 0;
+  left:0;
+  width: 100%;
+  visibility: hidden;
+}
+
+#theRest {
+  color:white;
+  font-family: 'Syne'; 
+}
+</style>
   <meta charset="utf-8">
 </head>
 <body style="margin: 0;">
@@ -62,14 +152,55 @@ h1 {
   <script type="text/javascript" src="js/main.js"></script>
 
   <h1 id="example"></h1>
+    <div id="container">
+      <div id="info">
+        <h3>Lorem ipsum dolor sit amet.</h3>
+        <p id="theRest">Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.</p>
+    </div>
+  </div>
   <div class="popup"><div class="text"></div></div>
 
   <video id="video" loop crossOrigin="anonymous" webkit-playsinline style="display:none">
 			<!--<source src="textures/sintel.ogv" type='video/ogg; codecs="theora, vorbis"'>-->
 			<source src="clean_vid.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
-	</video>
+  </video>
+  
+  <div id="light" class='light'>
+    <a class="boxclose" id="boxclose" onclick="lightbox_close();"></a>
+    <!--<video id="VisaChipCardVideo" width="600" controls>
+        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+      </video>-->
+      
+  </div>
+  <div id="fade" onClick="lightbox_close();"></div>
 
   <script>
+    
+    window.document.onkeydown = function(e) {
+  if (!e) {
+    e = event;
+  }
+  if (e.keyCode == 27) {
+    lightbox_close();
+  }
+}
+function lightbox_open() {
+  //var lightBoxVideo = document.getElementById("VisaChipCardVideo");
+  //lightBoxVideo.play();
+  $('.light').append('<iframe width="560" height="315" src="https://www.youtube.com/embed/N2i-X9f01Ik?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>');
+  window.scrollTo(0, 0);
+  document.getElementById('light').style.display = 'block';
+  document.getElementById('fade').style.display = 'block';
+}
+
+function lightbox_close() {
+  $('.light').empty();
+  //var lightBoxVideo = document.getElementById("VisaChipCardVideo");
+  document.getElementById('light').style.display = 'none';
+  document.getElementById('fade').style.display = 'none';
+  //lightBoxVideo.pause();
+}
+
     
 // Set up the scene, camera, and renderer as global variables.
 var scene, camera, renderer;
@@ -78,18 +209,22 @@ var logo;
 var tv;
 var skate;
 var plane;
+var curCamPos;
 var synth;
 var phone;
 var vr;
 var vid;
 var arch;
 
+var mouseX;
+var mouseY;
+
 
 var video;
 
 var controls;
 
-var clickable = ["tv","flag","skate", "synth"];
+var clickable = ["tv","flag","skate", "synth", "phone","vr", "vid", "arch"];
 
 //var tween;
 
@@ -127,6 +262,7 @@ return `
   }
 `
 }
+
 // Sets up the scene.
 function init() {
 
@@ -159,6 +295,8 @@ function init() {
 
   var example = document.getElementById('example');
   example.textContent="Virtual";
+
+  var container = document.getElementById('container');
 
   
   video = document.getElementById( 'video' );
@@ -200,16 +338,31 @@ if ( intersects.length > 0 && clickable.includes(intersects[0].object.name))
 {
 if(namee == "tv" ){
     to = tv;
+    container.style.visibility = 'visible';
 }
 if(namee == "flag"){
   to = plane;
+  container.style.visibility = 'visible';
 }
 if(namee == "skate"){
   to = skate;
 }
-if(namee == "synth"){
+if(namee == "synth"){ 
   to = synth;
 }
+if(namee == "phone"){
+  to = phone;
+}
+if(namee == "vr"){
+  to = vr;
+}
+if(namee == "vid"){
+  to = vid;
+}
+if(namee == "arch"){
+  to = arch;
+}
+
 switch(namee) {
   case "instance_3":
   window.open('http://www.zenbauhaus.wordpress.com/', '_blank');  
@@ -222,12 +375,15 @@ switch(namee) {
   default:
     // code block
 }
-clicker(intersects[ 0 ].object);
-animateMove(camera.position,{x: to.position.x - 3, y: to.position.y,z: to.position.z},to.position);
+//clicker(intersects[ 0 ].object);
+//lightbox_open();
+animateMove(camera.position,{x: to.position.x - 2, y: to.position.y,z: to.position.z + 0.5},to.position);
 
+/*
 $('.text').empty();
-//$('.popup').append("<div class='text'><p>"+ intersects[0].object.name +"</p></div>");
-//$('.popup').show();
+$('.popup').append("<div class='text'><p>"+ intersects[0].object.name +"</p></div>");
+$('.popup').show();
+*/
 
 }
 }
@@ -252,8 +408,8 @@ function onDocumentMouseMove( event ) {
         camera.position.y += ( - mouseY - camera.position.y ) * 0.05;
         */
     //console.log( mouseX, mouseY);
-    camera.position.z =  0 - mouseX;
-    camera.position.y = 0 + mouseY;
+    camera.position.z =  curCamPos.z - mouseX * 0.5;
+    camera.position.y = curCamPos.y + mouseY* 0.5;
     //set up camera position
     //camera.lookAt(scene.position);
 
@@ -358,18 +514,20 @@ var tween = new TWEEN.Tween(vectorToAnimate).to(target, 2000)
 
 function animateMove(vectorToAnimate, target, lookAt){
 console.log("tween animating");
+curCamPos= target;
 // create the tween
 var tween = new TWEEN.Tween(vectorToAnimate).to(target, 4000)
     .easing(TWEEN.Easing.Quadratic.Out)
     .onComplete(function(){
       console.log('tween done');
+      curCamPos= target;
     });
     tween.onUpdate(function(){
       camera.position.x = vectorToAnimate.x;
-      camera.position.y = vectorToAnimate.y;
-      camera.position.z = vectorToAnimate.z;
+      camera.position.y = vectorToAnimate.y/* + mouseY * 0.5 */;
+      camera.position.z = vectorToAnimate.z  /*- mouseX * 0.5 */;
     if(lookAt){
-        controls.target = {x:vectorToAnimate.x +2,y: vectorToAnimate.y,z:vectorToAnimate.z};
+        controls.target.set(vectorToAnimate.x + 2,vectorToAnimate.y,vectorToAnimate.z);
         //camera.lookAt({x:vectorToAnimate.x + 2,y: vectorToAnimate.y,z:vectorToAnimate.z});
       }
     });
@@ -405,6 +563,7 @@ else if(e > 0 && camera.position.x > 10){
 else if(e < 0 && camera.position.x < 10 ){
   console.log("move 3");
   animateMove(camera.position,{x: -3, y: 0, z: 0},{x:0,y:0,z:0});
+  container.style.visibility='hidden';
 }
 }
 
@@ -459,6 +618,7 @@ vertexShader: vertexShader(),
     initPlane();
     scene.add(plane);
 
+
     function initPlane() {
     
     for(var j = 0; j < rowSize+1; j++) {
@@ -493,7 +653,16 @@ vertexShader: vertexShader(),
   let ambientLight = new THREE.AmbientLight(0x505050);
   scene.add(ambientLight);
 
-  var materiall = new THREE.MeshPhongMaterial({color: 0xffffff, roughness: 0,flatShading:true});
+  var cubeloader = new THREE.CubeTextureLoader();
+cubeloader.setPath( 'lightblue/' );
+
+var textureCube = cubeloader.load( [
+	'back.png', 'front.png',
+	'top.png', 'left.png',
+	'bot.png', 'right.png'
+] );
+
+  var materiall = new THREE.MeshStandardMaterial({color: 0xffffff, roughness: 0.4,flatShading:false, envMap: textureCube,metalness: 1});
   var igAlpha = new THREE.TextureLoader().load("models/igAlphaa.png");
   var igMat = new THREE.MeshPhongMaterial({color: 0xffffff, alphaMap: igAlpha,transparent: true, opacity: 0.8});
   var fbAlpha = new THREE.TextureLoader().load("models/fbAlpha.png");
@@ -525,7 +694,7 @@ vertexShader: vertexShader(),
     var videoMat = new THREE.MeshLambertMaterial({ map : videoTexture});
     //mesh = new THREE.Mesh(geometry, material);
     tv = gltf.scene;
-    tv.rotation.x = 90;
+    //tv.rotation.x = -90;
     tv.rotation.z = 30.4;
     tv.rotation.y = 155.4;
     tv.scale.set(0.01,0.01,0.01);
@@ -644,21 +813,26 @@ vertexShader: vertexShader(),
   });
 
   var phoneloader = new THREE.GLTFLoader();
-  phoneloader.load( "models/phone.glb", function(gltf){
+  phoneloader.load( "models/pphonee.glb", function(gltf){
     //var material = new THREE.MeshLambertMaterial({color: 0x55B663});
     //mesh = new THREE.Mesh(geometry, material);
     phone = gltf.scene;
     phone.rotation.x = 90;
     phone.rotation.z = 30.4;
-    phone.rotation.y = -155.4;
-    phone.scale.set(0.5,0.5,0.5);
-    phone.position.set(0,-0.8,0.3);
+    phone.rotation.y = 155.4;
+    phone.scale.set(0.06,0.06,0.06);
+    phone.position.set(0,-0.5,0.3);
     phone.name="phone";
     phone.visible = true;
     //synth.callback = function() { console.log("Hello world!");};
+    var videoMatt = new THREE.MeshLambertMaterial({ map : videoTexture});
     phone.traverse(function (o) {
       if (o.isMesh) {
+        if(o.name == "Phone_01_Cube.037_0"){
+          o.material = videoMatt;
+        }
         o.name = "phone";
+        
       }
     });
     scene.add(phone);
@@ -714,7 +888,7 @@ if (o.isMesh) {
   //scene.add(ground);
 
   // Add OrbitControls so that we can pan around with the mouse.
-  controls = new THREE.OrbitControls(camera, renderer.domElement);
+ controls = new THREE.OrbitControls(camera, renderer.domElement);
 
 }
 // Renders the scene and updates the render as needed.
@@ -726,6 +900,12 @@ function animate() {
   if(tv) tv.rotation.y += 0.0001;
   if(tv) tv.position.y = -0.2*Math.sin(t*0.01) + 1.5;
 
+  if(us) us.traverse(function (o) {
+      if (o.isMesh) {
+        o.rotation.y += 0.0002;
+        o.rotation.z += 0.002;
+      }
+    });
 
   if(skate){ skate.rotation.z += 0.001;
   skate.rotation.y += 0.0001;
@@ -746,7 +926,7 @@ function animate() {
     if(phone){ phone.rotation.z += 0.001;
     phone.rotation.y += 0.0001;
      phone.position.z = -0.2*Math.sin(t*0.001) + 0.3;
-     phone.position.y = -0.3*Math.sin(t*0.0005) - 0.8;
+     phone.position.y = -0.3*Math.sin(t*0.0005) - 0.5;
     }
 
     if(vid){ vid.rotation.z += 0.001;

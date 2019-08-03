@@ -644,9 +644,9 @@ spacesphere.material.map.repeat.set( 5, 3);
     colorA: {type: 'vec3', value: new THREE.Color(0x74ebd5)}
 }
     let material =  new THREE.ShaderMaterial({
-uniforms: uniforms,
-fragmentShader: fragmentShader(),
-vertexShader: vertexShader(),
+      uniforms: uniforms,
+      fragmentShader: fragmentShader(),
+      vertexShader: vertexShader(),
 });
 
 
@@ -933,7 +933,7 @@ if (o.isMesh) {
   //scene.add(ground);
 
   // Add OrbitControls so that we can pan around with the mouse.
- controls = new THREE.OrbitControls(camera, renderer.domElement);
+ //controls = new THREE.OrbitControls(camera, renderer.domElement);
 
 }
 // Renders the scene and updates the render as needed.

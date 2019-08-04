@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <title>!IR</title>
+  <title></title>NotReal</title>
   <link rel='shortcut icon' href='favicon.png' type='image/png' />
   <link rel="icon" sizes="192x192" href="nrico.png">
   <link rel="manifest" href="manifest.webmanifest"/>
@@ -360,7 +360,7 @@ function init() {
     console.log("moveX ", moveX);
     console.log("moveY ", moveY);
     camera.position.z =  curCamPos.z - moveX * 0.5;
-    camera.position.y = curCamPos.y + moveY* 0.5;
+    camera.position.y = curCamPos.y + moveY * 0.5;
   });
 
   document.addEventListener('touchstart', handleTouchStart, false);        
@@ -444,21 +444,27 @@ if(namee == "flag"){
 }
 if(namee == "skate"){
   to = skate;
+  
 }
 if(namee == "synth"){ 
   to = synth;
+  container.style.visibility = 'visible';
 }
 if(namee == "phone"){
   to = phone;
+  container.style.visibility = 'visible';
 }
 if(namee == "vr"){
   to = vr;
+  container.style.visibility = 'visible';
 }
 if(namee == "vid"){
   to = vid;
+  container.style.visibility = 'visible';
 }
 if(namee == "arch"){
   to = arch;
+  container.style.visibility = 'visible';
 }
 
 switch(namee) {
@@ -766,7 +772,7 @@ spacesphere.material.map.repeat.set( 5, 3);
   scene.add(light2);
 
   var light3 = new THREE.PointLight(0xffffff);
-  light3.position.set(-24,1.8,1.8);
+  light3.position.set(-22,1.8,1.8);
   light3.distance = 6;
   scene.add(light3);
 
@@ -1077,8 +1083,6 @@ function animate() {
   }
   if(vr){ vr.rotation.z += 0.001;
     vr.rotation.y += 0.0001;
-     vr.position.z = -0.3*Math.sin(t*0.001) - 1.5;
-     vr.position.y = -0.4*Math.sin(t*0.0005) - 0.6;
     }
     if(synth){ synth.rotation.z += 0.001;
     synth.rotation.y += 0.0001;

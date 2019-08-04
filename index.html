@@ -332,7 +332,20 @@ function init() {
     camera.updateProjectionMatrix();
   });
 
+  window.addEventListener("deviceorientation", function(event) {
+    event.stopPropagation();
+    event = event || window.event;
 
+    var rotatedY =  Math.min(Math.max(parseInt(Math.floor(event.gamma)), -45), 45),
+    rotatedX = Math.min(Math.max(parseInt(Math.floor(event.beta)), -45), 45),
+    boxWidth = parallaxBox.width(),
+    boxHeight = parallaxBox.height();
+
+    var moveX = ((boxWidth/2) * rotatedY) / 45;
+    var moveY = ((boxWidth/2) * rotatedX) / 45;
+    console.log("moveX ",moveX);
+    console.log("moveY ",moveY);
+  });
 
   document.addEventListener('touchstart', handleTouchStart, false);        
 document.addEventListener('touchmove', handleTouchMove, false);

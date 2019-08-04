@@ -126,8 +126,7 @@ h1 {
     font-family: 'Syne'; 
     font-weight: 100; 
     letter-spacing: 40px; 
-    text-transform: uppercase;
-    font-size: 28px; 
+    text-transform: uppercase; 
 }
 
 
@@ -359,8 +358,8 @@ function init() {
     var moveY = ((boxWidth/2) * rotatedX) / 45;
     console.log("moveX ", moveX);
     console.log("moveY ", moveY);
-    camera.position.z =  curCamPos.z - moveX * 0.5;
-    camera.position.y = curCamPos.y + moveY * 0.5;
+    //camera.position.z =  curCamPos.z - moveX * 0.5;
+    //camera.position.y = curCamPos.y + moveY * 0.5;
   });
 
   document.addEventListener('touchstart', handleTouchStart, false);        
@@ -685,8 +684,9 @@ else if(e > 0 && camera.position.x > 10){
 else if(e < 0 && camera.position.x < 10 && curCamPos.y != 0 && curCamPos.z != 0 ){
   console.log("move 3");
   animateMove(camera.position,{x: -3, y: 0, z: 0},{x:0,y:0,z:0},1000);
-  container.style.visibility='hidden';
+  
 }
+container.style.visibility='hidden';
 }
 
 window.addEventListener("wheel", function(e) {
@@ -773,7 +773,7 @@ spacesphere.material.map.repeat.set( 5, 3);
   scene.add(light2);
 
   var light3 = new THREE.PointLight(0xffffff);
-  light3.position.set(-22,1.8,1.8);
+  light3.position.set(ori? -19 : -22,1.8,1.8);
   light3.distance = 6;
   scene.add(light3);
 

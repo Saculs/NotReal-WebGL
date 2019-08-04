@@ -241,6 +241,8 @@ var controls;
 
 var clickable = ["tv","flag","skate", "synth", "phone","vr", "vid", "arch"];
 
+var firstPhase = true;
+
 //var tween;
 
 var numberOfVerticies;
@@ -310,7 +312,7 @@ function init() {
   //camera.position.set(-3,6,0);
   //camera.position.set(-3,0,0);
   camera.position.set(-400,0,0);
-  animateMove(camera.position,{x:-3,y:0,z:0});
+  animateMove(camera.position,{x:-23,y:0,z:0});
   scene.add(camera);
 
   var example = document.getElementById('example');
@@ -320,7 +322,6 @@ function init() {
 
   
   video = document.getElementById( 'video' );
-	video.play();
 	videoTexture = new THREE.VideoTexture( video );
 
   // Create an event listener that resizes the renderer with the browser window.
@@ -338,8 +339,8 @@ function init() {
 
     var rotatedY =  Math.min(Math.max(parseInt(Math.floor(event.gamma)), -45), 45),
     rotatedX = Math.min(Math.max(parseInt(Math.floor(event.beta)), -45), 45),
-    boxWidth = parallaxBox.width(),
-    boxHeight = parallaxBox.height();
+    boxWidth = WIDTH,
+    boxHeight = HEIGHT;
 
     var moveX = ((boxWidth/2) * rotatedY) / 45;
     var moveY = ((boxWidth/2) * rotatedX) / 45;
@@ -403,6 +404,11 @@ document.addEventListener( 'mousedown', onDocumentMouseDown, false );
 document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 
 function onDocumentMouseDown( event ) {
+  if(firstPhase == true){
+    initTrans();
+    return;
+  }
+
 mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
 mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;	
 raycaster.setFromCamera( mouse, camera );
@@ -447,12 +453,15 @@ switch(namee) {
   case "Plane":
   window.open('https://www.instagram.com/notreal_virtual/', '_blank'); 
     break;
+  case "Plane001":
+  window.open('https://www.facebook.com/notrealvirtual/', '_blank'); 
+    break;
   default:
     // code block
 }
 //clicker(intersects[ 0 ].object);
 //lightbox_open();
-animateMove(camera.position,{x: to.position.x - 2, y: to.position.y,z: to.position.z + 0.5},to.position);
+animateMove(camera.position,{x: to.position.x - 2, y: to.position.y,z: to.position.z + 0.5},to.position,1000);
 
 /*
 $('.text').empty();
@@ -549,7 +558,63 @@ var tween = new TWEEN.Tween(vectorToAnimate).to(target, 2000)
     .easing(TWEEN.Easing.Elastic.InOut)
     .onComplete(function(){
       setTimeout(function() {
-        logo.visible = false;
+        
+      }, 4000);
+    });
+    tween.onUpdate(function(){
+      logo.scale.x = vectorToAnimate.x;
+      logo.scale.y = vectorToAnimate.y;
+        logo.scale.z = vectorToAnimate.z;
+    });
+    // start the tween
+    tween.start();
+}
+
+function animateMove(vectorToAnimate, target, lookAt, speed){
+console.log("tween animating");
+curCamPos= target;
+// create the tween
+var spee = speed ? speed : 4000;
+var tween = new TWEEN.Tween(vectorToAnimate).to(target, spee)
+    .easing(TWEEN.Easing.Quadratic.Out)
+    .onComplete(function(){
+      console.log('tween done');
+      curCamPos= target;
+    });
+    tween.onUpdate(function(){
+      camera.position.x = vectorToAnimate.x;
+      camera.position.y = vectorToAnimate.y/* + mouseY * 0.5 */;
+      camera.position.z = vectorToAnimate.z  /*- mouseX * 0.5 */;
+    if(lookAt){
+        controls.target.set(vectorToAnimate.x + 2,vectorToAnimate.y, vectorToAnimate.z);
+        //camera.lookAt({x:vectorToAnimate.x + 2,y: vectorToAnimate.y,z:vectorToAnimate.z});
+      }
+    });
+    /*
+    if(lookAt){
+  var vec = camera.lookAt;
+  var tween2 = new TWEEN.Tween(vec).to(lookAt, 4000)
+    .easing(TWEEN.Easing.Quadratic.InOut)
+    .onComplete(function(){
+      console.log('done');
+    });
+    tween2.onUpdate(function(){
+      //console.log(camera.lookAt,vec);
+      //camera.lookAt(vec);
+      controls.target = vec;
+    });
+    tween2.start(); 
+  }*/
+   // start the tween
+tween.start();
+}
+
+function initTrans(){
+  video.play();
+  var speed = 200;
+  animateMove(camera.position, {x:-3, y: 0, z: 0}, {x:0, y: 0, z: 0}, 500);
+  firstPhase = false;
+  logo.visible = false;
         //example.style.visibility = 'visible';
         setTimeout(function() {
           example.style.visibility = 'visible';
@@ -576,68 +641,26 @@ var tween = new TWEEN.Tween(vectorToAnimate).to(target, 2000)
             }, speed);
           }, speed);
         }, 200);
-      }, 4000);
-    });
-    tween.onUpdate(function(){
-      logo.scale.x = vectorToAnimate.x;
-      logo.scale.y = vectorToAnimate.y;
-        logo.scale.z = vectorToAnimate.z;
-    });
-    // start the tween
-    tween.start();
-}
-
-function animateMove(vectorToAnimate, target, lookAt){
-console.log("tween animating");
-curCamPos= target;
-// create the tween
-var tween = new TWEEN.Tween(vectorToAnimate).to(target, 4000)
-    .easing(TWEEN.Easing.Quadratic.Out)
-    .onComplete(function(){
-      console.log('tween done');
-      curCamPos= target;
-    });
-    tween.onUpdate(function(){
-      camera.position.x = vectorToAnimate.x;
-      camera.position.y = vectorToAnimate.y/* + mouseY * 0.5 */;
-      camera.position.z = vectorToAnimate.z  /*- mouseX * 0.5 */;
-    if(lookAt){
-        controls.target.set(vectorToAnimate.x + 2,vectorToAnimate.y,vectorToAnimate.z);
-        //camera.lookAt({x:vectorToAnimate.x + 2,y: vectorToAnimate.y,z:vectorToAnimate.z});
-      }
-    });
-    /*
-    if(lookAt){
-  var vec = camera.lookAt;
-  var tween2 = new TWEEN.Tween(vec).to(lookAt, 4000)
-    .easing(TWEEN.Easing.Quadratic.InOut)
-    .onComplete(function(){
-      console.log('done');
-    });
-    tween2.onUpdate(function(){
-      //console.log(camera.lookAt,vec);
-      //camera.lookAt(vec);
-      controls.target = vec;
-    });
-    tween2.start(); 
-  }*/
-   // start the tween
-tween.start();
 }
 
 function scroll(e){
+  if(firstPhase == true){
+    initTrans();
+    return;
+  }
+
 console.log("scroll " + e);
-if(e < 0 && camera.position.z > -1.1 && camera.position.z < 1.1 && camera.position.x < 0){
+if(e < 0 && camera.position.z > -1.1 && camera.position.z < 1.1 && camera.position.x < 0 && camera.position.x > -10){
   console.log("move 1");
-  animateMove(camera.position,{x: 12 , y: 0,z: 0},{x:11,y:0,z:0});
+  animateMove(camera.position,{x: 12 , y: 0,z: 0},{x:11,y:0,z:0},1000);
 }
 else if(e > 0 && camera.position.x > 10){
   console.log("move 2");
-  animateMove(camera.position,{x: -3, y: 0, z: 0},{x:0,y:0,z:0});
+  animateMove(camera.position,{x: -3, y: 0, z: 0},{x:0,y:0,z:0},1000);
 }
-else if(e < 0 && camera.position.x < 10 ){
+else if(e < 0 && camera.position.x < 10 && curCamPos.y != 0 && curCamPos.z != 0 ){
   console.log("move 3");
-  animateMove(camera.position,{x: -3, y: 0, z: 0},{x:0,y:0,z:0});
+  animateMove(camera.position,{x: -3, y: 0, z: 0},{x:0,y:0,z:0},1000);
   container.style.visibility='hidden';
 }
 }
@@ -647,7 +670,7 @@ var e = window.event || e; // old IE support
 var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
 scroll(delta);
 
-console.log("scrolled "+ delta.toString());
+//console.log("scrolled "+ delta.toString());
 //camera.position.y += event.wheelDeltaY * 0.1;;
 }, true);
     
@@ -725,11 +748,6 @@ spacesphere.material.map.repeat.set( 5, 3);
   light2.position.set(4.6,1.8,2);
   scene.add(light2);
 
-  var geometry = new THREE.BoxGeometry( 0.1, 0.1, 0.1 );
-  var mater = new THREE.MeshBasicMaterial( {color: 0xffffff} );
-  var cube = new THREE.Mesh( geometry, mater);
-  //scene.add( cube );
-
   let ambientLight = new THREE.AmbientLight(0x505050);
   scene.add(ambientLight);
 
@@ -742,11 +760,17 @@ var textureCube = cubeloader.load( [
 	'bot.png', 'right.png'
 ] );
 
-  var materiall = new THREE.MeshStandardMaterial({color: 0xffffff, roughness: 0.4,flatShading:false, envMap: textureCube,metalness: 1});
+  var materiall = new THREE.MeshStandardMaterial({color: 0xffffff, roughness: 0.4,flatShading:true,/* envMap: textureCube,*/metalness: 1});
   var igAlpha = new THREE.TextureLoader().load("models/igAlphaa.png");
-  var igMat = new THREE.MeshPhongMaterial({color: 0xffffff, alphaMap: igAlpha,transparent: true, opacity: 0.8});
+  var igMat = new THREE.MeshPhongMaterial({color: 0xffffff, alphaMap: igAlpha,transparent: true, opacity: 0.8, side: THREE.DoubleSide});
   var fbAlpha = new THREE.TextureLoader().load("models/fbAlpha.png");
-  var fbMat = new THREE.MeshPhongMaterial({color: 0xffffff, alphaMap: fbAlpha,transparent: true, opacity: 0.8});
+  var fbMat = new THREE.MeshPhongMaterial({color: 0xffffff, alphaMap: fbAlpha,transparent: true, opacity: 0.8, side: THREE.DoubleSide});
+
+  var geometry = new THREE.BoxGeometry(1, 1, 1 );
+  var cube = new THREE.Mesh( geometry, materiall);
+  cube.position.set(-20,0,0);
+  //scene.add( cube );
+
   var usloader = new THREE.GLTFLoader();
   usloader.load( "models/ussse.glb", function(gltf){
     us = gltf.scene;  
@@ -769,6 +793,7 @@ var textureCube = cubeloader.load( [
         clickable.push(o.name.toString());
         if(o.name == "Plane") o.material = igMat;
         if(o.name == "Plane001") o.material = fbMat;
+        
       }
     });
     scene.add(us);
@@ -942,6 +967,7 @@ var textureCube = cubeloader.load( [
         if(o.name == "Phone_01_Cube.037_0"){
           o.material = videoMatt;
         }
+        else o.material = materiall
         o.name = "phone";
         
       }
@@ -980,9 +1006,9 @@ var textureCube = cubeloader.load( [
     //logo.scale.set(-0.8,0.8,0.8);
     logo.scale.set(0,0.8,0.8);
     if(ori == true){
-      logo.position.set(3,0,-0.9);
+      logo.position.set(-22,0,-0.9);
     }else{
-      logo.position.set(1,0,-0.8);
+      logo.position.set(-19,0,-0.8);
     }
     logo.traverse(function (o) {
 if (o.isMesh) {

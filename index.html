@@ -631,14 +631,14 @@ var tween = new TWEEN.Tween(vectorToAnimate).to(target, 2000)
 
 function animateMove(vectorToAnimate, target, lookAt, speed){
 console.log("tween animating");
-curCamPos= target;
+curCamPos = target;
 // create the tween
 var spee = speed ? speed : 4000;
 var tween = new TWEEN.Tween(vectorToAnimate).to(target, spee)
     .easing(TWEEN.Easing.Quadratic.Out)
     .onComplete(function(){
       console.log('tween done');
-      curCamPos= target;
+      //curCamPos= target;
     });
     tween.onUpdate(function(){
       camera.position.x = vectorToAnimate.x;

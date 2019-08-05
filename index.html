@@ -332,7 +332,7 @@ function init() {
   //camera.position.set(-3,6,0);
   //camera.position.set(-3,0,0);
   camera.position.set(-400,0,0);
-  animateMove(camera.position,{x:-23,y:0,z:0});
+  animateMove(camera.position,{x:-23,y:0,z:0},{x:-18,y:0,z:0});
   scene.add(camera);
 
   var example = document.getElementById('example');
@@ -671,7 +671,7 @@ tween.start();
 function initTrans(){
   video.play();
   var speed = 200;
-  animateMove(camera.position, {x:-3, y: 0, z: 0}, {x:0, y: 0, z: 0}, 00);
+  animateMove(camera.position, {x:-3, y: 0, z: 0}, {x:0, y: 0, z: 0}, 1000);
   firstPhase = false;
   logo.visible = false;
         //example.style.visibility = 'visible';

@@ -366,8 +366,8 @@ function init() {
     var moveY = ((boxWidth/2) * rotatedX) / 45;
     console.log("moveX ", moveX);
     console.log("moveY ", moveY);
-    camera.position.z =  curCamPos.z - moveX * 0.5;
-    camera.position.y = curCamPos.y + moveY * 0.5;
+    camera.position.z =  curCamPos.z - moveX * 0.005;
+    camera.position.y = curCamPos.y + moveY * 0.005;
   });
   
 

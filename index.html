@@ -254,6 +254,8 @@ var arch;
 var mouseX;
 var mouseY;
 
+var phase = '0';
+
 
 var video;
 
@@ -366,8 +368,8 @@ function init() {
     var moveY = ((boxWidth/2) * rotatedX) / 45;
     console.log("moveX ", moveX);
     console.log("moveY ", moveY);
-    camera.position.z =  curCamPos.z - moveX * 0.005;
-    camera.position.y = curCamPos.y + moveY * 0.005;
+    camera.position.z =  curCamPos.z - moveX * 0.001;
+    camera.position.y = curCamPos.y + moveY * 0.001;
   });
   
 
@@ -454,30 +456,41 @@ mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 raycaster.setFromCamera( mouse, camera );
 var intersects = raycaster.intersectObjects( scene.children, true );
 var canvas = document.body.getElementsByTagName('canvas')[0];
-console.log(intersects[0].object.name);
-if (intersects.length > 0 && clickable.includes(intersects[0].object.name)) {
+if(intersects.length > 0){
+  console.log(intersects[0].object.name);
+var namee = intersects[0].object.name;
+}
+if (intersects.length > 0 && clickable.includes(namee)) {
 
-if(intersects[0].object.name == "tv"){
+  if(phase == '2' && (namee == "Cone" || namee =="Sphere" || namee == "Cone001" || namee =="Cube" || namee == "Cone002" || namee =="Cylinder" || namee == "instance_3" || namee =="instance_4")){
+    textSetter(namee);
+  } else if(phase =="2"){
+    container.style.visibility = 'hidden';
+  }
+
+if(namee == "tv"){
 tv.rotation.x += 0.005;
 tv.scale.set(0.01,0.01,0.01);
 
 }
-    if(intersects[0].object.name == "skate" ){
+    else if(namee == "skate" ){
       skate.rotation.x += 0.005;
       skate.scale.set(0.55,0.55,0.55);
 
     }
-    if(intersects[0].object.name == "flag"){
+    else if(intersects[0].object.name == "flag"){
       plane.rotation.x += 0.005;
       plane.scale.set(0.008,0.008,0.008);
   
     }
-    if(intersects[0].object.name == "synth"){
+    else if(intersects[0].object.name == "synth"){
 //tv.rotation.x += 0.005;
 tv.scale.set(0.01,0.01,0.01);
 }
 canvas.style.cursor = "pointer";
 } else {
+  console.log(phase);
+if(phase == '2')container.style.visibility = 'hidden';
 //tv.scale.set(0.008,0.008,0.008);
 skate.scale.set(0.5,0.5,0.5);
 plane.scale.set(0.006,0.006,0.006);
@@ -496,7 +509,7 @@ mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 raycaster.setFromCamera( mouse, camera );
 var intersects = raycaster.intersectObjects(scene.children,true);
 var to;
-var namee = intersects[0].object.name;
+if(intersects.length > 0) var namee = intersects[0].object.name;
 if ( intersects.length > 0 && clickable.includes(intersects[0].object.name))
 {
     document.getElementById('info').style.paddingLeft = ori ? '6%' :'53%';
@@ -603,9 +616,48 @@ function textSetter(ob){
     $('h3').text('Mobile Apps Design & Creation');
     break;
   case "vid":
-      $('h3').text('We make video');
+      $('h3').text('We make videos');
+      break;
+  default:
+
+}
+if(phase=="2"){
+switch(ob){
+  case "Cone":
+    $('h3').text('Kajetan Tvrdik');
+    container.style.visibility = 'visible';
+    break;
+  case "Cube":
+    $('h3').text('Adams Soukup');
+    container.style.visibility = 'visible';
+    break;
+  case "Cone001":
+    $('h3').text('Sebastian Baalbaki');
+    container.style.visibility = 'visible';
+    break;
+  case "instance_3":
+    $('h3').text('Elias Bauer');
+    container.style.visibility = 'visible';
+    break;
+  case "instance_4":
+    $('h3').text('Hugo Pascalie');
+    container.style.visibility = 'visible';
+    break;
+  case "Cone002":
+    $('h3').text('Lucas Saidl');
+    container.style.visibility = 'visible';
+    break;
+  case "Sphere":
+    $('h3').text('Richard Janecek');
+    container.style.visibility = 'visible';
+    break;
+  case "Cylinder":
+    $('h3').text('Matej Martinec');
+    container.style.visibility = 'visible';
+    break;
   default:
     // code block
+}
 }
 }
 
@@ -673,6 +725,7 @@ function initTrans(){
   var speed = 200;
   animateMove(camera.position, {x:-3, y: 0, z: 0}, {x:0, y: 0, z: 0}, 1000);
   firstPhase = false;
+  phase = '1';
   logo.visible = false;
         //example.style.visibility = 'visible';
         setTimeout(function() {
@@ -712,16 +765,19 @@ console.log("scroll " + e);
 if(e < 0 && camera.position.z > -1.1 && camera.position.z < 1.1 && curCamPos.z == 0 && curCamPos.y == 0 && camera.position.x < 0 && camera.position.x > -10){
   console.log("move 1");
   animateMove(camera.position,{x: 12 , y: 0,z: 0},{x:11,y:0,z:0},1000);
+  phase = '2';
 }
 else if(e > 0 && camera.position.x > 10){
   console.log("move 2");
   animateMove(camera.position,{x: -3, y: 0, z: 0},{x:0,y:0,z:0},1000);
   container.style.visibility='hidden';
+  phase = '1';
 }
 else if(e < 0 && camera.position.x < 10 && curCamPos.y != 0 && curCamPos.z != 0 ){
   console.log("move 3");
   animateMove(camera.position,{x: -3, y: 0, z: 0},{x:0,y:0,z:0},1000);
   container.style.visibility='hidden';
+  phase = '1';
 }
 
 }
@@ -810,7 +866,7 @@ spacesphere.material.map.repeat.set( 5, 3);
   scene.add(light2);
 
   var light3 = new THREE.PointLight(0xffffff);
-  light3.position.set(ori? -18 : -22,1.8,1.8);
+  light3.position.set(ori? -17 : -22,1.8,1.8);
   light3.distance = 6;
   scene.add(light3);
 

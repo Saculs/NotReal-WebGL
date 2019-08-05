@@ -192,8 +192,8 @@ THREE.OrbitControls = function ( object, domElement ) {
 	 
 	}
 	 
-	window.addEventListener( 'deviceorientation', onDeviceOrientationChangeEvent, false );
-	window.addEventListener( 'orientationchange', onScreenOrientationChangeEvent, false );
+	//window.addEventListener( 'deviceorientation', onDeviceOrientationChangeEvent, false );
+	//window.addEventListener( 'orientationchange', onScreenOrientationChangeEvent, false );
 
 	// this method is exposed, but perhaps it would be better if we can make it private...
 	this.update = function () {

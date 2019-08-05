@@ -180,7 +180,7 @@ h3 {
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.3.5/Tween.min.js"></script>
   <script src="js/three/build/three.min.js"></script>
-  <script src="js/OrbitControls copy.js"></script>
+  <script src="js/OrbitControls copyy.js"></script>
   <script src="js/three/examples/js/loaders/GLTFLoader.js"></script>
   <script type="text/javascript" src="js/main.js"></script>
 
@@ -332,7 +332,7 @@ function init() {
   //camera.position.set(-3,6,0);
   //camera.position.set(-3,0,0);
   camera.position.set(-400,0,0);
-  animateMove(camera.position,{x:-23,y:0,z:0},{x:-18,y:0,z:0});
+  animateMove(camera.position,{x:-23,y:0,z:0},{x:ori ? -15 : -18,y:0,z:0});
   scene.add(camera);
 
   var example = document.getElementById('example');

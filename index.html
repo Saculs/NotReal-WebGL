@@ -8,6 +8,12 @@
   <!--<link href="Style.css" rel="stylesheet" type="text/css"/>-->
   <style>
 
+html,
+body {
+  position: fixed;
+  overflow: hidden;
+}
+
 canvas {
     display: block; /* fix necessary to remove space at bottom of canvas */
     -webkit-touch-callout: none;
@@ -160,17 +166,21 @@ h3 {
   color:white;
   font-family: 'Syne';
   white-space: initial;
-}
+} 
 </style>
   <meta charset="utf-8">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:title" content="Notreal Virtual">
+<meta property="og:image" content="meta.jpg">
+<meta property="og:description" content="Production house">
 </head>
 <body style="margin: 0;">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.3.5/Tween.min.js"></script>
   <script src="js/three/build/three.min.js"></script>
-  <script src="js/OrbitControls.js"></script>
+  <script src="js/OrbitControls copy.js"></script>
   <script src="js/three/examples/js/loaders/GLTFLoader.js"></script>
   <script type="text/javascript" src="js/main.js"></script>
 
@@ -178,7 +188,7 @@ h3 {
 
   <div id="container">
       <div id="info">
-        <h3>Lorem ipsum dolor sit amet.</h3>
+        <h3 id ="hh3">Lorem ipsum dolor sit amet.</h3>
         <p id="theRest">Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.</p>
     </div>
   </div>
@@ -356,8 +366,8 @@ function init() {
     var moveY = ((boxWidth/2) * rotatedX) / 45;
     console.log("moveX ", moveX);
     console.log("moveY ", moveY);
-    //camera.position.z =  curCamPos.z - moveX * 0.5;
-    //camera.position.y = curCamPos.y + moveY * 0.5;
+    camera.position.z =  curCamPos.z - moveX * 0.5;
+    camera.position.y = curCamPos.y + moveY * 0.5;
   });
   
 
@@ -379,6 +389,7 @@ function handleTouchStart(evt) {
 };                                                
 
 function handleTouchMove(evt) {
+  e.preventDefault();
     if ( ! xDown || ! yDown ) {
         return;
     }
@@ -416,6 +427,64 @@ var mouse = new THREE.Vector2(), INTERSECTED;
 document.addEventListener( 'mousedown', onDocumentMouseDown, false );
 document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 
+function onDocumentMouseMove( event ) {
+
+mouseX = (event.clientX - window.innerWidth / 2) ;
+mouseY = (event.clientY - window.innerHeight / 2);
+if(mouseX != 0){
+  mouseX = mouseX  / (window.innerWidth / 2);
+}
+if(mouseY != 0){
+  mouseY = mouseY  / (window.innerHeight / 2);
+}
+
+/*
+camera.position.x += ( mouseX - camera.position.x ) * 0.05;
+    camera.position.y += ( - mouseY - camera.position.y ) * 0.05;
+    */
+//console.log( mouseX, mouseY);
+camera.position.z =  curCamPos.z - mouseX * 0.5;
+camera.position.y = curCamPos.y + mouseY* 0.5;
+//set up camera position
+//camera.lookAt(scene.position);
+
+mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;	
+
+raycaster.setFromCamera( mouse, camera );
+var intersects = raycaster.intersectObjects( scene.children, true );
+var canvas = document.body.getElementsByTagName('canvas')[0];
+console.log(intersects[0].object.name);
+if (intersects.length > 0 && clickable.includes(intersects[0].object.name)) {
+
+if(intersects[0].object.name == "tv"){
+tv.rotation.x += 0.005;
+tv.scale.set(0.01,0.01,0.01);
+
+}
+    if(intersects[0].object.name == "skate" ){
+      skate.rotation.x += 0.005;
+      skate.scale.set(0.55,0.55,0.55);
+
+    }
+    if(intersects[0].object.name == "flag"){
+      plane.rotation.x += 0.005;
+      plane.scale.set(0.008,0.008,0.008);
+  
+    }
+    if(intersects[0].object.name == "synth"){
+//tv.rotation.x += 0.005;
+tv.scale.set(0.01,0.01,0.01);
+}
+canvas.style.cursor = "pointer";
+} else {
+//tv.scale.set(0.008,0.008,0.008);
+skate.scale.set(0.5,0.5,0.5);
+plane.scale.set(0.006,0.006,0.006);
+canvas.style.cursor = "default";
+}
+}
+
 function onDocumentMouseDown( event ) {
   if(firstPhase == true){
     initTrans();
@@ -431,7 +500,7 @@ var namee = intersects[0].object.name;
 if ( intersects.length > 0 && clickable.includes(intersects[0].object.name))
 {
     document.getElementById('info').style.paddingLeft = ori ? '6%' :'53%';
-  
+  textSetter(intersects[0].object.name);
 if(namee == "tv" ){
     to = tv;
     container.style.visibility = 'visible';
@@ -498,63 +567,7 @@ function lerp (start, end, amt){
   return (1-amt)*start+amt*end
 }
 
-function onDocumentMouseMove( event ) {
 
-    mouseX = (event.clientX - window.innerWidth / 2) ;
-    mouseY = (event.clientY - window.innerHeight / 2);
-    if(mouseX != 0){
-      mouseX = mouseX  / (window.innerWidth / 2);
-    }
-    if(mouseY != 0){
-      mouseY = mouseY  / (window.innerHeight / 2);
-    }
-
-    /*
-    camera.position.x += ( mouseX - camera.position.x ) * 0.05;
-        camera.position.y += ( - mouseY - camera.position.y ) * 0.05;
-        */
-    //console.log( mouseX, mouseY);
-    camera.position.z =  curCamPos.z - mouseX * 0.5;
-    camera.position.y = curCamPos.y + mouseY* 0.5;
-    //set up camera position
-    //camera.lookAt(scene.position);
-
-mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;	
-
-raycaster.setFromCamera( mouse, camera );
-var intersects = raycaster.intersectObjects( scene.children, true );
-var canvas = document.body.getElementsByTagName('canvas')[0];
-console.log(intersects[0].object.name);
-if (intersects.length > 0 && clickable.includes(intersects[0].object.name)) {
-
-if(intersects[0].object.name == "tv"){
-    tv.rotation.x += 0.005;
-    tv.scale.set(0.01,0.01,0.01);
-
-}
-        if(intersects[0].object.name == "skate" ){
-          skate.rotation.x += 0.005;
-          skate.scale.set(0.55,0.55,0.55);
-
-        }
-        if(intersects[0].object.name == "flag"){
-          plane.rotation.x += 0.005;
-          plane.scale.set(0.008,0.008,0.008);
-      
-        }
-        if(intersects[0].object.name == "synth"){
-    //tv.rotation.x += 0.005;
-    tv.scale.set(0.01,0.01,0.01);
-}
-canvas.style.cursor = "pointer";
-} else {
-  //tv.scale.set(0.008,0.008,0.008);
-  skate.scale.set(0.5,0.5,0.5);
-  plane.scale.set(0.006,0.006,0.006);
-  canvas.style.cursor = "default";
-}
-}
 function clicker(obj){
 console.group('intersection');
   console.log(obj.point);
@@ -570,6 +583,30 @@ else{
 obj.active = true;
 }
 //obj.geometry.colorsNeedUpdate = true;
+}
+
+function textSetter(ob){
+  switch(ob) {
+  case "tv":
+    $('h3').text('All Digital Content');
+  break;
+  case "flag":
+    $('h3').text('We do Prints');
+    break;
+  case "vr":
+    $('h3').text('VR & AR');
+    break;
+  case "synth":
+    $('h3').text('Music & Sound Design');
+    break;
+  case "phone":
+    $('h3').text('Mobile Apps Design & Creation');
+    break;
+  case "vid":
+      $('h3').text('We make video');
+  default:
+    // code block
+}
 }
 
 function animateScale(vectorToAnimate, target, options){
@@ -672,20 +709,21 @@ function scroll(e){
   }
 
 console.log("scroll " + e);
-if(e < 0 && camera.position.z > -1.1 && camera.position.z < 1.1 && camera.position.x < 0 && camera.position.x > -10){
+if(e < 0 && camera.position.z > -1.1 && camera.position.z < 1.1 && curCamPos.z == 0  && camera.position.x < 0 && camera.position.x > -10){
   console.log("move 1");
   animateMove(camera.position,{x: 12 , y: 0,z: 0},{x:11,y:0,z:0},1000);
 }
 else if(e > 0 && camera.position.x > 10){
   console.log("move 2");
   animateMove(camera.position,{x: -3, y: 0, z: 0},{x:0,y:0,z:0},1000);
+  container.style.visibility='hidden';
 }
 else if(e < 0 && camera.position.x < 10 && curCamPos.y != 0 && curCamPos.z != 0 ){
   console.log("move 3");
   animateMove(camera.position,{x: -3, y: 0, z: 0},{x:0,y:0,z:0},1000);
-  
+  container.style.visibility='hidden';
 }
-container.style.visibility='hidden';
+
 }
 
 window.addEventListener("wheel", function(e) {
@@ -772,9 +810,14 @@ spacesphere.material.map.repeat.set( 5, 3);
   scene.add(light2);
 
   var light3 = new THREE.PointLight(0xffffff);
-  light3.position.set(ori? -19 : -22,1.8,1.8);
+  light3.position.set(ori? -18 : -22,1.8,1.8);
   light3.distance = 6;
   scene.add(light3);
+
+  var light4 = new THREE.PointLight(0xffffff);
+  light4.position.set(-6,1.8,1.8);
+  light4.distance = 6;
+  scene.add(light4);
 
   let ambientLight = new THREE.AmbientLight(0x505050);
   scene.add(ambientLight);

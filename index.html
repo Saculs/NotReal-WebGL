@@ -131,7 +131,7 @@ h1 {
     /*transform: translate(0,-100%); */
     font-family: 'Syne'; 
     font-weight: 100; 
-    letter-spacing: 40px; 
+    /* letter-spacing: 40px; */
     text-transform: uppercase; 
 }
 
@@ -142,13 +142,13 @@ h1 {
     visibility: hidden;
     top:50%;
     z-index:100; 
-    width:100%; 
+    /*width:100%; */
     text-align: center; 
     /*transform: translate(0,-100%); */
     font-family: 'Syne'; 
     font-weight: 100; 
-    font-size: 13px;
-    letter-spacing: 40px; 
+    font-size: 19px;
+    letter-spacing: 20px;
     text-transform: uppercase; 
 }
 }
@@ -203,12 +203,23 @@ h3 {
   font-family: 'Syne';
   white-space: initial;
 } 
+
+#my_image {
+  position: absolute;
+  display: none;
+    top: 50%;
+    left: 50%;
+    width:25%;
+    height:auto;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+}
 </style>
   <meta charset="utf-8">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <meta property="og:title" content="Notreal Virtual">
+<meta property="og:title" content="Notreal Virtual">
 <meta property="og:image" content="meta.jpg">
 <meta property="og:description" content="Production house">
 </head>
@@ -219,6 +230,8 @@ h3 {
   <script src="js/OrbitControls.js"></script>
   <script src="js/three/examples/js/loaders/GLTFLoader.js"></script>
   <script type="text/javascript" src="js/main.js"></script>
+  
+  <img id="my_image" src="hp0.jpg"/>
 
   <h1 id="example"></h1>
 
@@ -502,36 +515,32 @@ if (intersects.length > 0 && clickable.includes(namee)) {
     textSetter(namee);
   } else if(phase =="2"){
     container.style.visibility = 'hidden';
+    $("#my_image").hide();
   }
-
 if(namee == "tv"){
-tv.rotation.x += 0.005;
-tv.scale.set(0.01,0.01,0.01);
-
+  tv.rotation.x += 0.005;
+  tv.scale.set(0.01,0.01,0.01);
 }
-    else if(namee == "skate" ){
-      skate.rotation.x += 0.005;
-      skate.scale.set(0.55,0.55,0.55);
-
-    }
-    else if(intersects[0].object.name == "flag"){
-      plane.rotation.x += 0.005;
-      plane.scale.set(0.008,0.008,0.008);
-  
-    }
-    else if(intersects[0].object.name == "synth"){
-//tv.rotation.x += 0.005;
-tv.scale.set(0.01,0.01,0.01);
+else if(namee == "skate" ){
+  skate.rotation.x += 0.005;
+  skate.scale.set(0.55,0.55,0.55);
+}
+else if(intersects[0].object.name == "flag"){
+  plane.rotation.x += 0.005;
+  plane.scale.set(0.008,0.008,0.008); 
 }
 canvas.style.cursor = "pointer";
 } else {
   console.log(phase);
-if(phase == '2')container.style.visibility = 'hidden';
-//tv.scale.set(0.008,0.008,0.008);
-skate.scale.set(0.5,0.5,0.5);
-plane.scale.set(0.006,0.006,0.006);
-canvas.style.cursor = "default";
-}
+  if(phase == '2'){
+    container.style.visibility = 'hidden';
+    $("#my_image").hide();
+  }
+  //tv.scale.set(0.008,0.008,0.008);
+  skate.scale.set(0.5,0.5,0.5);
+  plane.scale.set(0.006,0.006,0.006);
+  canvas.style.cursor = "default";
+  }
 }
 
 function onDocumentMouseDown( event ) {
@@ -668,10 +677,12 @@ switch(ob){
     break;
   case "Cube":
     $('h3').text('Adams Soukup');
+    $('#theRest').text('A visual artist');
     container.style.visibility = 'visible';
     break;
   case "Cone001":
     $('h3').text('Sebastian Baalbaki');
+    $('#theRest').text("I have always been inspired by the curiosity of our world, it’s nature and structures. Beliving in the power of Substance Suite I specialize in custom texture authoring. I also support artists, which need technical help with their projects.");
     container.style.visibility = 'visible';
     break;
   case "instance_3":
@@ -681,6 +692,14 @@ switch(ob){
   case "instance_4":
     $('h3').text('Hugo Pascalie');
     container.style.visibility = 'visible';
+    $("#my_image").show();
+    if($("#my_image").attr('src').substring(0,1) != "hp")$("#my_image").attr("src","hp0.jpg");
+    var i = 0;
+  
+    setTimeout(function(){
+      i++;
+      $("#my_image").attr("src","hp"+i.toString()+".jpg");
+    },400);
     break;
   case "Cone002":
     $('h3').text('Lucas Saidl');
@@ -702,7 +721,7 @@ switch(ob){
 
 function animateScale(vectorToAnimate, target, options){
 console.log("animating");
-var speed = 200;
+var speed = 300;
 // create the tween
 var tween = new TWEEN.Tween(vectorToAnimate).to(target, 2000)
     .easing(TWEEN.Easing.Elastic.InOut)
@@ -905,8 +924,8 @@ spacesphere.material.map.repeat.set( 5, 3);
   scene.add(light2);
 
   var light3 = new THREE.PointLight(0xffffff);
-  light3.position.set(ori? -17 : -22,1.8,1.8);
-  light3.distance = 6;
+  light3.position.set(ori? -19 : -22,1.8,1.8);
+  light3.distance = 8;
   scene.add(light3);
 
   var light4 = new THREE.PointLight(0xffffff);

@@ -178,6 +178,9 @@ h3 {
    /* transform: translate(0,-100%); */
     font-family: 'Syne';
     font-weight: 100;
+    position: absolute;
+    left: 13px;
+    top: 8;
 
 }
 
@@ -252,12 +255,13 @@ h3 {
   <img id="my_image" src="hp0.jpg"/>
 
   <h1 id="example"></h1>
-
   <div id="container">
+  <div id="cont">
+      <h3 id ="hh3">Lorem ipsum dolor sit amet.</h3>
       <div id="info">
-        <h3 id ="hh3">Lorem ipsum dolor sit amet.</h3>
         <p id="theRest">Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.</p>
     </div>
+  </div>
   </div>
 
   <div class="popup"><div class="text"></div></div>
@@ -477,10 +481,12 @@ function handleTouchMove(evt) {
     } else {
         if ( yDiff > 0 ) {
             /* up swipe */
-            scroll(1);
+            //scroll(1);
+            sscroll(1);
         } else {
             /* down swipe */
-            scroll(-1);
+            //scroll(-1);
+            sscroll(-1);
         }
     }
     /* reset values */
@@ -587,7 +593,6 @@ function lerp (start, end, amt){
 
 function clicker(obj){
   var namee = obj.name;
-
   document.getElementById('info').style.paddingLeft = ori ? '6%' :'53%';
 textSetter(namee);
 if(namee == "tv" ){
@@ -645,24 +650,30 @@ function textSetter(ob){
   switch(ob) {
   case "tv":
     $('h3').text('All Digital Content');
+    $('#theRest').text("From Campaigns to Ads, we love selling your brand");
   break;
   case "flag":
     $('h3').text('We make Prints');
     break;
   case "vr":
     $('h3').text('VR & AR');
+    $('#theRest').text("Virtual Reality is where we come from, we can also make this one Augmented.");
     break;
   case "synth":
     $('h3').text('Music & Sound Design');
+    $('#theRest').text("Music's our passion.");
     break;
   case "phone":
-    $('h3').text('Mobile Apps Design & Creation');
+    $('h3').text('Mobile App Design & Creation');
+    $('#theRest').text("Feel free to ask us for help with App design or production.");
     break;
   case "vid":
       $('h3').text('We make videos');
+      $('#theRest').text('We film');
       break;
   case "arch":
       $('h3').text('Architecture');
+      $('#theRest').text("From designs to architectural visualizations. Like buttering a bread with realtime rendering");
       break;
   default:
 
@@ -780,6 +791,8 @@ function initTrans(){
   firstPhase = false;
   phase = '1';
   $('#player').hide();
+  clicker(vr);
+  
   /*
   //logo.visible = false;
         //example.style.visibility = 'visible';
@@ -832,6 +845,27 @@ else if(e < 0 && camera.position.x < 10 && curCamPos.y != 0 && curCamPos.z != 0 
   container.style.visibility='hidden';
   phase = '1';
 }
+
+}
+function sscroll(e){
+  if(firstPhase == true){
+    initTrans();
+    return;
+  }
+
+console.log("scroll " + e);
+if(e < 0 && camera.position.x < 12){
+  console.log("move 1");
+  animateMove(camera.position,{x: camera.position.x + 2 ,y: camera.position.y,z: camera.position.z},true,100);
+  phase = '2';
+}
+else if(e > 0 && camera.position.x > -3){
+  console.log("move 2");
+
+  animateMove(camera.position,{x: camera.position.x - 2 ,y: camera.position.y,z: camera.position.z},true,100);
+  phase = '1';
+}
+
 
 }
 
@@ -961,7 +995,7 @@ var textureCube = cubeloader.load( [
     {
       us.scale.set(0.7,0.7,0.7);
     }
-    us.position.set(18,ori ? -0.2 : -0.8,0);
+    us.position.set(18,ori ? -0.2 : -0.8,0.2);
     //us.name="use";
     us.visible = true;
     //us.callback = function() { console.log("Hello world!");};
@@ -1014,10 +1048,10 @@ var textureCube = cubeloader.load( [
     arch.rotation.y = 155.4;
     arch.scale.set(0.05,0.05,0.05);
     if(ori){
-      arch.position.set(8,0.5,0);
+      arch.position.set(12,0.5,0);
     }
     else {
-      arch.position.set(8,0,0);
+      arch.position.set(12,0,0);
     }
     arch.name="arch";
     arch.visible = true;
@@ -1064,10 +1098,10 @@ var textureCube = cubeloader.load( [
     vid.rotation.y = -158.4;
     vid.scale.set(0.4,0.4,0.4);
     if(ori){
-      vid.position.set(8,0.5,0);
+      vid.position.set(10,0.5,0);
     }
     else{
-      vid.position.set(8,0,0);
+      vid.position.set(10,0,0);
     }
     vid.name="vide";
     vid.visible = true;
@@ -1162,7 +1196,7 @@ var textureCube = cubeloader.load( [
     skate.rotation.z = 45;
     skate.rotation.y = 90;
     skate.scale.set(0.3,0.3,0.3);
-    skate.position.set(6,0.5,0);
+    skate.position.set(8,0.5,0);
     //skate.visible = false;
     skate.name = "skate";
     //skate.callback = function() { console.log("Hello world!");};

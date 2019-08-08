@@ -64,7 +64,7 @@ body {
   color: #fff;
   /*border: 1px solid #AEAEAE;*/
   border-radius: 3px;
-  
+
   font-size: 31px;
   font-weight: bold;
   display: inline-block;
@@ -84,7 +84,7 @@ body {
 #fade:hover ~ #boxclose {
   display:none;
 }
-  
+
 @font-face {
     font-family: "Syne";
     src: url("syneFont/syne-extra-webfont.woff") format("woff"),
@@ -94,7 +94,7 @@ body {
 }
 
 #player{
-  visibility:hidden;
+  visibility:visible;
 }
 
 .vimeo-wrapper {
@@ -103,10 +103,10 @@ body {
    left: 0;
    width: 100%;
    height: 100%;
-  
+
    pointer-events: none;
    overflow: hidden;
-   z-index: 99 !important; 
+   z-index: 9999 !important;
 }
 .vimeo-wrapper iframe {
    width: 100vw;
@@ -120,65 +120,65 @@ body {
 }
 
 
-h1 { 
+h1 {
     color:white;
     position:absolute;
     visibility: hidden;
     top:50%;
-    z-index:100; 
-    width:100%; 
-    text-align: center; 
+    z-index:100;
+    width:100%;
+    text-align: center;
     /*transform: translate(0,-100%); */
-    font-family: 'Syne'; 
-    font-weight: 100; 
+    font-family: 'Syne';
+    font-weight: 100;
     /* letter-spacing: 40px; */
-    text-transform: uppercase; 
+    text-transform: uppercase;
 }
 
 @media screen and (min-width: 300px) {
-  h1 { 
+  h1 {
     color:white;
     position:absolute;
     visibility: hidden;
     top:50%;
-    z-index:100; 
+    z-index:100;
     /*width:100%; */
-    text-align: center; 
+    text-align: center;
     /*transform: translate(0,-100%); */
-    font-family: 'Syne'; 
-    font-weight: 100; 
+    font-family: 'Syne';
+    font-weight: 100;
     font-size: 19px;
     letter-spacing: 20px;
-    text-transform: uppercase; 
+    text-transform: uppercase;
 }
 }
 
 @media screen and (min-width: 800px) {
-  h1 { 
+  h1 {
     color:white;
     position:absolute;
     visibility: hidden;
     top:50%;
-    z-index:100; 
-    width:100%; 
-    text-align: center; 
+    z-index:100;
+    width:100%;
+    text-align: center;
     /*transform: translate(0,-100%); */
-    font-family: 'Syne'; 
-    font-weight: 100; 
-    letter-spacing: 40px; 
-    text-transform: uppercase; 
+    font-family: 'Syne';
+    font-weight: 100;
+    letter-spacing: 40px;
+    text-transform: uppercase;
     font-size: 24px;
 }
 }
 
-h3 { 
-    color:white;
+h3 {
+    color:black;
 
-    z-index:100; 
+    z-index:100;
    /* transform: translate(0,-100%); */
-    font-family: 'Syne'; 
-    font-weight: 100; 
-    
+    font-family: 'Syne';
+    font-weight: 100;
+
 }
 
 #info {
@@ -199,10 +199,10 @@ h3 {
 }
 
 #theRest {
-  color:white;
+  color:black;
   font-family: 'Syne';
   white-space: initial;
-} 
+}
 
 #my_image {
   position: absolute;
@@ -230,7 +230,25 @@ h3 {
   <script src="js/OrbitControls.js"></script>
   <script src="js/three/examples/js/loaders/GLTFLoader.js"></script>
   <script type="text/javascript" src="js/main.js"></script>
-  
+
+  <script src="https://player.vimeo.com/api/player.js"></script>
+<div id="player" class="vimeo-wrapper" data-vimeo-id="352692749" data-vimeo-autoplay="true" data-vimeo-loop="true"></div>
+<script>
+    var player = new Vimeo.Player('player', {
+    	id: 352692749,
+      autoplay: 1,
+      muted: 1,
+      controls: 0,
+    loop: 1,
+    });
+    player.ready(function() {
+    	console.log('READY BABY');
+    })
+    .catch(function(error) {
+        console.log('THIS IS PRIVATE!');
+    });
+</script>
+
   <img id="my_image" src="hp0.jpg"/>
 
   <h1 id="example"></h1>
@@ -241,25 +259,25 @@ h3 {
         <p id="theRest">Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.</p>
     </div>
   </div>
-  
+
   <div class="popup"><div class="text"></div></div>
 
   <video id="video" loop crossOrigin="anonymous" webkit-playsinline style="display:none">
 			<!--<source src="textures/sintel.ogv" type='video/ogg; codecs="theora, vorbis"'>-->
 			<source src="clean_vid.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
   </video>
-  
+
   <div id="light" class='light'>
     <a class="boxclose" id="boxclose" onclick="lightbox_close();"></a>
     <!--<video id="VisaChipCardVideo" width="600" controls>
         <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
       </video>-->
-      
+
   </div>
   <div id="fade" onClick="lightbox_close();"></div>
 
   <script>
-    
+
     window.document.onkeydown = function(e) {
   if (!e) {
     e = event;
@@ -285,7 +303,7 @@ function lightbox_close() {
   //lightBoxVideo.pause();
 }
 
-    
+
 // Set up the scene, camera, and renderer as global variables.
 var scene, camera, renderer;
 
@@ -327,22 +345,22 @@ animate();
 
 function vertexShader() {
 return `
-varying vec3 vUv; 
-varying vec4 tvViewPosition; 
+varying vec3 vUv;
+varying vec4 tvViewPosition;
 varying vec3 vecNormal;
 
 void main() {
-  vUv = position; 
+  vUv = position;
   vec4 tvViewPosition = tvViewMatrix * vec4(position, 1.0);
   vecNormal = (tvViewMatrix * vec4(normal, 0.0)).xyz; //????????
-  gl_Position = projectionMatrix * tvViewPosition; 
+  gl_Position = projectionMatrix * tvViewPosition;
 }
 `
 }
 function fragmentShader() {
 return `
-  uniform vec3 colorA; 
-  uniform vec3 colorB; 
+  uniform vec3 colorA;
+  uniform vec3 colorB;
   varying vec3 vUv;
 
   void main() {
@@ -357,7 +375,7 @@ function init() {
   // Create the scene and set the scene size.
   scene = new THREE.Scene();
 
-  const color = "black";
+  const color = "white";
   const density = 0.1;
   const near = 8;
   const far = 20;
@@ -373,7 +391,7 @@ function init() {
 
   // Create a renderer and add it to the DOM.
   renderer = new THREE.WebGLRenderer({antialias:true});
-  renderer.setSize(WIDTH, HEIGHT);  
+  renderer.setSize(WIDTH, HEIGHT);
 
 
   document.body.appendChild(renderer.domElement);
@@ -383,7 +401,6 @@ function init() {
   //camera.position.set(-3,6,0);
   //camera.position.set(-3,0,0);
   camera.position.set(-400,0,0);
-  animateMove(camera.position,{x:-23,y:0,z:0},{x:ori ? -15 : -18,y:0,z:0});
   scene.add(camera);
 
   var example = document.getElementById('example');
@@ -391,7 +408,7 @@ function init() {
 
   var container = document.getElementById('container');
 
-  
+
   video = document.getElementById( 'video' );
 	videoTexture = new THREE.VideoTexture( video );
 
@@ -420,24 +437,24 @@ function init() {
     camera.position.z =  curCamPos.z - moveX * 0.001;
     camera.position.y = curCamPos.y + moveY * 0.001;
   });
-  
 
-  document.addEventListener('touchstart', handleTouchStart, false);        
+
+  document.addEventListener('touchstart', handleTouchStart, false);
 document.addEventListener('touchmove', handleTouchMove, false);
 
-  var xDown = null;                                                        
+  var xDown = null;
 var yDown = null;
 
 function getTouches(evt) {
   return evt.touches ||             // browser API
          evt.originalEvent.touches; // jQuery
-}                                                     
+}
 
 function handleTouchStart(evt) {
-    const firstTouch = getTouches(evt)[0];                                      
-    xDown = firstTouch.clientX;                                      
-    yDown = firstTouch.clientY;                                      
-};                                                
+    const firstTouch = getTouches(evt)[0];
+    xDown = firstTouch.clientX;
+    yDown = firstTouch.clientY;
+};
 
 function handleTouchMove(evt) {
   //e.preventDefault();
@@ -445,7 +462,7 @@ function handleTouchMove(evt) {
         return;
     }
 
-    var xUp = evt.touches[0].clientX;                                    
+    var xUp = evt.touches[0].clientX;
     var yUp = evt.touches[0].clientY;
 
     var xDiff = xDown - xUp;
@@ -453,27 +470,27 @@ function handleTouchMove(evt) {
 
     if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
         if ( xDiff > 0 ) {
-            /* left swipe */ 
+            /* left swipe */
         } else {
             /* right swipe */
-        }                       
+        }
     } else {
         if ( yDiff > 0 ) {
-            /* up swipe */ 
+            /* up swipe */
             scroll(1);
-        } else { 
+        } else {
             /* down swipe */
             scroll(-1);
-        }                                                                 
+        }
     }
     /* reset values */
     xDown = null;
-    yDown = null;                                             
+    yDown = null;
 };
 
 
   // initialize object to perform world/screen calculations
-var raycaster = new THREE.Raycaster(); 
+var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2(), INTERSECTED;
 document.addEventListener( 'mousedown', onDocumentMouseDown, false );
 document.addEventListener( 'mousemove', onDocumentMouseMove, false );
@@ -500,7 +517,7 @@ camera.position.y = curCamPos.y + mouseY* 0.5;
 //camera.lookAt(scene.position);
 
 mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;	
+mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 
 raycaster.setFromCamera( mouse, camera );
 var intersects = raycaster.intersectObjects( scene.children, true );
@@ -523,11 +540,11 @@ if(namee == "tv"){
 }
 else if(namee == "skate" ){
   skate.rotation.x += 0.005;
-  skate.scale.set(0.55,0.55,0.55);
+  skate.scale.set(0.35,0.35,0.35);
 }
 else if(intersects[0].object.name == "flag"){
   plane.rotation.x += 0.005;
-  plane.scale.set(0.008,0.008,0.008); 
+  plane.scale.set(0.008,0.008,0.008);
 }
 canvas.style.cursor = "pointer";
 } else {
@@ -537,7 +554,7 @@ canvas.style.cursor = "pointer";
     $("#my_image").hide();
   }
   //tv.scale.set(0.008,0.008,0.008);
-  skate.scale.set(0.5,0.5,0.5);
+  if(skate) skate.scale.set(0.3,0.3,0.3);
   plane.scale.set(0.006,0.006,0.006);
   canvas.style.cursor = "default";
   }
@@ -550,75 +567,17 @@ function onDocumentMouseDown( event ) {
   }
 
 mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;	
+mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 raycaster.setFromCamera( mouse, camera );
 var intersects = raycaster.intersectObjects(scene.children,true);
 var to;
 if(intersects.length > 0) var namee = intersects[0].object.name;
-if ( intersects.length > 0 && clickable.includes(intersects[0].object.name))
-{
-    document.getElementById('info').style.paddingLeft = ori ? '6%' :'53%';
-  textSetter(intersects[0].object.name);
-if(namee == "tv" ){
-    to = tv;
-    container.style.visibility = 'visible';
-}
-if(namee == "flag"){
-  to = plane;
-  container.style.visibility = 'visible';
-}
-if(namee == "skate"){
-  to = skate;
-  
-}
-if(namee == "synth"){ 
-  to = synth;
-  container.style.visibility = 'visible';
-}
-if(namee == "phone"){
-  to = phone;
-  container.style.visibility = 'visible';
-}
-if(namee == "vr"){
-  to = vr;
-  container.style.visibility = 'visible';
-}
-if(namee == "vid"){
-  to = vid;
-  container.style.visibility = 'visible';
-}
-if(namee == "arch"){
-  to = arch;
-  container.style.visibility = 'visible';
-}
-
-switch(namee) {
-  case "instance_3":
-  window.open('http://www.zenbauhaus.wordpress.com/', '_blank');  
-  break;
-  case "Cone":
-  window.open('http://www.notreal.xyz/', '_blank');   
-    break;
-  case "Plane":
-  window.open('https://www.instagram.com/notreal_virtual/', '_blank'); 
-    break;
-  case "Plane001":
-  window.open('https://www.facebook.com/notrealvirtual/', '_blank'); 
-    break;
-  default:
-    // code block
-}
-//clicker(intersects[ 0 ].object);
-//lightbox_open();
-animateMove(camera.position,{x: to.position.x - 2, y: to.position.y,z: to.position.z + 0.5},to.position,1000);
-
-/*
-$('.text').empty();
-$('.popup').append("<div class='text'><p>"+ intersects[0].object.name +"</p></div>");
-$('.popup').show();
-*/
-
-}
+  if ( intersects.length > 0 && clickable.includes(intersects[0].object.name))
+  {
+    clicker(intersects[ 0 ].object);
+    //lightbox_open();
+    //animateMove(camera.position,{x: to.position.x - 2, y: to.position.y,z: to.position.z + 0.5},to.position,1000);
+  }
 }
 
 function lerp (start, end, amt){
@@ -627,20 +586,59 @@ function lerp (start, end, amt){
 
 
 function clicker(obj){
-console.group('intersection');
-  console.log(obj.point);
-  console.log(obj.rotation)
-console.groupEnd();
-//window.open('http://www.pericror.com/', '_blank');  
-if(obj.active === true){
-//obj.material.color.setRGB(0,1,0);
-obj.active = false;
+  var namee = obj.name;
+
+  document.getElementById('info').style.paddingLeft = ori ? '6%' :'53%';
+textSetter(namee);
+if(namee == "tv" ){
+  to = tv;
+  container.style.visibility = 'visible';
 }
-else{
-//obj.material.color.setRGB(1,0,0);
-obj.active = true;
+if(namee == "flag"){
+to = plane;
+container.style.visibility = 'visible';
 }
-//obj.geometry.colorsNeedUpdate = true;
+if(namee == "skate"){
+to = skate;
+
+}
+if(namee == "synth"){
+to = synth;
+container.style.visibility = 'visible';
+}
+if(namee == "phone"){
+to = phone;
+container.style.visibility = 'visible';
+}
+if(namee == "vr"){
+to = vr;
+container.style.visibility = 'visible';
+}
+if(namee == "vid"){
+to = vid;
+container.style.visibility = 'visible';
+}
+if(namee == "arch"){
+to = arch;
+container.style.visibility = 'visible';
+}
+
+switch(namee) {
+case "instance_3":
+window.open('http://www.zenbauhaus.wordpress.com/', '_blank');
+break;
+case "Cone":
+window.open('http://www.notreal.xyz/', '_blank');
+  break;
+case "Plane":
+window.open('https://www.instagram.com/notreal_virtual/', '_blank');
+  break;
+case "Plane001":
+window.open('https://www.facebook.com/notrealvirtual/', '_blank');
+  break;
+default:
+  // code block
+}
 }
 
 function textSetter(ob){
@@ -695,7 +693,7 @@ switch(ob){
     $("#my_image").show();
     if($("#my_image").attr('src').substring(0,1) != "hp")$("#my_image").attr("src","hp0.jpg");
     var i = 0;
-  
+
     setTimeout(function(){
       i++;
       $("#my_image").attr("src","hp"+i.toString()+".jpg");
@@ -727,13 +725,10 @@ var tween = new TWEEN.Tween(vectorToAnimate).to(target, 2000)
     .easing(TWEEN.Easing.Elastic.InOut)
     .onComplete(function(){
       setTimeout(function() {
-        
+
       }, 4000);
     });
     tween.onUpdate(function(){
-      logo.scale.x = vectorToAnimate.x;
-      logo.scale.y = vectorToAnimate.y;
-        logo.scale.z = vectorToAnimate.z;
     });
     // start the tween
     tween.start();
@@ -741,14 +736,14 @@ var tween = new TWEEN.Tween(vectorToAnimate).to(target, 2000)
 
 function animateMove(vectorToAnimate, target, lookAt, speed){
 console.log("tween animating");
-//curCamPos = target;
+curCamPos = target;
 // create the tween
 var spee = speed ? speed : 4000;
 var tween = new TWEEN.Tween(vectorToAnimate).to(target, spee)
     .easing(TWEEN.Easing.Quadratic.Out)
     .onComplete(function(){
       console.log('tween done');
-      curCamPos= target;
+      curCamPos = target;
     });
     tween.onUpdate(function(){
       camera.position.x = vectorToAnimate.x;
@@ -772,7 +767,7 @@ var tween = new TWEEN.Tween(vectorToAnimate).to(target, spee)
       //camera.lookAt(vec);
       controls.target = vec;
     });
-    tween2.start(); 
+    tween2.start();
   }*/
    // start the tween
 tween.start();
@@ -781,10 +776,12 @@ tween.start();
 function initTrans(){
   video.play();
   var speed = 200;
-  animateMove(camera.position, {x:-3, y: 0, z: 0}, {x:0, y: 0, z: 0}, 1000);
+  animateMove(camera.position, {x:-4, y: 0.2, z: 0}, {x:0, y: -0.50, z: 0}, 1000);
   firstPhase = false;
   phase = '1';
-  logo.visible = false;
+  $('#player').hide();
+  /*
+  //logo.visible = false;
         //example.style.visibility = 'visible';
         setTimeout(function() {
           example.style.visibility = 'visible';
@@ -801,9 +798,6 @@ function initTrans(){
                     example.innerHTML="something";
                     setTimeout(function() {
                       example.innerHTML="";
-                        plane.visible = true;
-                        tv.visible = true;
-                        skate.visible = true;
                     }, speed);
                   }, speed);
                 }, speed);
@@ -811,6 +805,7 @@ function initTrans(){
             }, speed);
           }, speed);
         }, 200);
+        */
 }
 
 function scroll(e){
@@ -848,7 +843,7 @@ scroll(delta);
 //console.log("scrolled "+ delta.toString());
 //camera.position.y += event.wheelDeltaY * 0.1;;
 }, true);
-    
+
 //Space background is a large sphere
 var spacetex = new THREE.TextureLoader().load("https://s3-us-west-2.amazonaws.com/s.cdpn.io/96252/space.jpg");
 var spacesphereGeo = new THREE.SphereGeometry(15,15,15);
@@ -860,7 +855,7 @@ var spacesphere = new THREE.Mesh(spacesphereGeo,spacesphereMat);
 //spacesphere needs to be double sided as the camera is within the spacesphere
 spacesphere.material.side = THREE.DoubleSide;
 
-spacesphere.material.map.wrapS = THREE.RepeatWrapping; 
+spacesphere.material.map.wrapS = THREE.RepeatWrapping;
 spacesphere.material.map.wrapT = THREE.RepeatWrapping;
 spacesphere.material.map.repeat.set( 5, 3);
 
@@ -881,31 +876,31 @@ spacesphere.material.map.repeat.set( 5, 3);
     var envMap = new THREE.TextureLoader().load('models/envMap.jpg');
     let vlajkaMat =  new THREE.MeshLambertMaterial({ map : envMap});
     plane = new THREE.Mesh(new THREE.PlaneGeometry(150, 200, rowSize, rowSize), vlajkaMat);
-    plane.scale.set(0.006,0.006,0.006);
+    plane.scale.set(0.004,0.004,0.004);
     plane.rotation.y = getRadian(-90);
     plane.rotation.z = getRadian(90);
     if(ori){
-      plane.position.set(7,2.2,-1.3);
+      plane.position.set(2.5,0.5,0);
     }else{
-      plane.position.set(5,2,-3);
+      plane.position.set(4,0,0);
     }
-    
+
     plane.name = "flag";
-    plane.visible = false;
+    //plane.visible = false;
     numberOfVerticies = plane.geometry.vertices.length;
     initPlane();
     scene.add(plane);
 
 
     function initPlane() {
-    
+
     for(var j = 0; j < rowSize+1; j++) {
         for(var i = 0; i < rowSize+1; i++) {
             //plane.geometry.vertices[(rowSize+1)*j + i].z = maxHeight-j%maxHeight;
             plane.geometry.vertices[(rowSize+1)*j + i].z = maxHeight*Math.sin(j/rowSize*3);
         }
     }
-    
+
     }
     function getRadian(x) {
     return (Math.PI*x)/180;
@@ -913,6 +908,7 @@ spacesphere.material.map.repeat.set( 5, 3);
 
   // Set the background color of the scene.
   //renderer.setClearColorHex(0x333F47, 1);
+  scene.background = new THREE.Color( 0xffffff );
 
   // Create a light, set its position, and add it to the scene.
   var light = new THREE.PointLight(0xffffff);
@@ -951,14 +947,10 @@ var textureCube = cubeloader.load( [
   var fbAlpha = new THREE.TextureLoader().load("models/fbAlpha.png");
   var fbMat = new THREE.MeshPhongMaterial({color: 0xffffff, alphaMap: fbAlpha,transparent: true, opacity: 0.8, side: THREE.DoubleSide});
 
-  var geometry = new THREE.BoxGeometry(1, 1, 1 );
-  var cube = new THREE.Mesh( geometry, materiall);
-  cube.position.set(-20,0,0);
-  //scene.add( cube );
 
   var usloader = new THREE.GLTFLoader();
   usloader.load( "models/ussseee.glb", function(gltf){
-    us = gltf.scene;  
+    us = gltf.scene;
     if(ori)us.rotation.x = 92;
     //us.rotation.z = 30.4;
     //us.rotation.y = -95;
@@ -993,15 +985,15 @@ var textureCube = cubeloader.load( [
     //tv.rotation.x = -90;
     tv.rotation.z = 30.4;
     tv.rotation.y = 155.4;
-    tv.scale.set(0.01,0.01,0.01);
+    tv.scale.set(0.006,0.006,0.006);
     if(ori == true){
-      tv.position.set(6,1.9,1);
+      tv.position.set(1,0.6,0);
     }
     else {
-      tv.position.set(4,1.2,2.5);
+      tv.position.set(1,0,0);
     }
     tv.name="tv";
-    tv.visible = false;
+    //tv.visible = false;
     tv.callback = function() { console.log("Hello world!");};
     tv.traverse(function (o) {
       if (o.isMesh) {
@@ -1022,10 +1014,10 @@ var textureCube = cubeloader.load( [
     arch.rotation.y = 155.4;
     arch.scale.set(0.05,0.05,0.05);
     if(ori){
-      arch.position.set(4,-0.4,0.6);  
+      arch.position.set(8,0.5,0);
     }
-    else { 
-      arch.position.set(2,-0.6,2.5);  
+    else {
+      arch.position.set(8,0,0);
     }
     arch.name="arch";
     arch.visible = true;
@@ -1048,11 +1040,11 @@ var textureCube = cubeloader.load( [
     synth.rotation.y = 158.4;
     synth.scale.set(0.32,0.32,0.32);
     if(ori){
-      synth.position.set(5,2.2,0);
+      synth.position.set(6,0.5,0);
     }else{
-      synth.position.set(2,1,0);
+      synth.position.set(7,0,0);
     }
-    synth.position.set(2,1,0);
+
     synth.name="synth";
     synth.visible = true;
     //synth.callback = function() { console.log("Hello world!");};
@@ -1072,10 +1064,10 @@ var textureCube = cubeloader.load( [
     vid.rotation.y = -158.4;
     vid.scale.set(0.4,0.4,0.4);
     if(ori){
-      vid.position.set(4,0.2,-0.8);
+      vid.position.set(8,0.5,0);
     }
     else{
-      vid.position.set(2,0.2,-2.5);
+      vid.position.set(8,0,0);
     }
     vid.name="vide";
     vid.visible = true;
@@ -1096,11 +1088,11 @@ var textureCube = cubeloader.load( [
     vr.rotation.y = 158.4;
     vr.scale.set(0.7,0.7,0.7);
     if(ori){
-      vr.position.set(4,-0.8,-1);
-    }else{
-      vr.position.set(1,-0.6,-1.5);
+      vr.position.set(-1.6,0.5,0);
+    } else{
+      vr.position.set(-1.6,0,0);
     }
-    
+
     vr.name="vr";
     vr.visible = true;
     //synth.callback = function() { console.log("Hello world!");};
@@ -1142,7 +1134,7 @@ var textureCube = cubeloader.load( [
     phone.rotation.z = 30.4;
     phone.rotation.y = 155.4;
     phone.scale.set(0.06,0.06,0.06);
-    phone.position.set(0,-0.5,0.3);
+    phone.position.set(0,0.5,0);
     phone.name="phone";
     phone.visible = true;
     //synth.callback = function() { console.log("Hello world!");};
@@ -1154,12 +1146,12 @@ var textureCube = cubeloader.load( [
         }
         else o.material = materiall
         o.name = "phone";
-        
+
       }
     });
     scene.add(phone);
   });
-  
+
   // Load in the mesh and add it to the scene.
   var loaderSkate = new THREE.GLTFLoader();
   loaderSkate.load( "models/what.glb", function(gltf){
@@ -1169,9 +1161,9 @@ var textureCube = cubeloader.load( [
     skate.rotation.x = 180;
     skate.rotation.z = 45;
     skate.rotation.y = 90;
-    skate.scale.set(0.5,0.5,0.5);
-    skate.position.set(5,1.2,-2.5);
-    skate.visible = false;
+    skate.scale.set(0.3,0.3,0.3);
+    skate.position.set(6,0.5,0);
+    //skate.visible = false;
     skate.name = "skate";
     //skate.callback = function() { console.log("Hello world!");};
     skate.traverse(function (o) {
@@ -1182,29 +1174,6 @@ var textureCube = cubeloader.load( [
     scene.add(skate);
   });
 
-  var loaderLogo = new THREE.GLTFLoader();
-  loaderLogo.load( "models/notReal.glb", function(gltf){
-    logo = gltf.scene;
-    //logo.rotation.x += 90;
-    //logo.rotation.z = 90;
-    logo.rotation.y = 90;
-    //logo.scale.set(-0.8,0.8,0.8);
-    logo.scale.set(0,0.8,0.8);
-    if(ori == true){
-      logo.position.set(-16,0,-0.9);
-    }else{
-      logo.position.set(-19,0,-0.8);
-    }
-    logo.traverse(function (o) {
-if (o.isMesh) {
- o.material = materiall;
-}
-});
-    scene.add(logo);
-    animateScale({x:0.8,y:0.8,z:0},{x:-0.8,y:0.8,z:0.8} );
-  });
-
-  
 
   var geoGround = new THREE.PlaneBufferGeometry( 100,100 );
   var ground = new THREE.Mesh( geoGround, new THREE.MeshPhongMaterial({color:"white",wireframe:true, }));
@@ -1224,7 +1193,6 @@ function animate() {
   requestAnimationFrame(animate);
   if(tv) tv.rotation.z += 0.001;
   if(tv) tv.rotation.y += 0.0001;
-  if(tv) tv.position.y = -0.2*Math.sin(t*0.01) + 1.5;
 
   if(us != null) us.traverse(function (o) {
       if (o.isMesh) {
@@ -1235,22 +1203,22 @@ function animate() {
 
   if(skate){ skate.rotation.z += 0.001;
   skate.rotation.y += 0.0001;
-   skate.position.z = -4*Math.sin(t*0.001);
-   skate.position.y = -3*Math.sin(t*0.0005) - 1.5;
+   //skate.position.z = -4*Math.sin(t*0.001);
+   //skate.position.y = -3*Math.sin(t*0.0005) - 1.5;
   }
   if(vr){ vr.rotation.z += 0.001;
     vr.rotation.y += 0.0001;
     }
     if(synth){ synth.rotation.z += 0.001;
     synth.rotation.y += 0.0001;
-    synth.position.z = -0.4*Math.sin(t*0.001) ;
-     synth.position.y = -0.2*Math.sin(t*0.0005) + 1;
+    //synth.position.z = -0.4*Math.sin(t*0.001) ;
+     //synth.position.y = -0.2*Math.sin(t*0.0005) + 1;
     }
 
     if(phone){ phone.rotation.z += 0.001;
     phone.rotation.y += 0.0001;
-     phone.position.z = -0.2*Math.sin(t*0.001) + 0.3;
-     phone.position.y = -0.3*Math.sin(t*0.0005) - 0.5;
+     //phone.position.z = -0.2*Math.sin(t*0.001) + 0.3;
+     //phone.position.y = -0.3*Math.sin(t*0.0005) - 0.5;
     }
 
     if(vid){ vid.rotation.z += 0.001;
@@ -1271,14 +1239,14 @@ function animate() {
             plane.geometry.vertices[(rowSize+1)*j + i].z = maxHeight*Math.sin(j/rowSize*3 + t*.05);
             plane.geometry.vertices[(rowSize+1)*j + i].z += maxHeight/5*Math.sin(j/rowSize*12 + t*0.04);
             plane.geometry.vertices[(rowSize+1)*j + i].z += maxHeight/13*Math.cos(j/rowSize*18 + t*0.2);
-            
+
             plane.geometry.vertices[(rowSize+1)*j + i].z += maxHeight*Math.cos(i/rowSize*3 + t*.05);
             plane.geometry.vertices[(rowSize+1)*j + i].z += maxHeight/5*Math.cos(i/rowSize*12 + t*0.04);
             plane.geometry.vertices[(rowSize+1)*j + i].z += maxHeight/13*Math.sin(i/rowSize*18 + t*0.2);
         }
     }
     t+=0.55;
-    
+
     plane.geometry.verticesNeedUpdate = true;
 
 

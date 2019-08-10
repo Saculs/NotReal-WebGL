@@ -761,7 +761,7 @@ var tween = new TWEEN.Tween(vectorToAnimate).to(target, spee)
       camera.position.y = vectorToAnimate.y/* + mouseY * 0.5 */;
       camera.position.z = vectorToAnimate.z  /*- mouseX * 0.5 */;
     if(lookAt){
-        controls.target.set(vectorToAnimate.x + 2,vectorToAnimate.y, vectorToAnimate.z);
+        controls.target.set(vectorToAnimate.x + 2,vectorToAnimate.y-0.6, vectorToAnimate.z);
         //camera.lookAt({x:vectorToAnimate.x + 2,y: vectorToAnimate.y,z:vectorToAnimate.z});
       }
     });
@@ -787,7 +787,7 @@ tween.start();
 function initTrans(){
   video.play();
   var speed = 200;
-  animateMove(camera.position, {x:-4, y: 0.2, z: 0}, {x:0, y: -0.50, z: 0}, 1000);
+  animateMove(camera.position, {x:-4, y: 1, z: 0}, {x:0, y: 0, z: 0}, 1000);
   firstPhase = false;
   phase = '1';
   $('#player').hide();

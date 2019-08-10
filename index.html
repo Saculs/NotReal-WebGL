@@ -93,6 +93,23 @@ body {
     url("syneFont/syne-extra-webfont.ttf") format("truetype");
 }
 
+@font-face {
+    font-family: 'suisse_worksregular';
+    src: url('suisseworks-regular-webfont.woff2') format('woff2'),
+         url('suisseworks-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'suisse_worksitalic';
+    src: url('suisseworks-regularitalic-webfont.woff2') format('woff2'),
+         url('suisseworks-regularitalic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
 #player{
   visibility:visible;
 }
@@ -203,7 +220,8 @@ h2 {
 
 #theRest {
   color:black;
-  font-family: 'Syne';
+  font-family: 'suisse_worksregular';
+  font-weight: 100;
   white-space: initial;
 }
 
@@ -404,7 +422,7 @@ function init() {
   camera = new THREE.PerspectiveCamera(45, WIDTH / HEIGHT, 0.001, 20000);
   //camera.position.set(-3,6,0);
   //camera.position.set(-3,0,0);
-  camera.position.set(-400,0,0);
+  camera.position.set(-100,0,0);
   scene.add(camera);
 
   var example = document.getElementById('example');
@@ -438,8 +456,8 @@ function init() {
     var moveY = ((boxWidth/2) * rotatedX) / 45;
     console.log("moveX ", moveX);
     console.log("moveY ", moveY);
-    camera.position.z =  curCamPos.z - moveX * 0.003;
-    camera.position.y = curCamPos.y + moveY * 0.003;
+    camera.position.z =  curCamPos.z - moveX * 0.0015;
+    camera.position.y = curCamPos.y + moveY * 0.0015;
   });
 
 
@@ -649,11 +667,11 @@ default:
 function textSetter(ob){
   switch(ob) {
   case "tv":
-    $('h2').text('All Digital Content');
+    $('h2').text('Digital');
     $('#theRest').text("From Campaigns to Ads, we love selling your brand");
   break;
   case "flag":
-    $('h2').text('We make Prints');
+    $('h2').text('Prints');
     break;
   case "vr":
     $('h2').text('VR & AR');
@@ -664,11 +682,11 @@ function textSetter(ob){
     $('#theRest').text("Music's our passion.");
     break;
   case "phone":
-    $('h2').text('Mobile App Design & Creation');
+    $('h2').text('Apps');
     $('#theRest').text("Feel free to ask us for help with App design or production.");
     break;
   case "vid":
-      $('h2').text('We make videos');
+      $('h2').text('Videos');
       $('#theRest').text('We film');
       break;
   case "arch":
@@ -787,7 +805,7 @@ tween.start();
 function initTrans(){
   video.play();
   var speed = 200;
-  animateMove(camera.position, {x:-4, y: 1, z: 0}, {x:0, y: 0, z: 0}, 1000);
+  animateMove(camera.position, {x:-4, y: 1, z: 0}, {x:0, y: 0, z: 0}, 500);
   firstPhase = false;
   phase = '1';
   $('#player').hide();
@@ -856,13 +874,13 @@ function sscroll(e){
 console.log("scroll " + e);
 if(e < 0 && camera.position.x < 12){
   console.log("move 1");
-  animateMove(camera.position,{x: camera.position.x + 2 ,y: camera.position.y,z: camera.position.z},true,100);
+  animateMove(camera.position,{x: camera.position.x + 2 ,y: 1,z: camera.position.z},true,100);
   phase = '2';
 }
 else if(e > 0 && camera.position.x > -3){
   console.log("move 2");
 
-  animateMove(camera.position,{x: camera.position.x - 2 ,y: camera.position.y,z: camera.position.z},true,100);
+  animateMove(camera.position,{x: camera.position.x - 2 ,y: 1,z: camera.position.z},true,100);
   phase = '1';
 }
 

@@ -171,7 +171,7 @@ h1 {
 }
 }
 
-h3 {
+h2 {
     color:black;
 
     z-index:100;
@@ -257,7 +257,7 @@ h3 {
   <h1 id="example"></h1>
   <div id="container">
   <div id="cont">
-      <h3 id ="hh3">Lorem ipsum dolor sit amet.</h3>
+      <h2 id ="hh3">Lorem ipsum dolor sit amet.</h2>
       <div id="info">
         <p id="theRest">Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.</p>
     </div>
@@ -438,8 +438,8 @@ function init() {
     var moveY = ((boxWidth/2) * rotatedX) / 45;
     console.log("moveX ", moveX);
     console.log("moveY ", moveY);
-    camera.position.z =  curCamPos.z - moveX * 0.001;
-    camera.position.y = curCamPos.y + moveY * 0.001;
+    camera.position.z =  curCamPos.z - moveX * 0.003;
+    camera.position.y = curCamPos.y + moveY * 0.003;
   });
 
 
@@ -649,30 +649,30 @@ default:
 function textSetter(ob){
   switch(ob) {
   case "tv":
-    $('h3').text('All Digital Content');
+    $('h2').text('All Digital Content');
     $('#theRest').text("From Campaigns to Ads, we love selling your brand");
   break;
   case "flag":
-    $('h3').text('We make Prints');
+    $('h2').text('We make Prints');
     break;
   case "vr":
-    $('h3').text('VR & AR');
+    $('h2').text('VR & AR');
     $('#theRest').text("Virtual Reality is where we come from, we can also make this one Augmented.");
     break;
   case "synth":
-    $('h3').text('Music & Sound Design');
+    $('h2').text('Music & Sound Design');
     $('#theRest').text("Music's our passion.");
     break;
   case "phone":
-    $('h3').text('Mobile App Design & Creation');
+    $('h2').text('Mobile App Design & Creation');
     $('#theRest').text("Feel free to ask us for help with App design or production.");
     break;
   case "vid":
-      $('h3').text('We make videos');
+      $('h2').text('We make videos');
       $('#theRest').text('We film');
       break;
   case "arch":
-      $('h3').text('Architecture');
+      $('h2').text('Architecture');
       $('#theRest').text("From designs to architectural visualizations. Like buttering a bread with realtime rendering");
       break;
   default:
@@ -681,25 +681,25 @@ function textSetter(ob){
 if(phase=="2"){
 switch(ob){
   case "Cone":
-    $('h3').text('Kajetan Tvrdik');
+    $('h2').text('Kajetan Tvrdik');
     container.style.visibility = 'visible';
     break;
   case "Cube":
-    $('h3').text('Adams Soukup');
+    $('h2').text('Adams Soukup');
     $('#theRest').text('A visual artist');
     container.style.visibility = 'visible';
     break;
   case "Cone001":
-    $('h3').text('Sebastian Baalbaki');
+    $('h2').text('Sebastian Baalbaki');
     $('#theRest').text("I have always been inspired by the curiosity of our world, it’s nature and structures. Beliving in the power of Substance Suite I specialize in custom texture authoring. I also support artists, which need technical help with their projects.");
     container.style.visibility = 'visible';
     break;
   case "instance_3":
-    $('h3').text('Elias Bauer');
+    $('h2').text('Elias Bauer');
     container.style.visibility = 'visible';
     break;
   case "instance_4":
-    $('h3').text('Hugo Pascalie');
+    $('h2').text('Hugo Pascalie');
     container.style.visibility = 'visible';
     $("#my_image").show();
     if($("#my_image").attr('src').substring(0,1) != "hp")$("#my_image").attr("src","hp0.jpg");
@@ -711,15 +711,15 @@ switch(ob){
     },400);
     break;
   case "Cone002":
-    $('h3').text('Lucas Saidl');
+    $('h2').text('Lucas Saidl');
     container.style.visibility = 'visible';
     break;
   case "Sphere":
-    $('h3').text('Richard Janecek');
+    $('h2').text('Richard Janecek');
     container.style.visibility = 'visible';
     break;
   case "Cylinder":
-    $('h3').text('Matej Martinec');
+    $('h2').text('Matej Martinec');
     container.style.visibility = 'visible';
     break;
   default:
@@ -761,7 +761,7 @@ var tween = new TWEEN.Tween(vectorToAnimate).to(target, spee)
       camera.position.y = vectorToAnimate.y/* + mouseY * 0.5 */;
       camera.position.z = vectorToAnimate.z  /*- mouseX * 0.5 */;
     if(lookAt){
-        controls.target.set(vectorToAnimate.x + 2,vectorToAnimate.y-0.6, vectorToAnimate.z);
+        controls.target.set(vectorToAnimate.x + 2,vectorToAnimate.y-0.6 , vectorToAnimate.z);
         //camera.lookAt({x:vectorToAnimate.x + 2,y: vectorToAnimate.y,z:vectorToAnimate.z});
       }
     });
@@ -914,7 +914,7 @@ spacesphere.material.map.repeat.set( 5, 3);
     plane.rotation.y = getRadian(-90);
     plane.rotation.z = getRadian(90);
     if(ori){
-      plane.position.set(2.5,0.5,0);
+      plane.position.set(4,0.5,0);
     }else{
       plane.position.set(4,0,0);
     }
@@ -977,9 +977,9 @@ var textureCube = cubeloader.load( [
 
   var materiall = new THREE.MeshStandardMaterial({color: 0xffffff, roughness: 0.4,flatShading:true,/* envMap: textureCube,*/metalness: 1});
   var igAlpha = new THREE.TextureLoader().load("models/igAlphaa.png");
-  var igMat = new THREE.MeshPhongMaterial({color: 0xffffff, alphaMap: igAlpha,transparent: true, opacity: 0.8, side: THREE.DoubleSide});
+  var igMat = new THREE.MeshPhongMaterial({color: 0x000000, alphaMap: igAlpha,transparent: true, opacity: 0.8, side: THREE.DoubleSide});
   var fbAlpha = new THREE.TextureLoader().load("models/fbAlpha.png");
-  var fbMat = new THREE.MeshPhongMaterial({color: 0xffffff, alphaMap: fbAlpha,transparent: true, opacity: 0.8, side: THREE.DoubleSide});
+  var fbMat = new THREE.MeshPhongMaterial({color: 0x000000, alphaMap: fbAlpha,transparent: true, opacity: 0.8, side: THREE.DoubleSide});
 
 
   var usloader = new THREE.GLTFLoader();

@@ -463,8 +463,10 @@ function init() {
     var moveY = ((boxWidth/2) * rotatedX) / 45;
     console.log("moveX ", moveX);
     console.log("moveY ", moveY);
+    if(curCamPos){
     camera.position.z = lerp(camera.position.z,(curCamPos.z - moveX * 0.0015),0.1);
-  camera.position.y = lerp(camera.position.y,(curCamPos.y + moveY *0.0015),0.1);
+    camera.position.y = lerp(camera.position.y,(curCamPos.y + moveY *0.0015),0.1);
+    }
   });
 
 
@@ -544,7 +546,7 @@ camera.position.x += ( mouseX - camera.position.x ) * 0.05;
     camera.position.y += ( - mouseY - camera.position.y ) * 0.05;
     */
 //console.log( mouseX, mouseY);
-if(ori == false){
+if(ori == false && curCamPos != null){
   //camera.position.z =  curCamPos.z - mouseX * 0.5;
   //camera.position.y = curCamPos.y + mouseY * 0.5;
   camera.position.z = lerp(camera.position.z,(curCamPos.z - mouseX * 0.5),0.1);
@@ -946,7 +948,7 @@ function hScroll(e){
 window.addEventListener("wheel", function(e) {
 var e = window.event || e; // old IE support
 var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
-scroll(delta);
+sscroll(delta);
 
 //console.log("scrolled "+ delta.toString());
 //camera.position.y += event.wheelDeltaY * 0.1;;

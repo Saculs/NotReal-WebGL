@@ -359,6 +359,12 @@ var controls;
 
 var clickable = ["vr","phone","tv","flag","synth","skate", "vide", "arch"];
 
+var usList = ["AElias", "ALucas",  "Cone", "Sphere" , "Cone001", "Cube", "Cylinder", "instance"];
+
+var toolsList = ["Unreal Engine", "Houdini", "Blender", "Unity" , "Substance Painter", "Substance Designer", "Quixel" ,"Tensorflow", "Keras"];
+
+var fellasList = ["Selam X", "2Realistic", "Brainz", "Cinesco"];
+
 var firstPhase = true;
 
 //var tween;
@@ -563,11 +569,11 @@ var intersects = raycaster.intersectObjects( scene.children, true );
 var canvas = document.body.getElementsByTagName('canvas')[0];
 if(intersects.length > 0){
   console.log(intersects[0].object.name);
-var namee = intersects[0].object.name;
+  var namee = intersects[0].object.name;
 }
 if (intersects.length > 0 && clickable.includes(namee)) {
 
-  if(phase == '2' && (namee == "Cone" || namee =="Sphere" || namee == "Cone001" || namee =="Cube" || namee == "Cone002" || namee =="Cylinder" || namee == "instance_3" || namee =="instance_4")){
+  if(phase == '2' && (namee == "Cone" || namee =="Sphere" || namee == "Cone001" || namee =="Cube" || namee == "ALucas" || namee =="Cylinder" || namee == "AElias" || namee =="instance")){
     textSetter(namee);
   } else if(phase =="2"){
     container.style.visibility = 'hidden';
@@ -696,7 +702,7 @@ function textSetter(ob){
       container.style.visibility = 'visible';
       break;
     case "synth":
-      $('h2').text('Music & Sound Design');
+      $('h2').text('Sound Design');
       $('#theRest').text("Music's our passion.");
       container.style.visibility = 'visible';
       break;
@@ -742,15 +748,15 @@ function textSetter(ob){
       $('#theRest').text("I have always been inspired by the curiosity of our world, it’s nature and structures. Beliving in the power of Substance Suite I specialize in custom texture authoring. I also support artists, which need technical help with their projects.");
       container.style.visibility = 'visible';
       break;
-    case "instance_3":
-      $('h2').text('Elias Bauer');
+    case "AElias":
+      changeTexts("Elias Bauer", "I specialize mainly in VR/AR development and realtime digital cinematography in Unreal engine. My tools are Unreal, Blender, Substance Suite, Houdini, C++, Python and more. I am striving to be a bridge between art and tech on multiple levels, to strike a balance between the artistic and the artisanal.")
       container.style.visibility = 'visible';
       break;
-    case "instance_4":
+    case "instance":
       $('h2').text('Hugo Pascalie');
-      $('#theRest').text('Artistic director based in Paris graduated from ESAG Penninghen. Ambitious and passionate about typography, graphic design, motion and digital solutions, my work is always closely tied to my passion for music and driven by a desire to surprise. Internship at: Maison Sagan, Maison Nue, Selam-X');
+      $('#theRest').text('Artistic director based in Paris graduated from ESAG Penninghen. Ambitious and passionate about typography, graphic design, motion and digital solutions, my work is always closely tied to my passion for music and driven by a desire to surprise. Previuos Internships at: Maison Sagan, Maison Nue, Selam-X');
       container.style.visibility = 'visible';
-      $("#my_image").show();
+      /*$("#my_image").show();
       if($("#my_image").attr('src').substring(0,1) != "hp")$("#my_image").attr("src","hp0.jpg");
       var i = 0;
 
@@ -758,8 +764,10 @@ function textSetter(ob){
         i++;
         $("#my_image").attr("src","hp"+i.toString()+".jpg");
       },400);
+
+      */
       break;
-    case "Cone002":
+    case "ALucas":
       $('h2').text('Lucas Saidl');
       container.style.visibility = 'visible';
       break;
@@ -774,6 +782,32 @@ function textSetter(ob){
     default:
       // code block
   }
+  } else if(phase == "3"){
+    switch(ob){
+      case "Unreal Engine":
+        changeTexts("Unreal", "Realtime");
+        break;
+      case "Houdini":
+        changeTexts(ob, "Procedural");
+        break;
+      case "Blender":
+        changeTexts(ob, "Classic");
+        break;  
+      default:
+    }
+  } else if(phase == "4"){
+    switch(ob){
+      case "Selam X":
+        changeTexts(ob, "Berlin");
+        break;
+      case "2realistic":
+        changeTexts(ob, "Prague");
+        break;
+      case "Blender":
+        changeTexts(ob, "Classic");
+        break;  
+      default:
+    }
   }
 
 }
@@ -807,7 +841,7 @@ var spee = speed ? speed : 4000;
 var tween = new TWEEN.Tween(vectorToAnimate).to(target, spee)
     .easing(TWEEN.Easing.Quadratic.Out)
     .onComplete(function(){
-      console.log('tween done');
+      //console.log('tween done');
       curCamPos = target;
     });
     tween.onUpdate(function(){
@@ -902,25 +936,43 @@ function scroll(e){
 
 }
 
+function textToSet() {
+  switch(phase){
+    case "1":
+      return clickable[curObjectIndex];
+      break;
+    case "2":
+      return usList[curObjectIndex];
+      break;
+    case "3":
+      return toolsList[curObjectIndex];
+      break;
+    case "4":
+      return fellasList[curObjectIndex];
+      break;
+    default:
+  }
+}
+
 function sscroll(e){
   if(firstPhase == true){
     initTrans();
     return;
   }
 
-  console.log("scroll " + e);
+  console.log("scroll " + e + " curIndex " + curObjectIndex.toString());
   if(e < 0 && camera.position.x < (7 * dist - 4) ){
     console.log("move 1");
-    animateMove(camera.position,{x: camera.position.x + dist ,y: 0.7,z: curCamPos.z},true,100);
+    animateMove(camera.position,{x: camera.position.x + dist, y: 0.7,z: curCamPos.z},true,100);
     curObjectIndex++;
-    textSetter(clickable[curObjectIndex]);
+    textSetter(textToSet());
     //phase = '2';
   }
   else if(e > 0 && camera.position.x > -3){
     console.log("move 2");
     animateMove(camera.position,{x: camera.position.x - dist ,y: 0.7,z:  curCamPos.z},true,100);
     curObjectIndex--;
-    textSetter(clickable[curObjectIndex]);
+    textSetter(textToSet());
    // phase = '1';
   }
 }
@@ -929,19 +981,19 @@ function hScroll(e){
     initTrans();
     return;
   }
-
+  curObjectIndex = 0;
   console.log("scroll " + e);
-  if(e < 0 && phase == '2'){
+  if(e < 0 && parseFloat(phase) > 1){
     console.log("move 1");
     animateMove(camera.position,{x: -4  ,y: 0.7,z: curCamPos.z - 6},true,200);
-    textSetter('vr');
-    phase = '1';
+    phase = (parseInt(phase) - 1).toString();
+    textSetter(textToSet());
   }
-  else if(e > 0 && phase == '1'){
+  else if(e > 0 && parseFloat(phase) < 4){
     console.log("move 2");
-    textSetter('us');
+    phase = (parseInt(phase) + 1).toString();
+    textSetter(textToSet());
     animateMove(camera.position,{x: -4 ,y: 0.7,z:  curCamPos.z + 6},true,200);
-    phase = '2';
   }
 }
 
@@ -989,7 +1041,7 @@ spacesphere.material.map.repeat.set( 5, 3);
 
 
     var envMap = new THREE.TextureLoader().load('models/envMap.jpg');
-    let vlajkaMat =  new THREE.MeshLambertMaterial({ map : envMap});
+    let vlajkaMat =  new THREE.MeshLambertMaterial({ map : envMap });
     plane = new THREE.Mesh(new THREE.PlaneGeometry(150, 200, rowSize, rowSize), vlajkaMat);
     plane.scale.set(0.004,0.004,0.004);
     plane.rotation.y = getRadian(-90);
@@ -1013,8 +1065,59 @@ spacesphere.material.map.repeat.set( 5, 3);
 
     }
     function getRadian(x) {
-    return (Math.PI*x)/180;
-}
+      return (Math.PI*x)/180;
+    }
+
+    function initTools() {
+      var mats = [];
+      var ueTex = new THREE.TextureLoader().load("models/ue.png");
+      var ueMat = new THREE.MeshPhongMaterial({color: 0x000000, map: ueTex,transparent: true, opacity: 1, side: THREE.DoubleSide});
+      mats.push(ueMat);
+      var huTex = new THREE.TextureLoader().load("models/houdini.png");
+      var huMat = new THREE.MeshPhongMaterial({ map: huTex,transparent: true, opacity: 1, side: THREE.DoubleSide});
+      mats.push(huMat);
+      var blTex = new THREE.TextureLoader().load("models/blender.png");
+      var blMat = new THREE.MeshPhongMaterial({ map: blTex,transparent: true, opacity: 1, side: THREE.DoubleSide});
+      mats.push(blMat);
+      var unTex = new THREE.TextureLoader().load("models/unity.png");
+      var unMat = new THREE.MeshPhongMaterial({ map: unTex,transparent: true, opacity: 1, side: THREE.DoubleSide});
+      mats.push(unMat);
+      var paTex = new THREE.TextureLoader().load("models/painter.png");
+      var paMat = new THREE.MeshPhongMaterial({ map: paTex,transparent: true, opacity: 1, side: THREE.DoubleSide});
+      mats.push(paMat);
+      var i;
+      for (i = 0; i < toolsList.length; i++) { 
+        var p = new THREE.Mesh(new THREE.PlaneGeometry( 1, 1), vlajkaMat);
+        p.position.set(-0.6 + (i * dist), 0.5, 12);
+        p.rotation.y = getRadian(-90);
+        if(i < (mats.length)) p.material =mats[i] ;
+        p.name = toolsList[i];
+        scene.add(p);
+      }
+    }
+
+    initTools();
+
+    function initFellas() {
+      var femats = [];
+      var seTex = new THREE.TextureLoader().load("models/selam.jpg");
+      var seMat = new THREE.MeshPhongMaterial({color: 0x000000, alphaMap: seTex,transparent: true, opacity: 1, side: THREE.DoubleSide});
+      femats.push(seMat);
+      var trTex = new THREE.TextureLoader().load("models/brainz.jpg");
+      var trMat = new THREE.MeshPhongMaterial({color: 0x000000, alphaMap: trTex,transparent: true, opacity: 1, side: THREE.DoubleSide});
+      femats.push(trMat);
+      var i;
+      for (i = 0; i < fellasList.length; i++) { 
+        var p = new THREE.Mesh(new THREE.PlaneGeometry( 1, 1), vlajkaMat);
+        p.position.set(-0.6 + (i * dist), 0.5, 18);
+        p.rotation.y = getRadian(-90);
+        if(i < (femats.length)) p.material = femats[i] ;
+        p.name = fellasList[i];
+        scene.add(p);
+      }
+    }
+
+   initFellas();
 
   // Set the background color of the scene.
   //renderer.setClearColorHex(0x333F47, 1);
@@ -1055,31 +1158,30 @@ var textureCube = cubeloader.load( [
 
 
   var usloader = new THREE.GLTFLoader();
-  usloader.load( "models/ussseee.glb", function(gltf){
+  usloader.load( "models/buuss.glb", function(gltf){
     us = gltf.scene;
-    if(ori)us.rotation.x = 92;
-    //us.rotation.z = 30.4;
+    if(ori)us.rotation.x = 91;
+    //us.rotation.z = 10;
     //us.rotation.y = -95;
     if(ori){
-      us.scale.set(0.3,0.3,0.3);
+      //us.scale.set(0.3,0.3,0.3);
     }
     else
     {
       us.scale.set(0.7,0.7,0.7);
     }
-    us.position.set(1,ori ? 0: -0.8,6.1);
+    us.position.set(0,ori ? 0.7: -0.8,6.1);
     //us.name="use";
     us.visible = true;
     //us.callback = function() { console.log("Hello world!");};
-    //var i = 0;
     us.traverse(function (o) {
       if (o.isMesh) {
         clickable.push(o.name.toString());
+        //usList.push(o.name.toString());
         if(o.name == "Plane") o.material = igMat;
         if(o.name == "Plane001") o.material = fbMat;
         o.material.roughness = 0.6;
-        //o.position.set(-1.6 + (i * dist), 0.8, 0);
-        //i++;
+        o.position.set(-0.6 + (usList.indexOf(o.name) * dist), 0.8, 0);
       }
     });
     scene.add(us);

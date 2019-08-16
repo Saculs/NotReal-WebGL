@@ -342,6 +342,9 @@ var dist = 10;
 var curObjectIndex = 0;
 var moving;
 
+var moveX = 0;
+var moveY = 0;
+
 var gizmo;
 var tv;
 var skate;
@@ -471,8 +474,8 @@ function init() {
     boxWidth = WIDTH,
     boxHeight = HEIGHT;
 
-    var moveX = ((boxWidth/2) * rotatedY) / 45;
-    var moveY = ((boxWidth/2) * rotatedX) / 45;
+    moveX = ((boxWidth/2) * rotatedY) / 45;
+    moveY = ((boxWidth/2) * rotatedX) / 45;
     console.log("moveX ", moveX);
     console.log("moveY ", moveY);
     if(curCamPos){
@@ -607,7 +610,7 @@ if (intersects.length > 0 && clickable.includes(namee)) {
   }
 if(namee == "tv"){
   tv.rotation.x += 0.005;
-  tv.scale.set(0.01,0.01,0.01);
+ // tv.scale.set(0.01,0.01,0.01);
 }
 else if(namee == "skate" ){
   skate.rotation.x += 0.005;
@@ -884,6 +887,8 @@ var tween = new TWEEN.Tween(vectorToAnimate).to(target, spee)
       moving = false;
       //console.log('tween done');
       curCamPos = target;
+      camera.position.z = lerp(camera.position.z,(curCamPos.z - moveX * 0.0015),0.1);
+    camera.position.y = lerp(camera.position.y,(curCamPos.y + moveY *0.0015),0.1);
     });
     tween.onUpdate(function(){
       camera.position.x = vectorToAnimate.x;

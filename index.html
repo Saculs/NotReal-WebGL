@@ -1077,7 +1077,7 @@ function positioner(ob) {
 });
 
 
-    var envMap = new THREE.TextureLoader().load('models/envMap.jpg');
+    var envMap = new THREE.TextureLoader().load('https://pro2-bar.myportfolio.com/v1/assets/6559f30ad384117b07383dedf2ec16bd/489dc8d5-c01f-4528-bd67-146e292582f6.jpg');
     let vlajkaMat =  new THREE.MeshLambertMaterial({ map : envMap });
     plane = new THREE.Mesh(new THREE.PlaneGeometry(150, 200, rowSize, rowSize), vlajkaMat);
     plane.scale.set(0.005,0.005,0.005);

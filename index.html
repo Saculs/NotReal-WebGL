@@ -477,7 +477,8 @@ function init() {
 
 
   document.addEventListener('touchstart', handleTouchStart, false);
-document.addEventListener('touchmove', handleTouchMove, false);
+  document.addEventListener('touchmove', handleTouchMove, false);
+  document.addEventListener("touchend", handleTouchEnd, false);
 
   var xDown = null;
 var yDown = null;
@@ -489,9 +490,14 @@ function getTouches(evt) {
 
 function handleTouchStart(evt) {
     const firstTouch = getTouches(evt)[0];
-    xDown = firstTouch.clientX;
-    yDown = firstTouch.clientY;
+    xDown = firstTouch.clientX - (window.innerWidth / 2);
+    yDown = firstTouch.clientY - (window.innerHeight / 2);
 };
+
+function handleTouchEnd() {
+  xDown = null;
+  yDown = null;
+}
 
 function handleTouchMove(evt) {
   //e.preventDefault();
@@ -499,34 +505,47 @@ function handleTouchMove(evt) {
         return;
     }
 
-    var xUp = evt.touches[0].clientX;
-    var yUp = evt.touches[0].clientY;
+    var xUp = evt.touches[0].clientX - (window.innerWidth / 2);
+    var yUp = evt.touches[0].clientY - (window.innerHeight / 2);
 
-    var xDiff = xDown - xUp;
-    var yDiff = yDown - yUp;
+    console.log(xUp,yUp);
+
+    var xDiff = xDown - xUp;// (window.innerWidth / 2)
+    var yDiff = yDown - yUp;// (window.innerHeight / 2)
+
+    xDiff = xDiff != 0 ? xDiff /  (window.innerWidth / 2) : xDiff;
+    yDiff = yDiff != 0 ? yDiff /  (window.innerHeight / 2) : yDiff;
+
+    console.log(xDiff,yDiff);
+
+   
+    
+    controls.target.set(camera.position.x + 2,camera.position.y-0.3 /*0.6*/, camera.position.z);
 
     if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
+      camera.position.z = lerp(camera.position.z,(curCamPos.z - xDiff * 10),0.1);
         if ( xDiff > 0 ) {
             /* left swipe */
-            hScroll(1);
+            //hScroll(1);
         } else {
             /* right swipe */
-            hScroll(-1);
+            //hScroll(-1);
         }
     } else {
+      camera.position.x = lerp(camera.position.x,(curCamPos.y + yDiff * 10),0.1);
         if ( yDiff > 0 ) {
             /* up swipe */
             //scroll(1);
-            sscroll(1);
+            //sscroll(1);
         } else {
             /* down swipe */
             //scroll(-1);
-            sscroll(-1);
+            //sscroll(-1);
         }
     }
     /* reset values */
-    xDown = null;
-    yDown = null;
+    //xDown = null;
+    //yDown = null;
 };
 
 
@@ -839,7 +858,7 @@ curCamPos = target;
 // create the tween
 var spee = speed ? speed : 4000;
 var tween = new TWEEN.Tween(vectorToAnimate).to(target, spee)
-    .easing(TWEEN.Easing.Quadratic.Out)
+    .easing(TWEEN.Easing.Quintic.InOut)
     .onComplete(function(){
       //console.log('tween done');
       curCamPos = target;
@@ -963,14 +982,14 @@ function sscroll(e){
   console.log("scroll " + e + " curIndex " + curObjectIndex.toString());
   if(e < 0 && camera.position.x < (7 * dist - 4) ){
     console.log("move 1");
-    animateMove(camera.position,{x: camera.position.x + dist, y: 0.7,z: curCamPos.z},true,100);
+    animateMove(camera.position,{x: camera.position.x + dist, y: 0.7,z: curCamPos.z},true,200);
     curObjectIndex++;
     textSetter(textToSet());
     //phase = '2';
   }
   else if(e > 0 && camera.position.x > -3){
     console.log("move 2");
-    animateMove(camera.position,{x: camera.position.x - dist ,y: 0.7,z:  curCamPos.z},true,100);
+    animateMove(camera.position,{x: camera.position.x - dist ,y: 0.7,z:  curCamPos.z},true,200);
     curObjectIndex--;
     textSetter(textToSet());
    // phase = '1';
@@ -985,7 +1004,7 @@ function hScroll(e){
   console.log("scroll " + e);
   if(e < 0 && parseFloat(phase) > 1){
     console.log("move 1");
-    animateMove(camera.position,{x: -4  ,y: 0.7,z: curCamPos.z - 6},true,200);
+    animateMove(camera.position,{x: -4  ,y: 0.7,z: curCamPos.z - 6},true,400);
     phase = (parseInt(phase) - 1).toString();
     textSetter(textToSet());
   }
@@ -993,7 +1012,7 @@ function hScroll(e){
     console.log("move 2");
     phase = (parseInt(phase) + 1).toString();
     textSetter(textToSet());
-    animateMove(camera.position,{x: -4 ,y: 0.7,z:  curCamPos.z + 6},true,200);
+    animateMove(camera.position,{x: -4 ,y: 0.7,z:  curCamPos.z + 6},true,400);
   }
 }
 
@@ -1103,9 +1122,12 @@ spacesphere.material.map.repeat.set( 5, 3);
       var seTex = new THREE.TextureLoader().load("models/selam.jpg");
       var seMat = new THREE.MeshPhongMaterial({color: 0x000000, alphaMap: seTex,transparent: true, opacity: 1, side: THREE.DoubleSide});
       femats.push(seMat);
-      var trTex = new THREE.TextureLoader().load("models/brainz.jpg");
-      var trMat = new THREE.MeshPhongMaterial({color: 0x000000, alphaMap: trTex,transparent: true, opacity: 1, side: THREE.DoubleSide});
+      var trTex = new THREE.TextureLoader().load("models/2realistic.png");
+      var trMat = new THREE.MeshPhongMaterial({map: trTex,transparent: true, opacity: 1, side: THREE.DoubleSide});
       femats.push(trMat);
+      var brTex = new THREE.TextureLoader().load("models/brainz.jpg");
+      var brMat = new THREE.MeshPhongMaterial({color: 0x000000, alphaMap: brTex,transparent: true, opacity: 1, side: THREE.DoubleSide});
+      femats.push(brMat);
       var i;
       for (i = 0; i < fellasList.length; i++) { 
         var p = new THREE.Mesh(new THREE.PlaneGeometry( 1, 1), vlajkaMat);
@@ -1325,7 +1347,7 @@ var textureCube = cubeloader.load( [
   });
 
   var phoneloader = new THREE.GLTFLoader();
-  phoneloader.load( "models/pphonee.glb", function(gltf){
+  phoneloader.load( "models/phone.glb", function(gltf){
     //var material = new THREE.MeshLambertMaterial({color: 0x55B663});
     //mesh = new THREE.Mesh(geometry, material);
     phone = gltf.scene;

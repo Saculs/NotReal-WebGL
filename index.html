@@ -170,7 +170,6 @@ h1 {
     font-family: 'Syne';
     font-weight: 100;
     font-size: 19px;
-    letter-spacing: 20px;
     text-transform: uppercase;
 }
 }
@@ -187,7 +186,6 @@ h1 {
     /*transform: translate(0,-100%); */
     font-family: 'Syne';
     font-weight: 100;
-    letter-spacing: 40px;
     text-transform: uppercase;
     font-size: 24px;
 }
@@ -195,7 +193,7 @@ h1 {
 
 h2 {
     color:black;
-
+    text-transform: uppercase;
     z-index:100;
    /* transform: translate(0,-100%); */
     font-family: 'favorit_stdbold_extended';
@@ -203,8 +201,10 @@ h2 {
     position: absolute;
     left: 13px;
     top: 0px;
-    font-size: 200%;
-
+    font-size: 240%;
+    width: 65%;
+    line-height: 0.9em;
+    margin-top: 0.4em;
 }
 
 #info {
@@ -222,13 +222,15 @@ h2 {
   width: 100%;
   height: 100%;
   visibility: hidden;
+  line-height: 1.8em;
 }
 
 #theRest {
   color:black;
   font-family: 'favorit_stdregular_extended';
-  font-weight: 100;
+  font-weight: 800;
   white-space: initial;
+  line-height: 1.15em;
 }
 
 #my_image {
@@ -281,7 +283,7 @@ h2 {
   <!--<h1 id="example"></h1>-->
   <div id="container">
   <div id="cont">
-      <h2 id ="hh3">Lorem ipsum dolor sit amet.</h2>
+      <h2>Lorem ipsum dolor sit amet.</h2>
       <div id="info">
         <p id="theRest">Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.</p>
     </div>
@@ -338,7 +340,7 @@ var scene, camera, renderer;
 var dist = 10;
 var curObjectIndex = 0;
 
-var logo;
+var gizmo;
 var tv;
 var skate;
 var plane;
@@ -363,7 +365,7 @@ var clickable = ["vr","phone","tv","flag","synth","skate", "vide", "arch"];
 
 var usList = ["AElias", "ALucas",  "Cone", "Sphere" , "Cone001", "Cube", "Cylinder", "instance"];
 
-var toolsList = ["Unreal Engine", "Houdini", "Blender", "Unity" , "Substance Painter", "Substance Designer", "Quixel" ,"Tensorflow", "Keras"];
+var toolsList = ["Unreal Engine", "Houdini", "Blender", "Unity" , "Painter", "Designer", "Quixel" ,"Tensorflow"];
 
 var fellasList = ["Selam X", "2Realistic", "Brainz", "Cinesco"];
 
@@ -756,21 +758,21 @@ function textSetter(ob){
   if(phase=="2"){
   switch(ob){
     case "Cone":
-      $('h2').text('Kajetan Tvrdik');
+      $('h2').text('KAJETAN trvdik');
       container.style.visibility = 'visible';
       break;
     case "Cube":
-      $('h2').text('Adams Soukup');
-      $('#theRest').text('A young Artist studying at the Academy of Fine Arts in Prague. In general he is focues on visualizations and image materials used either in 3D or 2D. He mainly works in the abstract rovině ale i realistyckými vizualizacemi a to jak v 3d tak i realnem světě..');
+      $('h2').text('ADAMS SOUKUP');
+      $('#theRest').text('A young Artist studying at the Academy of Fine Arts in Prague. In general he is focues on visualizations and image materials used either in 3D or 2D. He mainly works in the abstractline but even relistic visualizations and that in 3D or the real World');
       container.style.visibility = 'visible';
       break;
     case "Cone001":
-      $('h2').text('Sebastian Baalbaki');
+      $('h2').text('SEBASTIAN BAALBAKI');
       $('#theRest').text("I have always been inspired by the curiosity of our world, it’s nature and structures. Beliving in the power of Substance Suite I specialize in custom texture authoring. I also support artists, which need technical help with their projects.");
       container.style.visibility = 'visible';
       break;
     case "AElias":
-      changeTexts("Elias Bauer", "I specialize mainly in VR/AR development and realtime digital cinematography in Unreal engine. My tools are Unreal, Blender, Substance Suite, Houdini, C++, Python and more. I am striving to be a bridge between art and tech on multiple levels, to strike a balance between the artistic and the artisanal.")
+      changeTexts("ELIAS BAUER", "I specialize mainly in VR/AR development and realtime digital cinematography in Unreal engine. My tools are Unreal, Blender, Substance Suite, Houdini, C++, Python and more. I am striving to be a bridge between art and tech on multiple levels, to strike a balance between the artistic and the artisanal.")
       container.style.visibility = 'visible';
       break;
     case "instance":
@@ -789,15 +791,15 @@ function textSetter(ob){
       */
       break;
     case "ALucas":
-      $('h2').text('Lucas Saidl');
+      $('h2').text('LUCAS SAIDL');
       container.style.visibility = 'visible';
       break;
     case "Sphere":
-      $('h2').text('Richard Janecek');
+      $('h2').text('RICHARD JANECEK');
       container.style.visibility = 'visible';
       break;
     case "Cylinder":
-      $('h2').text('Matej Martinec');
+      $('h2').text('MATEJ MARTINEC');
       container.style.visibility = 'visible';
       break;
     default:
@@ -806,27 +808,45 @@ function textSetter(ob){
   } else if(phase == "3"){
     switch(ob){
       case "Unreal Engine":
-        changeTexts("Unreal", "Realtime");
+        changeTexts("UNREAL", "Realtime");
         break;
       case "Houdini":
-        changeTexts(ob, "Procedural");
+        changeTexts(ob, "Procedural Modelling and VFX");
         break;
       case "Blender":
         changeTexts(ob, "Classic");
-        break;  
+        break;
+      case "Unity":
+        changeTexts(ob, "Sometimes helpfull for less robust projects");
+        break;
+      case "Painter":
+        changeTexts(ob, "Material Texturing");
+        break;
+      case "Designer":
+        changeTexts(ob, "Procedurally generated Materials");
+        break;
+      case "Quixel":
+        changeTexts(ob, "Optimized High-Quality 3D Scans");
+        break;
+      case "Tensorflow":
+        changeTexts('Tensor-flow', "An end-to-end open source machine learning platform");
+        break;
       default:
     }
   } else if(phase == "4"){
     switch(ob){
       case "Selam X":
-        changeTexts(ob, "Berlin");
+        changeTexts("SELAM X", "Berlin");
         break;
-      case "2realistic":
+      case "2Realistic":
         changeTexts(ob, "Prague");
         break;
-      case "Blender":
-        changeTexts(ob, "Classic");
-        break;  
+      case "Brainz":
+        changeTexts("BRAINZ", "A creative agency providing complex virtual reality and augmented reality services.");
+        break;
+      case "Cinesco":
+        changeTexts("CINESCO", "A creative studio focused on delivering top-tier solutions for TV commercials, VR and entertainment related content using the latest trends and technologies in motion design.");
+        break; 
       default:
     }
   }
@@ -869,6 +889,7 @@ var tween = new TWEEN.Tween(vectorToAnimate).to(target, spee)
       camera.position.x = vectorToAnimate.x;
       camera.position.y = vectorToAnimate.y/* + mouseY * 0.5 */;
       camera.position.z = vectorToAnimate.z  /*- mouseX * 0.5 */;
+      gizmo.position.set(camera.position.x + 0.2, camera.position.y + 0.038 ,camera.position.z + 0.039);
     if(lookAt){
         controls.target.set(vectorToAnimate.x + 2,vectorToAnimate.y-0.3 /*0.6*/, vectorToAnimate.z);
         //camera.lookAt({x:vectorToAnimate.x + 2,y: vectorToAnimate.y,z:vectorToAnimate.z});
@@ -1106,6 +1127,16 @@ spacesphere.material.map.repeat.set( 5, 3);
       var paTex = new THREE.TextureLoader().load("models/painter.png");
       var paMat = new THREE.MeshPhongMaterial({ map: paTex,transparent: true, opacity: 1, side: THREE.DoubleSide});
       mats.push(paMat);
+      var dsTex = new THREE.TextureLoader().load("models/designerr.png");
+      var dsMat = new THREE.MeshPhongMaterial({map: dsTex,transparent: true, opacity: 1, side: THREE.DoubleSide});
+      mats.push(dsMat);
+      var qiTex = new THREE.TextureLoader().load("models/quixel.png");
+      var qiMat = new THREE.MeshPhongMaterial({ map: qiTex,transparent: true, opacity: 1, side: THREE.DoubleSide});
+      mats.push(qiMat);
+      var tfTex = new THREE.TextureLoader().load("models/tensorflow.png");
+      var tfMat = new THREE.MeshPhongMaterial({ map: tfTex,transparent: true, opacity: 1, side: THREE.DoubleSide});
+      mats.push(tfMat);
+
       var i;
       for (i = 0; i < toolsList.length; i++) { 
         var p = new THREE.Mesh(new THREE.PlaneGeometry( 1, 1), vlajkaMat);
@@ -1130,6 +1161,9 @@ spacesphere.material.map.repeat.set( 5, 3);
       var brTex = new THREE.TextureLoader().load("models/brainz.jpg");
       var brMat = new THREE.MeshPhongMaterial({color: 0x000000, alphaMap: brTex,transparent: true, opacity: 1, side: THREE.DoubleSide});
       femats.push(brMat);
+      var cnTex = new THREE.TextureLoader().load("models/cinescoo.png");
+      var cnMat = new THREE.MeshPhongMaterial({map: cnTex,transparent: true, opacity: 1, side: THREE.DoubleSide});
+      femats.push(cnMat);
       var i;
       for (i = 0; i < fellasList.length; i++) { 
         var p = new THREE.Mesh(new THREE.PlaneGeometry( 1, 1), vlajkaMat);
@@ -1181,7 +1215,28 @@ var textureCube = cubeloader.load( [
   var fbMat = new THREE.MeshPhongMaterial({color: 0x000000, alphaMap: fbAlpha,transparent: true, opacity: 0.8, side: THREE.DoubleSide});
 
   var videoMat = new THREE.MeshLambertMaterial({ map : videoTexture});
+  
+  var gizmoloader = new THREE.GLTFLoader();
+ gizmoloader.load( "models/gizmoo.glb", function(gltf){
+    gizmo = gltf.scene;
+    gizmo.rotation.y = getRadian(-90);
+    if(ori){
+      gizmo.scale.set(0.004,0.004,0.004);
+    }
+    else
+    {
+      gizmo.scale.set(0.7,0.7,0.7);
+    }
+    gizmo.position.set(-3.8,0.739,0.04);
+   
+    console.log('gizmooo');
 
+    gizmo.traverse(function (o) {
+      if (o.isMesh) {
+      }
+    });
+    scene.add(gizmo);
+  });
 
   var usloader = new THREE.GLTFLoader();
   usloader.load( "models/buuss.glb", function(gltf){
@@ -1199,7 +1254,6 @@ var textureCube = cubeloader.load( [
     us.position.set(0,ori ? 0.7: -0.8,6.1);
     //us.name="use";
     us.visible = true;
-    //us.callback = function() { console.log("Hello world!");};
     us.traverse(function (o) {
       if (o.isMesh) {
         clickable.push(o.name.toString());
@@ -1207,7 +1261,7 @@ var textureCube = cubeloader.load( [
         if(o.name == "Plane") o.material = igMat;
         if(o.name == "Plane001") o.material = fbMat;
         o.material.roughness = 0.6;
-        o.position.set(-0.6 + (usList.indexOf(o.name) * dist), 0.8, 0);
+        o.position.set(+1.6 + (usList.indexOf(o.name) * dist), 0.2, -0.1);
       }
     });
     scene.add(us);
@@ -1329,26 +1383,7 @@ var textureCube = cubeloader.load( [
     scene.add(vr);
   });
 
-  var camloader = new THREE.GLTFLoader();
-  camloader.load( "models/what2.glb", function(gltf){
-    //var material = new THREE.MeshLambertMaterial({color: 0x55B663});
-    //mesh = new THREE.Mesh(geometry, material);
-    cam = gltf.scene;
-    cam.rotation.x = 90;
-    cam.rotation.z = 30.4;
-    cam.rotation.y = 158.4;
-    cam.scale.set(0.0003,0.0003,0.0003);
-    //cam.position.set(-1,0,2.5);
-    cam.name="not";
-    cam.visible = true;
-    //synth.callback = function() { console.log("Hello world!");};
-    cam.traverse(function (o) {
-      if (o.isMesh) {
-        o.name = "not";
-      }
-    });
-    scene.add(cam);
-  });
+  
 
   var phoneloader = new THREE.GLTFLoader();
   phoneloader.load( "models/phone.glb", function(gltf){
@@ -1423,6 +1458,10 @@ function animate() {
         o.rotation.z += 0.002;
       }
     });
+
+  if(gizmo){
+    gizmo.position.set(camera.position.x + 0.2, camera.position.y + 0.038 ,camera.position.z + 0.039);
+  }
 
   if(skate){ skate.rotation.z += 0.001;
   skate.rotation.y += 0.0001;

@@ -203,7 +203,7 @@ h2 {
     top: 0px;
     font-size: 240%;
     width: 65%;
-    line-height: 0.9em;
+    line-height: 0.8em;
     margin-top: 0.4em;
 }
 
@@ -229,6 +229,7 @@ h2 {
   color:black;
   font-family: 'favorit_stdregular_extended';
   font-weight: 600;
+  left: 13px;
   white-space: initial;
   line-height: 1.15em;
 }
@@ -339,6 +340,7 @@ var scene, camera, renderer;
 
 var dist = 10;
 var curObjectIndex = 0;
+var moving;
 
 var gizmo;
 var tv;
@@ -541,11 +543,11 @@ function handleTouchMove(evt) {
         if ( yDiff > 0 ) {
             /* up swipe */
             //scroll(1);
-            sscroll(1);
+            vscroll(1);
         } else {
             /* down swipe */
             //scroll(-1);
-            sscroll(-1);
+            vscroll(-1);
         }
     }
     /* reset values */
@@ -613,18 +615,15 @@ else if(namee == "skate" ){
 }
 else if(intersects[0].object.name == "flag"){
   plane.rotation.x += 0.005;
-  plane.scale.set(0.008,0.008,0.008);
+  //plane.scale.set(0.008,0.008,0.008);
 }
 canvas.style.cursor = "pointer";
 } else {
   console.log(phase);
-  if(phase == '2'){
-    container.style.visibility = 'hidden';
-    $("#my_image").hide();
-  }
+  
   //tv.scale.set(0.008,0.008,0.008);
   if(skate) skate.scale.set(0.3,0.3,0.3);
-  plane.scale.set(0.006,0.006,0.006);
+  //plane.scale.set(0.006,0.006,0.006);
   canvas.style.cursor = "default";
   }
 }
@@ -641,7 +640,7 @@ raycaster.setFromCamera( mouse, camera );
 var intersects = raycaster.intersectObjects(scene.children,true);
 var to;
 if(intersects.length > 0) var namee = intersects[0].object.name;
-  if ( intersects.length > 0 && clickable.includes(intersects[0].object.name))
+  if ( intersects.length > 0/* && clickable.includes(intersects[0].object.name)*/)
   {
     clicker(intersects[ 0 ].object);
     //lightbox_open();
@@ -692,16 +691,10 @@ container.style.visibility = 'visible';
 }
 
 switch(namee) {
-case "instance_3":
-//window.open('http://www.zenbauhaus.wordpress.com/', '_blank');
-break;
-case "Cone":
-//window.open('http://www.notreal.xyz/', '_blank');
-  break;
-case "Plane":
+case "Instagram":
 window.open('https://www.instagram.com/notreal_virtual/', '_blank');
   break;
-case "Plane001":
+case "Facebook":
 window.open('https://www.facebook.com/notrealvirtual/', '_blank');
   break;
 default:
@@ -718,6 +711,7 @@ function textSetter(ob){
     break;
     case "flag":
       $('h2').text('Prints');
+      $('#theRest').text("Do you need graphics for prints?.");
       container.style.visibility = 'visible';
       break;
     case "vr":
@@ -747,7 +741,7 @@ function textSetter(ob){
         break;
     case "skate":
       $('h2').text('Action');
-      $('#theRest').text("We really enjoy skating, use it as relaxation and we make vidoes from it.");
+      $('#theRest').text("We really enjoy skating, use it as relaxation and make vidoes from it.");
       container.style.visibility = 'visible';
       break;
     case "us":
@@ -759,7 +753,7 @@ function textSetter(ob){
   if(phase=="2"){
   switch(ob){
     case "Cone":
-      $('h2').text('KAJETAN trvdik');
+      changeTexts("Kajetan Tvrdik", "Film, televison, photography and new mediums");
       container.style.visibility = 'visible';
       break;
     case "Cube":
@@ -792,15 +786,15 @@ function textSetter(ob){
       */
       break;
     case "ALucas":
-      $('h2').text('LUCAS SAIDL');
+    changeTexts("Lucas Saidl", "VR/AR development and realtime digital cinematography in Unreal engine. Using Unreal, Blender, Substance Suite, Houdini, C++, Python and more. I am striving to be a bridge between art and tech on multiple levels, to strike a balance between the artistic and the artisanal.");
       container.style.visibility = 'visible';
       break;
     case "Sphere":
-      $('h2').text('RICHARD JANECEK');
+    changeTexts("Richard Janecek", "Film, Photogammetry");
       container.style.visibility = 'visible';
       break;
     case "Cylinder":
-      $('h2').text('MATEJ MARTINEC');
+    changeTexts("Matej martinec", "Graphic design");
       container.style.visibility = 'visible';
       break;
     default:
@@ -851,6 +845,9 @@ function textSetter(ob){
       default:
     }
   }
+  else if (phase == "5") {
+    changeTexts("Contact", "+420 604 555 637");
+  }
 
 }
 function changeTexts(str,strr){
@@ -879,10 +876,12 @@ function animateMove(vectorToAnimate, target, lookAt, speed){
 console.log("tween animating");
 curCamPos = target;
 // create the tween
+moving = true;
 var spee = speed ? speed : 4000;
 var tween = new TWEEN.Tween(vectorToAnimate).to(target, spee)
     .easing(TWEEN.Easing.Quintic.InOut)
     .onComplete(function(){
+      moving = false;
       //console.log('tween done');
       curCamPos = target;
     });
@@ -993,32 +992,40 @@ function textToSet() {
     case "4":
       return fellasList[curObjectIndex];
       break;
+    case '5':
+      return 'Contact';
     default:
   }
 }
 
-function sscroll(e){
+function vscroll(e){
+  var c = 7;
   if(firstPhase == true){
     initTrans();
     return;
   }
+ 
+    if(phase =='1')c = 7;
+    if(phase =='2')c = usList.length-1;
+    if(phase =='3')c = toolsList.length-1;
+    if(phase =='4')c = fellasList.length-1;
+    if(phase =='5')c =  0;
+  console.log("cccc ",c);
+  
 
-  console.log("scroll " + e + " curIndex " + curObjectIndex.toString());
-  if(e < 0 && camera.position.x < (7 * dist - 4) ){
-    console.log("move 1");
+  if(e < 0 && camera.position.x < (c * dist - 4) && moving == false){
+    curObjectIndex = Math.floor((camera.position.x + dist + 4 )/ 10);
+    console.log(curObjectIndex);
     animateMove(camera.position,{x: camera.position.x + dist, y: 0.7,z: curCamPos.z},true,200);
-    curObjectIndex++;
     textSetter(textToSet());
-    //phase = '2';
   }
-  else if(e > 0 && camera.position.x > -3){
-    console.log("move 2");
+  else if(e > 0 && camera.position.x > -3 && moving == false){
+    curObjectIndex = Math.floor((camera.position.x - dist + 4 )/ 10);
     animateMove(camera.position,{x: camera.position.x - dist ,y: 0.7,z:  curCamPos.z},true,200);
-    curObjectIndex--;
     textSetter(textToSet());
-   // phase = '1';
   }
 }
+
 function hScroll(e){
   if(firstPhase == true){
     initTrans();
@@ -1026,13 +1033,13 @@ function hScroll(e){
   }
   curObjectIndex = 0;
   console.log("scroll " + e);
-  if(e < 0 && parseFloat(phase) > 1){
+  if(e < 0 && parseFloat(phase) > 1 && moving == false){
     console.log("move 1");
     animateMove(camera.position,{x: -4  ,y: 0.7,z: curCamPos.z - 6},true,400);
     phase = (parseInt(phase) - 1).toString();
     textSetter(textToSet());
   }
-  else if(e > 0 && parseFloat(phase) < 4){
+  else if(e > 0 && parseFloat(phase) < 5 && moving == false){
     console.log("move 2");
     phase = (parseInt(phase) + 1).toString();
     textSetter(textToSet());
@@ -1043,7 +1050,7 @@ function hScroll(e){
 window.addEventListener("wheel", function(e) {
 var e = window.event || e; // old IE support
 var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
-sscroll(delta);
+vscroll(delta);
 
 //console.log("scrolled "+ delta.toString());
 //camera.position.y += event.wheelDeltaY * 0.1;;
@@ -1053,24 +1060,6 @@ function positioner(ob) {
   var i = clickable.indexOf(ob.name) * dist;
   ob.position.set(-1.6 + i, 0.6, 0);
 }
-
-//Space background is a large sphere
-var spacetex = new THREE.TextureLoader().load("https://s3-us-west-2.amazonaws.com/s.cdpn.io/96252/space.jpg");
-var spacesphereGeo = new THREE.SphereGeometry(15,15,15);
-var spacesphereMat = new THREE.MeshPhongMaterial();
-spacesphereMat.map = spacetex;
-
-var spacesphere = new THREE.Mesh(spacesphereGeo,spacesphereMat);
-
-//spacesphere needs to be double sided as the camera is within the spacesphere
-spacesphere.material.side = THREE.DoubleSide;
-
-spacesphere.material.map.wrapS = THREE.RepeatWrapping;
-spacesphere.material.map.wrapT = THREE.RepeatWrapping;
-spacesphere.material.map.repeat.set( 5, 3);
-
-//scene.add(spacesphere);
-
 
     let uniforms = {
     colorB: {type: 'vec3', value: new THREE.Color(0xACB6E5)},
@@ -1086,7 +1075,7 @@ spacesphere.material.map.repeat.set( 5, 3);
     var envMap = new THREE.TextureLoader().load('models/envMap.jpg');
     let vlajkaMat =  new THREE.MeshLambertMaterial({ map : envMap });
     plane = new THREE.Mesh(new THREE.PlaneGeometry(150, 200, rowSize, rowSize), vlajkaMat);
-    plane.scale.set(0.004,0.004,0.004);
+    plane.scale.set(0.005,0.005,0.005);
     plane.rotation.y = getRadian(-90);
     plane.rotation.z = getRadian(90);
     plane.name = "flag";
@@ -1200,20 +1189,22 @@ spacesphere.material.map.repeat.set( 5, 3);
   let ambientLight = new THREE.AmbientLight(0x505050);
   scene.add(ambientLight);
 
-  var cubeloader = new THREE.CubeTextureLoader();
-cubeloader.setPath( 'lightblue/' );
-
-var textureCube = cubeloader.load( [
-	'back.png', 'front.png',
-	'top.png', 'left.png',
-	'bot.png', 'right.png'
-] );
-
   var materiall = new THREE.MeshStandardMaterial({color: 0xffffff, roughness: 0.4,flatShading:true,/* envMap: textureCube,*/metalness: 1});
   var igAlpha = new THREE.TextureLoader().load("models/igAlphaa.png");
   var igMat = new THREE.MeshPhongMaterial({color: 0x000000, alphaMap: igAlpha,transparent: true, opacity: 0.8, side: THREE.DoubleSide});
   var fbAlpha = new THREE.TextureLoader().load("models/fbAlpha.png");
   var fbMat = new THREE.MeshPhongMaterial({color: 0x000000, alphaMap: fbAlpha,transparent: true, opacity: 0.8, side: THREE.DoubleSide});
+
+    var igPlane = new THREE.Mesh(new THREE.PlaneGeometry( 1, 1), igMat);
+    igPlane.position.set(-0.6, 0.5, 24);
+    igPlane.rotation.y = getRadian(90);
+    igPlane.name = "Instagram";
+    scene.add(igPlane);
+    var fbPlane = new THREE.Mesh(new THREE.PlaneGeometry( 1, 1), fbMat);
+    fbPlane.position.set(1, 0.3, 24.5);
+    fbPlane.rotation.y = getRadian(90);
+    fbPlane.name = "Facebook";
+    scene.add(fbPlane);
 
   var videoMat = new THREE.MeshLambertMaterial({ map : videoTexture});
   
@@ -1232,6 +1223,8 @@ var textureCube = cubeloader.load( [
    
     console.log('gizmooo');
 
+    gizmo.visible =false;
+
     gizmo.traverse(function (o) {
       if (o.isMesh) {
       }
@@ -1245,14 +1238,8 @@ var textureCube = cubeloader.load( [
     if(ori)us.rotation.x = 91;
     //us.rotation.z = 10;
     //us.rotation.y = -95;
-    if(ori){
-      //us.scale.set(0.3,0.3,0.3);
-    }
-    else
-    {
-      us.scale.set(0.7,0.7,0.7);
-    }
-    us.position.set(0,ori ? 0.7: -0.8,6.1);
+  
+    us.position.set(0,ori ? 0.7: 0.1,6.1);
     //us.name="use";
     us.visible = true;
     us.traverse(function (o) {
@@ -1387,14 +1374,14 @@ var textureCube = cubeloader.load( [
   
 
   var phoneloader = new THREE.GLTFLoader();
-  phoneloader.load( "models/phone.glb", function(gltf){
+  phoneloader.load( "models/phonere.glb", function(gltf){
     //var material = new THREE.MeshLambertMaterial({color: 0x55B663});
     //mesh = new THREE.Mesh(geometry, material);
     phone = gltf.scene;
     phone.rotation.x = 90;
     phone.rotation.z = 30.4;
     phone.rotation.y = 155.4;
-    phone.scale.set(0.06,0.06,0.06);
+    phone.scale.set(0.09,0.09,0.09);
     //phone.position.set(0,0.5,0);
     phone.name="phone";
     positioner(phone);

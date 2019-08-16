@@ -94,25 +94,26 @@ body {
 }
 
 @font-face {
-    font-family: 'suisse_worksregular';
-    src: url('fnt/suisseworks-regular-webfont.woff2') format('woff2'),
-         url('fnt/suisseworks-regular-webfont.woff') format('woff'),
-         url("fnt/suisseworks-regular-webfont.otf") format("opentype"),
-          url("fnt/suisseworks-regular-webfont.ttf") format("truetype");
+    font-family: 'favorit_stdregular_extended';
+    src: url('FavoritStd/favoritstd-regularextended-webfont.woff2') format('woff2'),
+         url('FavoritStd/favoritstd-regularextended-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 
 }
+
 @font-face {
-    font-family: 'suisse_worksitalic';
-    src: url('fnt/suisseworks-regularitalic-webfont.woff2') format('woff2'),
-         url('fnt/suisseworks-regularitalic-webfont.woff') format('woff'),
-         url("fnt/suisseworks-regularitalic-webfont.otf") format("opentype"),
-      url("fnt/suisseworks-regularitalic-webfont.ttf") format("truetype");
+    font-family: 'favorit_stdbold_extended';
+    src: url('FavoritStdBold/favorit-std-extended-bold-webfont.woff2') format('woff2'),
+         url('FavoritStdBold/favorit-std-extended-bold-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 
 }
+
+
+
+
 
 #player{
   visibility:visible;
@@ -197,11 +198,12 @@ h2 {
 
     z-index:100;
    /* transform: translate(0,-100%); */
-    font-family: 'Syne';
+    font-family: 'favorit_stdbold_extended';
     font-weight: 100;
     position: absolute;
     left: 13px;
-    top: 8;
+    top: 0px;
+    font-size: 200%;
 
 }
 
@@ -224,7 +226,7 @@ h2 {
 
 #theRest {
   color:black;
-  font-family: 'suisse_worksregular';
+  font-family: 'favorit_stdregular_extended';
   font-weight: 100;
   white-space: initial;
 }
@@ -276,7 +278,7 @@ h2 {
 
   <img id="my_image" src="hp0.jpg"/>
 
-  <h1 id="example"></h1>
+  <!--<h1 id="example"></h1>-->
   <div id="container">
   <div id="cont">
       <h2 id ="hh3">Lorem ipsum dolor sit amet.</h2>
@@ -439,7 +441,7 @@ function init() {
   scene.add(camera);
 
   var example = document.getElementById('example');
-  example.textContent="Virtual";
+ // example.textContent="Virtual";
 
   var container = document.getElementById('container');
 
@@ -490,8 +492,8 @@ function getTouches(evt) {
 
 function handleTouchStart(evt) {
     const firstTouch = getTouches(evt)[0];
-    xDown = firstTouch.clientX - (window.innerWidth / 2);
-    yDown = firstTouch.clientY - (window.innerHeight / 2);
+    xDown = firstTouch.clientX /*- (window.innerWidth / 2)*/;
+    yDown = firstTouch.clientY /*- (window.innerHeight / 2)*/;
 };
 
 function handleTouchEnd() {
@@ -505,47 +507,47 @@ function handleTouchMove(evt) {
         return;
     }
 
-    var xUp = evt.touches[0].clientX - (window.innerWidth / 2);
-    var yUp = evt.touches[0].clientY - (window.innerHeight / 2);
+    var xUp = evt.touches[0].clientX /*- (window.innerWidth / 2)*/;
+    var yUp = evt.touches[0].clientY /*- (window.innerHeight / 2)*/;
 
     console.log(xUp,yUp);
 
     var xDiff = xDown - xUp;// (window.innerWidth / 2)
     var yDiff = yDown - yUp;// (window.innerHeight / 2)
 
-    xDiff = xDiff != 0 ? xDiff /  (window.innerWidth / 2) : xDiff;
-    yDiff = yDiff != 0 ? yDiff /  (window.innerHeight / 2) : yDiff;
+    //xDiff = xDiff != 0 ? xDiff /  (window.innerWidth / 2) : xDiff;
+    //yDiff = yDiff != 0 ? yDiff /  (window.innerHeight / 2) : yDiff;
 
-    console.log(xDiff,yDiff);
+    //console.log(xDiff,yDiff);
 
    
     
-    controls.target.set(camera.position.x + 2,camera.position.y-0.3 /*0.6*/, camera.position.z);
+    //controls.target.set(camera.position.x + 2,camera.position.y-0.3 /*0.6*/, camera.position.z);
 
     if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
-      camera.position.z = lerp(camera.position.z,(curCamPos.z - xDiff * 10),0.1);
+      //camera.position.z = lerp(camera.position.z,(curCamPos.z - xDiff * 10),0.1);
         if ( xDiff > 0 ) {
             /* left swipe */
-            //hScroll(1);
+            hScroll(1);
         } else {
             /* right swipe */
-            //hScroll(-1);
+            hScroll(-1);
         }
     } else {
-      camera.position.x = lerp(camera.position.x,(curCamPos.y + yDiff * 10),0.1);
+      //camera.position.x = lerp(camera.position.x,(curCamPos.y + yDiff * 10),0.1);
         if ( yDiff > 0 ) {
             /* up swipe */
             //scroll(1);
-            //sscroll(1);
+            sscroll(1);
         } else {
             /* down swipe */
             //scroll(-1);
-            //sscroll(-1);
+            sscroll(-1);
         }
     }
     /* reset values */
-    //xDown = null;
-    //yDown = null;
+    xDown = null;
+    yDown = null;
 };
 
 
@@ -1178,6 +1180,8 @@ var textureCube = cubeloader.load( [
   var fbAlpha = new THREE.TextureLoader().load("models/fbAlpha.png");
   var fbMat = new THREE.MeshPhongMaterial({color: 0x000000, alphaMap: fbAlpha,transparent: true, opacity: 0.8, side: THREE.DoubleSide});
 
+  var videoMat = new THREE.MeshLambertMaterial({ map : videoTexture});
+
 
   var usloader = new THREE.GLTFLoader();
   usloader.load( "models/buuss.glb", function(gltf){
@@ -1211,8 +1215,7 @@ var textureCube = cubeloader.load( [
 
   // Load in the mesh and add it to the scene.
   var loader = new THREE.GLTFLoader();
-  loader.load( "models/TV.glb", function(gltf){
-    var videoMat = new THREE.MeshLambertMaterial({ map : videoTexture});
+  loader.load( "models/TVv.glb", function(gltf){
     //mesh = new THREE.Mesh(geometry, material);
     tv = gltf.scene;
     //tv.rotation.x = -90;
@@ -1240,7 +1243,7 @@ var textureCube = cubeloader.load( [
   });
 
   var archloader = new THREE.GLTFLoader();
-  archloader.load( "models/Apartment.gltf", function(gltf){
+  archloader.load( "models/Arch.glb", function(gltf){
     //var material = new THREE.MeshLambertMaterial({color: 0x55B663});
     //mesh = new THREE.Mesh(geometry, material);
     arch = gltf.scene;
@@ -1302,19 +1305,20 @@ var textureCube = cubeloader.load( [
   });
 
   var vrloader = new THREE.GLTFLoader();
-  vrloader.load( "models/vr.glb", function(gltf){
+  vrloader.load( "models/vvvvvrrrrrr.glb", function(gltf){
       vr = gltf.scene;
     //vr.rotation.x = 90;
     vr.rotation.z = 30.4;
     vr.rotation.y = 158.4;
-    vr.scale.set(0.7,0.7,0.7);
+    vr.scale.set(0.3,0.3,0.3);
 
     vr.name="vr";
     vr.visible = true;
     //synth.callback = function() { console.log("Hello world!");};
     vr.traverse(function (o) {
       if (o.isMesh) {
-        o.name = "vr";
+        if(o.name == 'Screen')o.material = videoMat;
+       o.name = "vr";
       }
     });/*
     if(ori){
@@ -1360,11 +1364,10 @@ var textureCube = cubeloader.load( [
     positioner(phone);
     phone.visible = true;
     //synth.callback = function() { console.log("Hello world!");};
-    var videoMatt = new THREE.MeshLambertMaterial({ map : videoTexture});
     phone.traverse(function (o) {
       if (o.isMesh) {
         if(o.name == "Phone_01_Cube.037_0"){
-          o.material = videoMatt;
+          o.material = videoMat;
         }
         else o.material = materiall
         o.name = "phone";

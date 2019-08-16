@@ -228,7 +228,7 @@ h2 {
 #theRest {
   color:black;
   font-family: 'favorit_stdregular_extended';
-  font-weight: 800;
+  font-weight: 600;
   white-space: initial;
   line-height: 1.15em;
 }
@@ -476,6 +476,7 @@ function init() {
     if(curCamPos){
     camera.position.z = lerp(camera.position.z,(curCamPos.z - moveX * 0.0015),0.1);
     camera.position.y = lerp(camera.position.y,(curCamPos.y + moveY *0.0015),0.1);
+    gizmo.position.set(camera.position.x + 0.2, camera.position.y + 0.038 ,camera.position.z + 0.039);
     }
   });
 
@@ -768,7 +769,7 @@ function textSetter(ob){
       break;
     case "Cone001":
       $('h2').text('SEBASTIAN BAALBAKI');
-      $('#theRest').text("I have always been inspired by the curiosity of our world, it’s nature and structures. Beliving in the power of Substance Suite I specialize in custom texture authoring. I also support artists, which need technical help with their projects.");
+      $('#theRest').text("I have always been inspired by the curiosity of our world, it’s nature and structures. Beliving in the power of Substance Suite I specialize in custom texture authoring. It is very important for me to provide support for all artists, who need technical help with their projects.");
       container.style.visibility = 'visible';
       break;
     case "AElias":
@@ -829,7 +830,7 @@ function textSetter(ob){
         changeTexts(ob, "Optimized High-Quality 3D Scans");
         break;
       case "Tensorflow":
-        changeTexts('Tensor-flow', "An end-to-end open source machine learning platform");
+        changeTexts('Tensor flow', "An end-to-end open source machine learning platform");
         break;
       default:
     }

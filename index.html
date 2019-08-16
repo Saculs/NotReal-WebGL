@@ -709,42 +709,42 @@ function textSetter(ob){
   switch(ob) {
     case "tv":
       $('h2').text('Digital');
-      $('#theRest').text("From Campaigns to Ads, we love selling your brand");
+      $('#theRest').text("#VFX #Campaigns #Ads #Brands");
       container.style.visibility = 'visible';
     break;
     case "flag":
       $('h2').text('Prints');
-      $('#theRest').text("Do you need graphics for prints?.");
+      $('#theRest').text("#Design #Graphics");
       container.style.visibility = 'visible';
       break;
     case "vr":
       $('h2').text('VR & AR');
-      $('#theRest').text("Virtual Reality is where we come from, we can also make this one Augmented.");
+      $('#theRest').text("#virtual #augmented #realtime");
       container.style.visibility = 'visible';
       break;
     case "synth":
-      $('h2').text('Sound Design');
-      $('#theRest').text("Music's our passion.");
+      $('h2').text('Sound');
+      $('#theRest').text("#music #audio-visualization");
       container.style.visibility = 'visible';
       break;
     case "phone":
       $('h2').text('Apps');
-      $('#theRest').text("Feel free to ask us for help with App design or production.");
+      $('#theRest').text("#Design #Mobile #Website #UI #UX");
       container.style.visibility = 'visible';
       break;
     case "vide":
         $('h2').text('Videos');
-        $('#theRest').text('We film');
+        $('#theRest').text('#film #ads #movies #shorts #animation');
         container.style.visibility = 'visible';
         break;
     case "arch":
-        $('h2').text('Architecture');
-        $('#theRest').text("From designs to architectural visualizations. Like buttering a bread with realtime rendering");
+        $('h2').text('Archviz');
+        $('#theRest').text("#archviz #realtime #vr #ar #unreal");
         container.style.visibility = 'visible';
         break;
     case "skate":
       $('h2').text('Action');
-      $('#theRest').text("We really enjoy skating, use it as relaxation and make vidoes from it.");
+      $('#theRest').text("#film");
       container.style.visibility = 'visible';
       break;
     case "us":
@@ -834,16 +834,16 @@ function textSetter(ob){
   } else if(phase == "4"){
     switch(ob){
       case "Selam X":
-        changeTexts("SELAM X", "Berlin");
+        changeTexts("", "");
         break;
       case "2Realistic":
-        changeTexts(ob, "Prague");
+        changeTexts("", "#VR #interactive #unreal #visualizations #VFX");
         break;
       case "Brainz":
-        changeTexts("BRAINZ", "A creative agency providing complex virtual reality and augmented reality services.");
+        changeTexts("","#360 #VR #AR #graphic-design #websites");
         break;
       case "Cinesco":
-        changeTexts("CINESCO", "A creative studio focused on delivering top-tier solutions for TV commercials, VR and entertainment related content using the latest trends and technologies in motion design.");
+        changeTexts("", "#creative-studio #TV-commercials #entertainment #VR #motion-design.");
         break; 
       default:
     }
@@ -1014,7 +1014,7 @@ function vscroll(e){
     if(phase =='2')c = usList.length-1;
     if(phase =='3')c = toolsList.length-1;
     if(phase =='4')c = fellasList.length-1;
-    if(phase =='5')c =  0;
+    if(phase =='5')c =  1;
   console.log("cccc ",c);
   
 
@@ -1201,12 +1201,12 @@ function positioner(ob) {
   var fbMat = new THREE.MeshPhongMaterial({color: 0x000000, alphaMap: fbAlpha,transparent: true, opacity: 0.8, side: THREE.DoubleSide});
 
     var igPlane = new THREE.Mesh(new THREE.PlaneGeometry( 1, 1), igMat);
-    igPlane.position.set(-0.6, 0.5, 24);
+    igPlane.position.set(1, 0.5, 24);
     igPlane.rotation.y = getRadian(90);
     igPlane.name = "Instagram";
     scene.add(igPlane);
     var fbPlane = new THREE.Mesh(new THREE.PlaneGeometry( 1, 1), fbMat);
-    fbPlane.position.set(1, 0.3, 24.5);
+    fbPlane.position.set(11, 0.3, 24);
     fbPlane.rotation.y = getRadian(90);
     fbPlane.name = "Facebook";
     scene.add(fbPlane);

@@ -4,7 +4,7 @@
   <title>NotReal</title>
   <link rel='shortcut icon' href='favicon.png' type='image/png' />
   <link rel="icon" sizes="192x192" href="nrico.png">
-  <link rel="manifest" href="manifest.webmanifest"/>
+  <link rel="manifest" href="js/manifest.webmanifest"/>
   <!--<link href="Style.css" rel="stylesheet" type="text/css"/>-->
   <style>
 
@@ -710,9 +710,9 @@ switch(namee) {
     window.open('http://www.zenbauhaus.wordpress.com/', '_blank');
     break;
   case "vr":
-    window.open('https://vr.notreal.xyz/', '_blank');
+    if(firstPhase == false)window.open('https://vr.notreal.xyz/', '_blank');
     break;
-  case "Unreal":
+  case "Unreal Engine":
 window.open('https://www.unrealengine.com/', '_blank');
   break;
   case "Houdini":

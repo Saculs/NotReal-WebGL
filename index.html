@@ -298,15 +298,6 @@ h2 {
   <div id="fade" onClick="lightbox_close();"></div>
 
   <script>
-
-    window.document.onkeydown = function(e) {
-  if (!e) {
-    e = event;
-  }
-  if (e.keyCode == 27) {
-    lightbox_close();
-  }
-}
 function lightbox_open() {
   //var lightBoxVideo = document.getElementById("VisaChipCardVideo");
   //lightBoxVideo.play();
@@ -454,6 +445,31 @@ function init() {
     camera.aspect = WIDTH / HEIGHT;
     camera.updateProjectionMatrix();
   });
+
+  document.onkeydown = function(e) {
+  if (!e) {
+    e = event;
+  }
+  e.stopPropagation();
+  if (e.keyCode == 27) {
+    lightbox_close();
+  }
+  console.log(e.keyCode);
+    switch (e.keyCode) {
+        case 37:
+           hScroll(-1);
+            break;
+        case 38:
+            vscroll(-1);
+            break;
+        case 39:
+        hScroll(1);
+            break;
+        case 40:
+        vscroll(1);
+            break;
+    }
+}
 
   window.addEventListener("deviceorientation", function(event) {
     event.stopPropagation();

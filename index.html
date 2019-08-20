@@ -187,9 +187,9 @@ h2 {
     font-weight: 100;
     position: absolute;
     left: 0px;
-    padding-left: 3%;
+    padding-left: 1em;
     top: 0px;
-    font-size: 260%;
+    font-size: 280%;
     width: 65%;
     line-height: 0.8em;
     margin-top: 0.4em;
@@ -200,8 +200,7 @@ h2 {
   padding-left: 3%;
   padding-bottom:2%;
   padding-right:6%;
-  padding-top: 115%;
-  /*bottom:0;*/
+  bottom:0;
 }
 
 #container {
@@ -217,12 +216,14 @@ h2 {
 #theRest {
   color:black;
   font-family: 'favorit_stdregular_extended';
-  /*text-transform: uppercase;*/
+  text-transform: uppercase;
   font-weight: 600;
-  font-size: 200%;
+  font-size: 260%;
   left: 13px;
+
   white-space: initial;
   line-height: 1.15em;
+  
 }
 
 #gizmo {
@@ -231,8 +232,8 @@ h2 {
     right: 0%;
     width:50px;
     height:50px;
-    padding-right: 3%;
-    padding-top: 3%;
+    padding-right: 1em;
+    margin-top: 1em;
 }
 
 #my_image {
@@ -458,7 +459,7 @@ function init() {
     camera.aspect = WIDTH / HEIGHT;
     camera.updateProjectionMatrix();
     ori = (WIDTH > HEIGHT) ? false : true;
-    document.getElementById('info').style.paddingTop = ori ? '115%' :'2%';
+    document.getElementById('info').style.paddingRight = ori ? '3%' :'53%'; 
   });
 
   document.onkeydown = function(e) {
@@ -679,7 +680,7 @@ function lerp (start, end, amt){
 
 function clicker(obj){
   var namee = obj.name;
-  document.getElementById('info').style.paddingTop = ori ? '115%' :'2%'; 
+  document.getElementById('info').style.paddingRight = ori ? '3%' :'53%'; 
 textSetter(namee);
 if(namee == "tv" ){
   to = tv;

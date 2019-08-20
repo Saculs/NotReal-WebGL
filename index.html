@@ -86,14 +86,6 @@ body {
 }
 
 @font-face {
-    font-family: "Syne";
-    src: url("syneFont/syne-extra-webfont.woff") format("woff"),
-    url("syneFont/syne-extra-webfont.woff2") format("woff2"),
-    url("syneFont/syne-extra.otf") format("opentype"),
-    url("syneFont/syne-extra-webfont.ttf") format("truetype");
-}
-
-@font-face {
     font-family: 'favorit_stdregular_extended';
     src: url('FavoritStd/favoritstd-regularextended-webfont.woff2') format('woff2'),
          url('FavoritStd/favoritstd-regularextended-webfont.woff') format('woff');
@@ -151,7 +143,7 @@ h1 {
     width:100%;
     text-align: center;
     /*transform: translate(0,-100%); */
-    font-family: 'Syne';
+    font-family: 'favorit_stdregular_extended';
     font-weight: 100;
     /* letter-spacing: 40px; */
     text-transform: uppercase;
@@ -167,7 +159,6 @@ h1 {
     /*width:100%; */
     text-align: center;
     /*transform: translate(0,-100%); */
-    font-family: 'Syne';
     font-weight: 100;
     font-size: 19px;
     text-transform: uppercase;
@@ -184,7 +175,6 @@ h1 {
     width:100%;
     text-align: center;
     /*transform: translate(0,-100%); */
-    font-family: 'Syne';
     font-weight: 100;
     text-transform: uppercase;
     font-size: 24px;
@@ -709,38 +699,45 @@ switch(namee) {
   case "AElias":
     window.open('http://www.zenbauhaus.wordpress.com/', '_blank');
     break;
-  case "vr":
-   // if(firstPhase == false) window.open('https://vr.notreal.xyz/', '_blank');
+  case "Sphere":
+    window.open('https://richardjanecek.com/', '_blank');
+    break;
+  case "instance":
+    window.open('https://hpascalie.myportfolio.com/', '_blank');
     break;
   case "Unreal Engine":
-window.open('https://www.unrealengine.com/', '_blank');
-  break;
+    window.open('https://www.unrealengine.com/', '_blank');
+    break;
   case "Houdini":
-window.open('https://www.sidefx.com/', '_blank');
-  break;
+    window.open('https://www.sidefx.com/', '_blank');
+    break;
   case "Blender":
-window.open('https://www.blender.org/foundation/', '_blank');
-  break;
+    window.open('https://www.blender.org/foundation/', '_blank');
+    break;
   case "Unity":
-window.open('https://unity.com/solutions', '_blank');
-  break;
+    window.open('https://unity.com/solutions', '_blank');
+    break;
   case "Substance":
-window.open('https://www.substance3d.com/', '_blank');
-  break;
+    window.open('https://www.substance3d.com/', '_blank');
+    break;
   case "Adobe":
-window.open('https://www.adobe.com/', '_blank');
-  break;
+    window.open('https://www.adobe.com/', '_blank');
+    break;
   case "Quixel":
-window.open('https://www.quixel.com/', '_blank');
-  break;
+    window.open('https://www.quixel.com/', '_blank');
+    break;
   case "Tensorflow":
-window.open('https://www.tensorflow.org/', '_blank');
-  break;
+    window.open('https://www.tensorflow.org/', '_blank');
+    break;
 case "Instagram":
-window.open('https://www.instagram.com/notreal_virtual/', '_blank');
-  break;
+    window.open('https://www.instagram.com/notreal_virtual/', '_blank');
+    break;
 case "Facebook":
-window.open('https://www.facebook.com/notrealvirtual/', '_blank');
+    window.open('https://www.facebook.com/notrealvirtual/', '_blank');
+    break;
+case "vr":
+  console.log(firstPhase);
+  if(camera.position.x > -5) window.open('https://vr.notreal.xyz/', '_blank');
   break;
 default:
   // code block

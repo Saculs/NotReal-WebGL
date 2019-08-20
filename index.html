@@ -12,6 +12,7 @@ html,
 body {
   position: fixed;
   overflow: hidden;
+  overscroll-behavior: contain;
 }
 
 canvas {
@@ -23,10 +24,6 @@ canvas {
     -ms-user-select: none;
     user-select: none;
     -webkit-tap-highlight-color: transparent;
-}
-
-body {
-  overscroll-behavior: contain;
 }
 
 #fade {
@@ -200,10 +197,10 @@ h2 {
 
 #info {
   position: absolute;
-  padding-left: 53%;
+  padding-left: 3%;
   padding-bottom:2%;
   padding-right:6%;
-  padding-top: 140%;
+  padding-top: 115%;
   /*bottom:0;*/
 }
 
@@ -240,6 +237,7 @@ h2 {
 }
 </style>
   <meta charset="utf-8">
+  <meta name="mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -278,9 +276,9 @@ h2 {
   <!--<h1 id="example"></h1>-->
   <div id="container">
   <div id="cont">
-      <h2>Lorem ipsum dolor sit amet.</h2>
+      <h2>VR&AR</h2>
       <div id="info">
-        <p id="theRest">Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.</p>
+        <p id="theRest">#Lorem ipsum dolor sit amet.</p>
     </div>
   </div>
   </div>
@@ -443,11 +441,13 @@ function init() {
 
   // Create an event listener that resizes the renderer with the browser window.
   window.addEventListener('resize', function() {
-    var WIDTH = window.innerWidth,
+     WIDTH = window.innerWidth,
         HEIGHT = window.innerHeight;
     renderer.setSize(WIDTH, HEIGHT);
     camera.aspect = WIDTH / HEIGHT;
     camera.updateProjectionMatrix();
+    ori = (WIDTH > HEIGHT) ? false : true;
+    document.getElementById('info').style.paddingTop = ori ? '115%' :'2%';
   });
 
   document.onkeydown = function(e) {
@@ -668,7 +668,7 @@ function lerp (start, end, amt){
 
 function clicker(obj){
   var namee = obj.name;
-  document.getElementById('info').style.paddingLeft = ori ? '3%' :'53%';
+  document.getElementById('info').style.paddingTop = ori ? '115%' :'2%'; 
 textSetter(namee);
 if(namee == "tv" ){
   to = tv;
@@ -1100,7 +1100,7 @@ function hScroll(e){
   console.log("scroll " + e);
   if(e < 0 && parseFloat(phase) > 1 && moving == false){
     console.log("move 1");
-    animateMove(camera.position,{x: -4  ,y: 0.7,z: curCamPos.z - 6},true,400);
+    animateMove(camera.position,{x: -4  ,y: 0.7,z: curCamPos.z - 4},true,400);
     phase = (parseInt(phase) - 1).toString();
     textSetter(textToSet());
   }
@@ -1108,7 +1108,7 @@ function hScroll(e){
     console.log("move 2");
     phase = (parseInt(phase) + 1).toString();
     textSetter(textToSet());
-    animateMove(camera.position,{x: -4 ,y: 0.7,z:  curCamPos.z + 6},true,400);
+    animateMove(camera.position,{x: -4 ,y: 0.7,z:  curCamPos.z + 4},true,400);
   }
 }
 
@@ -1196,7 +1196,7 @@ var phoMap = new THREE.TextureLoader().load('models/thermostat.png');
       var i;
       for (i = 0; i < toolsList.length; i++) { 
         var p = new THREE.Mesh(new THREE.PlaneGeometry( 1, 1), vlajkaMat);
-        p.position.set(-0.6 + (i * dist), 0.5, 12);
+        p.position.set(-0.6 + (i * dist), 0.5, 8);
         p.rotation.y = getRadian(-90);
         if(i < (mats.length)) p.material =mats[i] ;
         p.name = toolsList[i];
@@ -1223,7 +1223,7 @@ var phoMap = new THREE.TextureLoader().load('models/thermostat.png');
       var i;
       for (i = 0; i < fellasList.length; i++) { 
         var p = new THREE.Mesh(new THREE.PlaneGeometry( 1, 1), vlajkaMat);
-        p.position.set(-0.6 + (i * dist), 0.5, 18);
+        p.position.set(-0.6 + (i * dist), 0.5, 12);
         p.rotation.y = getRadian(-90);
         if(i < (femats.length)) p.material = femats[i] ;
         p.name = fellasList[i];
@@ -1265,12 +1265,12 @@ var phoMap = new THREE.TextureLoader().load('models/thermostat.png');
   var fbMat = new THREE.MeshPhongMaterial({color: 0x000000, alphaMap: fbAlpha,transparent: true, opacity: 0.8, side: THREE.DoubleSide});
 
     var igPlane = new THREE.Mesh(new THREE.PlaneGeometry( 1, 1), igMat);
-    igPlane.position.set(1, 0.5, 24);
+    igPlane.position.set(1, 0.5, 16);
     igPlane.rotation.y = getRadian(90);
     igPlane.name = "Instagram";
     scene.add(igPlane);
     var fbPlane = new THREE.Mesh(new THREE.PlaneGeometry( 1, 1), fbMat);
-    fbPlane.position.set(11, 0.3, 24);
+    fbPlane.position.set(11, 0.3, 16);
     fbPlane.rotation.y = getRadian(90);
     fbPlane.name = "Facebook";
     scene.add(fbPlane);
@@ -1316,7 +1316,7 @@ var phoMap = new THREE.TextureLoader().load('models/thermostat.png');
     //us.rotation.z = 10;
     //us.rotation.y = -95;
   
-    us.position.set(0,ori ? 0.7: 0.1,6.1);
+    us.position.set(0,ori ? 0.7: 0.1,4);
     //us.name="use";
     us.visible = true;
     us.traverse(function (o) {
@@ -1326,7 +1326,7 @@ var phoMap = new THREE.TextureLoader().load('models/thermostat.png');
         if(o.name == "Plane") o.material = igMat;
         if(o.name == "Plane001") o.material = fbMat;
         o.material.roughness = 0.6;
-        o.position.set(+1.6 + (usList.indexOf(o.name) * dist), 0.2, -0.1);
+        o.position.set(+1.6 + (usList.indexOf(o.name) * dist), 0.2,0);
       }
     });
     scene.add(us);

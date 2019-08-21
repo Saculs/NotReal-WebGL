@@ -500,9 +500,9 @@ function init() {
     console.log("moveX ", moveX);
     console.log("moveY ", moveY);
     if(curCamPos){
-    camera.position.z = lerp(camera.position.z,(curCamPos.z - moveX * 0.0015),0.1);
-    camera.position.y = lerp(camera.position.y,(curCamPos.y + moveY *0.0015),0.1);
-    gizmo.position.set(camera.position.x + 0.2, camera.position.y + 0.038 ,camera.position.z + 0.039);
+    //camera.position.z = lerp(camera.position.z,(curCamPos.z - moveX * 0.0015),0.1);
+    //camera.position.y = lerp(camera.position.y,(curCamPos.y + moveY *0.0015),0.1);
+    //izmo.position.set(camera.position.x + 0.2, camera.position.y + 0.038 ,camera.position.z + 0.039);
     }
   });
 
@@ -765,7 +765,7 @@ case "Facebook":
   window.open('https://video.notreal.xyz/', '_blank');
   break;
   case "synth":
-  window.open('https://synth.notreal.xyz/', '_blank');
+  window.open('https://sound.notreal.xyz/', '_blank');
   break;
   case "skate":
     window.open('https://skate.notreal.xyz/', '_blank');
@@ -964,8 +964,8 @@ var tween = new TWEEN.Tween(vectorToAnimate).to(target, spee)
       moving = false;
       //console.log('tween done');
       curCamPos = target;
-      camera.position.z = lerp(camera.position.z,(curCamPos.z - moveX * 0.0015),0.1);
-    camera.position.y = lerp(camera.position.y,(curCamPos.y + moveY *0.0015),0.1);
+      //camera.position.z = lerp(camera.position.z,(curCamPos.z - moveX * 0.0015),0.1);
+    //camera.position.y = lerp(camera.position.y,(curCamPos.y + moveY *0.0015),0.1);
     });
     tween.onUpdate(function(){
       camera.position.x = vectorToAnimate.x;

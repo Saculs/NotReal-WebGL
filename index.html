@@ -752,10 +752,7 @@ case "Instagram":
 case "Facebook":
     window.open('https://www.facebook.com/notrealvirtual/', '_blank');
     break;
-case "vr":
-  if(camera.position.x > -5) window.open('https://vr.notreal.xyz/', '_blank');
-  break;
-  case "phone":
+    case "phone":
   console.log("phone");
   window.open('https://apps.notreal.xyz/', '_blank');
   break;
@@ -772,10 +769,13 @@ case "vr":
   window.open('https://synth.notreal.xyz/', '_blank');
   break;
   case "skate":
-  window.open('https://skate.notreal.xyz/', '_blank');
-  break;
+    window.open('https://skate.notreal.xyz/', '_blank');
+    break;
   case "arch":
   window.open('https://arch.notreal.xyz/', '_blank');
+  break;
+case "vr":
+    if(camera.position.x > -5) window.open('https://vr.notreal.xyz/', '_blank');
   break;
 default:
   // code block

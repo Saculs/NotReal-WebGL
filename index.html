@@ -620,8 +620,10 @@ var canvas = document.body.getElementsByTagName('canvas')[0];
 if(intersects.length > 0){
   console.log(intersects[0].object.name);
   var namee = intersects[0].object.name;
+  canvas.style.cursor = "pointer";
 }
 if (intersects.length > 0 && clickable.includes(namee)) {
+  canvas.style.cursor = "pointer";
 
   if(phase == '2' && (namee == "Cone" || namee =="Sphere" || namee == "Cone001" || namee =="Cube" || namee == "ALucas" || namee =="Cylinder" || namee == "AElias" || namee =="instance")){
     textSetter(namee);
@@ -629,25 +631,9 @@ if (intersects.length > 0 && clickable.includes(namee)) {
     container.style.visibility = 'hidden';
     $("#my_image").hide();
   }
-if(namee == "tv"){
-  tv.rotation.x += 0.005;
- // tv.scale.set(0.01,0.01,0.01);
-}
-else if(namee == "skate" ){
-  skate.rotation.x += 0.005;
-  skate.scale.set(0.35,0.35,0.35);
-}
-else if(intersects[0].object.name == "flag"){
-  plane.rotation.x += 0.005;
-  //plane.scale.set(0.008,0.008,0.008);
-}
-canvas.style.cursor = "pointer";
+
 } else {
   console.log(phase);
-  
-  //tv.scale.set(0.008,0.008,0.008);
-  if(skate) skate.scale.set(0.3,0.3,0.3);
-  //plane.scale.set(0.006,0.006,0.006);
   canvas.style.cursor = "default";
   }
 }
@@ -767,8 +753,28 @@ case "Facebook":
     window.open('https://www.facebook.com/notrealvirtual/', '_blank');
     break;
 case "vr":
-  console.log(firstPhase);
   if(camera.position.x > -5) window.open('https://vr.notreal.xyz/', '_blank');
+  break;
+  case "phone":
+  window.open('https://apps.notreal.xyz/', '_blank');
+  break;
+  case "tv":
+  window.open('https://digital.notreal.xyz/', '_blank');
+  break;
+  case "flag":
+  window.open('https://print.notreal.xyz/', '_blank');
+  break;
+  case "vide":
+  window.open('https://video.notreal.xyz/', '_blank');
+  break;
+  case "synth":
+  window.open('https://synth.notreal.xyz/', '_blank');
+  break;
+  case "skate":
+  window.open('https://skate.notreal.xyz/', '_blank');
+  break;
+  case "arch":
+  window.open('https://arch.notreal.xyz/', '_blank');
   break;
 default:
   // code block
@@ -905,16 +911,16 @@ break;
   } else if(phase == "4"){
     switch(ob){
       case "Selam X":
-        changeTexts("", "#Creative-Direction #VisualIdentity #Animation #WebDesign #DigitalArt");
+        changeTexts(ob, "#Creative-Direction #VisualIdentity #Animation #WebDesign #DigitalArt");
         break;
       case "2Realistic":
-        changeTexts("", "#VR #interactive #unreal #visualizations #VFX");
+        changeTexts(ob, "#VR #interactive #unreal #visualizations #VFX");
         break;
       case "Brainz":
-        changeTexts("","#360 #VR #AR #graphic-design #websites");
+        changeTexts(ob,"#360 #VR #AR #graphic-design #websites");
         break;
       case "Cinesco":
-        changeTexts("", "#creative-studio #TV-commercials #entertainment #VR #motion-design");
+        changeTexts(ob, "#creative-studio #TV-commercials #entertainment #VR #motion-design");
         break; 
       default:
     }

@@ -199,7 +199,7 @@ h2 {
   position: absolute;
   padding-left: 3%;
   padding-bottom:2%;
-  padding-right:6%;
+  padding-right:3%;
   bottom:0;
 }
 
@@ -215,7 +215,7 @@ h2 {
 
 #theRest {
   color:black;
-  font-family: 'favorit_stdregular_extended';
+  font-family: 'favorit_stdbold_extended';
   text-transform: uppercase;
   font-weight: 600;
   font-size: 260%;
@@ -224,6 +224,20 @@ h2 {
   white-space: initial;
   line-height: 1.15em;
   margin-bottom: 0;
+}
+#hash {
+  color:black;
+  font-family: 'favorit_stdbold_extended';
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 260%;
+  white-space: initial;
+  line-height: 1.15em;
+  margin-bottom: 2%;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+    margin-right: 2%;
 }
 
 #gizmo {
@@ -291,6 +305,7 @@ h2 {
       <div id="info">
         <p id="theRest">#Lorem ipsum dolor sit amet.</p>
     </div>
+    <p id="hash">#<br>#<br>#<br>#</p>
   </div>
   </div>
 
@@ -785,43 +800,44 @@ default:
 function textSetter(ob){
   switch(ob) {
     case "tv":
+
       $('h2').text('Digital');
-      $('#theRest').text("#VFX #Campaigns #Ads #Brands");
+      $('#theRest').html("VFX <br>Campaigns <br>Ads <br>Brands");
       container.style.visibility = 'visible';
     break;
     case "flag":
       $('h2').text('Prints');
-      $('#theRest').text("#Design #Graphics");
+      $('#theRest').html("Design <br>Graphics <br>Poster <br>books");
       container.style.visibility = 'visible';
       break;
     case "vr":
       $('h2').text('VR & AR');
-      $('#theRest').text("#virtual #augmented #realtime");
+      $('#theRest').html("virtual <br> augmented <br> realtime <br> unreal");
       container.style.visibility = 'visible';
       break;
     case "synth":
       $('h2').text('Sound');
-      $('#theRest').text("#music #audio-visualization");
+      $('#theRest').html("music <br>sound-design <br>audio-visualization");
       container.style.visibility = 'visible';
       break;
     case "phone":
       $('h2').text('Apps');
-      $('#theRest').text("#Design #Mobile #Website #UI #UX");
+      $('#theRest').html("Design <br>Mobile <br>Website <br>UX&UI");
       container.style.visibility = 'visible';
       break;
     case "vide":
         $('h2').text('Videos');
-        $('#theRest').text('#film #ads #movies #shorts #animation');
+        $('#theRest').html('film <br>ads <br>movies <br>animation');
         container.style.visibility = 'visible';
         break;
     case "arch":
         $('h2').text('Archviz');
-        $('#theRest').text("#archviz #realtime #vr #ar #unreal");
+        $('#theRest').html("archviz <br>realtime <br>vr&ar <br>unreal");
         container.style.visibility = 'visible';
         break;
     case "skate":
       $('h2').text('Action');
-      $('#theRest').text("#film");
+      $('#theRest').html("film");
       container.style.visibility = 'visible';
       break;
     case "us":
@@ -837,36 +853,23 @@ function textSetter(ob){
       container.style.visibility = 'visible';
       break;
     case "Cube":
-      $('h2').text('ADAMS SOUKUP');
-      $('#theRest').text('#art #visualizations #paint #image #materials #2D #Abstract #realistic');
+      changeTexts("ADAMS SOUKUP", "#art #visualizations #paint #image #materials #2D #Abstract #realistic");
       container.style.visibility = 'visible';
       break;
     case "Cone001":
-      $('h2').text('SEBASTIAN BAALBAKI');
-      $('#theRest').text("#Structures #Beliving #SubstanceSuite #TextureAuthoring #ArtistSupport #Technical");
+      changeTexts("SEBASTIAN BAALBAKI", "#Structures #Beliving #SubstanceSuite #TextureAuthoring #ArtistSupport #Technical");
       container.style.visibility = 'visible';
       break;
     case "AElias":
-      changeTexts("ELIAS BAUER", "#VR/AR #realtime #digital #cinematography #Unreal #Blender #SubstanceSuite #Houdin #art #tech");
+      changeTexts("ELIAS BAUER", "#VR/AR #realtime #digital #cinematography #Unreal #Blender #SubstanceSuite #Houdini #art #tech");
 
 break;
     case "instance":
-      $('h2').text('Hugo Pascalie');
-      $('#theRest').text('#ArtDirector #Paris #typography #GraphicDesign #Motion #DigitalSolution #DesireToSurprise');
+      changeTexts("Hugo Pascalie", "#ArtDirector #Paris #typography #GraphicDesign #Motion #DigitalSolution #DesireToSurprise");
       container.style.visibility = 'visible';
-      /*$("#my_image").show();
-      if($("#my_image").attr('src').substring(0,1) != "hp")$("#my_image").attr("src","hp0.jpg");
-      var i = 0;
-
-      setTimeout(function(){
-        i++;
-        $("#my_image").attr("src","hp"+i.toString()+".jpg");
-      },400);
-
-      */
       break;
     case "ALucas":
-    changeTexts("Lucas Saidl", "#VR/AR #realtime #digital #cinematography #Unreal #Blender #SubstanceSuite #Houdin #art #tech #Apps");
+    changeTexts("Lucas Saidl", "#VR/AR #realtime #digital #cinematography #Unreal #Blender #SubstanceSuite #Houdini #art #tech #Apps");
       container.style.visibility = 'visible';
       break;
     case "Sphere":
@@ -932,7 +935,7 @@ break;
 }
 function changeTexts(str,strr){
   $('h2').text(str);
-  $('#theRest').text(strr);
+  $('#theRest').html(strr.replace(/#/g, "<br />"));
 }
 
 function animateScale(vectorToAnimate, target, options){

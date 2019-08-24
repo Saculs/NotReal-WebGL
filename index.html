@@ -514,8 +514,8 @@ function init() {
     console.log("moveX ", moveX);
     console.log("moveY ", moveY);
     if(curCamPos){
-    //camera.position.z = lerp(camera.position.z,(curCamPos.z - moveX * 0.0015),0.1);
-    //camera.position.y = lerp(camera.position.y,(curCamPos.y + moveY *0.0015),0.1);
+    camera.position.z = lerp(camera.position.z,(curCamPos.z - moveX * 0.0015),0.1);
+    camera.position.y = lerp(camera.position.y,(curCamPos.y + moveY *0.0015),0.1);
     //izmo.position.set(camera.position.x + 0.2, camera.position.y + 0.038 ,camera.position.z + 0.039);
     }
   });

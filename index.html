@@ -101,7 +101,10 @@ canvas {
 }
 
 
-
+a {
+  text-decoration: none;
+  color:black;
+}
 
 
 #player{
@@ -119,7 +122,7 @@ canvas {
    overflow: hidden;
    z-index: 9999 !important;
 }
-.vimeo-wrapper iframe {
+#introVid {
    width: 100vw;
    height: 56.25vw; /* Given a 16:9 aspect ratio, 9/16*100 = 56.25 */
    min-height: 100vh;
@@ -217,11 +220,10 @@ h2 {
   font-family: 'favorit_stdbold_extended';
   text-transform: uppercase;
   font-weight: 600;
-  font-size: 260%;
+  font-size: 300%;
   left: 13px;
-
   white-space: initial;
-  line-height: 1.15em;
+  line-height: 0.8em;
   margin-bottom: 0;
 }
 #hash {
@@ -229,14 +231,15 @@ h2 {
   font-family: 'favorit_stdbold_extended';
   text-transform: uppercase;
   font-weight: 600;
-  font-size: 260%;
+  font-size: 300%;
   white-space: initial;
-  line-height: 1.15em;
+  line-height: 0.8em;
   margin-bottom: 2%;
   position: absolute;
   right: 0;
   bottom: 0;
     margin-right: 2%;
+    text-align: center;
 }
 
 #gizmo {
@@ -278,22 +281,8 @@ h2 {
   <script type="text/javascript" src="js/main.js"></script>
 
   <script src="https://player.vimeo.com/api/player.js"></script>
-<div id="player" class="vimeo-wrapper" data-vimeo-id="352692749" data-vimeo-autoplay="true" data-vimeo-loop="true"></div>
-<script>
-    var player = new Vimeo.Player('player', {
-    	id: 352692749,
-      autoplay: 1,
-      muted: 1,
-      controls: 0,
-    loop: 1,
-    });
-    player.ready(function() {
-    	console.log('READY BABY');
-    })
-    .catch(function(error) {
-        console.log('THIS IS PRIVATE!');
-    });
-</script>
+<div id="player" class="vimeo-wrapper" ><video id= "introVid" playsinline="" autoplay="" muted="" loop="" poster="/models/vidPoster.jpg" class=""><source src="clean_vid.mp4" type="video/mp4"></video></div>
+
 
   <img id="gizmo" src="models/gizmo1.png"/>
 
@@ -357,6 +346,7 @@ var gizmo;
 var tv;
 var skate;
 var plane;
+var planes =[];
 var curCamPos;
 var synth;
 var phone;
@@ -444,6 +434,7 @@ function init() {
   // Create a renderer and add it to the DOM.
   renderer = new THREE.WebGLRenderer({antialias:true});
   renderer.setSize(WIDTH, HEIGHT);
+renderer.shadowMapEnabled = true;
 
 
   document.body.appendChild(renderer.domElement);
@@ -463,6 +454,10 @@ function init() {
 
   video = document.getElementById( 'video' );
 	videoTexture = new THREE.VideoTexture( video );
+
+  setTimeout(function(){
+    if(firstPhase == true)initTrans();
+  },6000);
 
   // Create an event listener that resizes the renderer with the browser window.
   window.addEventListener('resize', function() {
@@ -835,7 +830,7 @@ function textSetter(ob){
       container.style.visibility = 'visible';
       break;
     case "synth":
-    changeTexts("Sound","#music #sound-design #audio-visualization");
+    changeTexts("Sound","#music #sound-#design #audio-#visual#ization");
       container.style.visibility = 'visible';
       break;
     case "phone":
@@ -863,15 +858,15 @@ function textSetter(ob){
   if(phase=="2"){
   switch(ob){
     case "Cone":
-      changeTexts("Kajetan Tvrdik", "#film #televison #photography #new-media");
+      changeTexts("Kajetan Tvrdik", "#film #televison #photo#graphy #new-media");
       container.style.visibility = 'visible';
       break;
     case "Cube":
-      changeTexts("ADAMS SOUKUP", "#art #visualizations #paint #image #materials #2D #Abstract #realistic");
+      changeTexts("ADAMS SOUKUP", "#art #visual#izations #paint #image #materials #2D #Abstract #realistic");
       container.style.visibility = 'visible';
       break;
     case "Cone001":
-      changeTexts("SEBASTIAN BAALBAKI", "#Structures #Beliving #SubstanceSuite #Textures #ArtistSupport #Tech");
+      changeTexts("SEBASTIAN BAALBAKI", "#Structures #Substance#Suite #Textures #Artist#Support #Tech");
       container.style.visibility = 'visible';
       break;
     case "AElias":
@@ -879,7 +874,7 @@ function textSetter(ob){
 
 break;
     case "instance":
-      changeTexts("Hugo Pascalie", "#ArtDirection #Paris #typography #GraphicDesign #Motion");
+      changeTexts("Hugo Pascalie", "#Art-#Direction #Paris #typo#graphy #Graphic#Design #Motion");
       container.style.visibility = 'visible';
       break;
     case "ALucas":
@@ -887,11 +882,11 @@ break;
       container.style.visibility = 'visible';
       break;
     case "Sphere":
-    changeTexts("Richard Janecek", "#Film #Photogammetry #art #digital #art");
+    changeTexts("Richard Janecek", "#Film #Photo-#gammetry #art #digital #art");
       container.style.visibility = 'visible';
       break;
     case "Cylinder":
-    changeTexts("Matej martinec", "#GraphicDesign #Houdini #Typography #Print");
+    changeTexts("Matej martinec", "#Graphic#Design #Houdini #Typo#graphy #Print");
       container.style.visibility = 'visible';
       break;
     default:
@@ -900,16 +895,16 @@ break;
   } else if(phase == "3"){
     switch(ob){
       case "Unreal Engine":
-        changeTexts("UNREAL", "#Realtime #VR #AR #Cinematography");
+        changeTexts("UNREAL", "#Realtime #VR&AR #Cinemato-#graphy");
         break;
       case "Houdini":
         changeTexts(ob, "#Procedural #VFX #Modelling");
         break;
       case "Blender":
-        changeTexts(ob, "#Open-Source #Modelling");
+        changeTexts(ob, "#Open-#Source #Modelling");
         break;
       case "Unity":
-        changeTexts(ob, "#VR #AR #multi-platform");
+        changeTexts(ob, "#VR&AR #multi-#platform");
         break;
       case "Substance":
         changeTexts(ob, "#Materials #Textures #surface #textures #photorealistic");
@@ -928,22 +923,22 @@ break;
   } else if(phase == "4"){
     switch(ob){
       case "Selam X":
-        changeTexts(ob, "#Creative-Direction #VisualIdentity #Animation #WebDesign #DigitalArt");
+        changeTexts(ob, "#Creative#Direction #Visual#Identity #Animation #WebDesign #DigitalArt");
         break;
       case "2Realistic":
-        changeTexts(ob, "#VR #interactive #unreal #visualizations #VFX");
+        changeTexts(ob, "#VR #interactive #unreal #visual-#izations #VFX");
         break;
       case "Brainz":
-        changeTexts(ob,"#360 #VR #AR #graphic-design #websites");
+        changeTexts(ob,"#360 #VR #AR #graphic-#design #websites");
         break;
       case "Cinesco":
-        changeTexts(ob, "#creative-studio #TV-commercials #entertainment #VR #motion-design");
+        changeTexts(ob, "#creative-#studio #TV-ads #enter#tainment #VR #motion-#design");
         break; 
       default:
     }
   }
   else if (phase == "5") {
-    changeTexts("Contact", "+420 604 555 637");
+    changeTextsToContact();
   }
 
 }
@@ -951,6 +946,11 @@ function changeTexts(str,strr){
   $('h2').text(str);
   $('#theRest').html(strr.replace(/#/g, "<br />"));
   $('#hash').html( "#<br>".repeat((countBr(strr)) ) );
+}
+function changeTextsToContact(){
+  $('h2').text("Contact");
+  $('#theRest').html('<a href="https://instagram.com/notreal_virtual">Instagram</a> <br> <a href="https://facebook.com/notrealvirtual">Facebook</a> <br> <a href="+420 604 555 637">420<br>604 555 637</a>  <a href="info@notreal.xyz">info<br>notreal<br>xyz</a>');
+  $('#hash').html( " <br> <br> <br>+<br> <br>@<br>.<br> <br>");
 }
 function countBr(strr){
   return (strr.match(/#/g) || []).length;
@@ -1112,7 +1112,7 @@ function vscroll(e){
     if(phase =='2')c = usList.length-1;
     if(phase =='3')c = toolsList.length-1;
     if(phase =='4')c = fellasList.length-1;
-    if(phase =='5')c =  1;
+    if(phase =='5')c =  0;
   console.log("cccc ",c);
   
 
@@ -1181,21 +1181,21 @@ var phoMap = new THREE.TextureLoader().load('models/thermostat.png');
     plane = new THREE.Mesh(new THREE.PlaneGeometry(150, 200, rowSize, rowSize), vlajkaMat);
     plane.scale.set(0.005,0.005,0.005);
     plane.rotation.y = getRadian(-90);
-    plane.rotation.z = getRadian(90);
     plane.name = "flag";
     positioner(plane);
     //plane.visible = false;
     numberOfVerticies = plane.geometry.vertices.length;
-    initPlane();
+    initPlane(plane);
     scene.add(plane);
+    planes.push(plane);
 
 
-    function initPlane() {
+    function initPlane(pl) {
 
     for(var j = 0; j < rowSize+1; j++) {
         for(var i = 0; i < rowSize+1; i++) {
             //plane.geometry.vertices[(rowSize+1)*j + i].z = maxHeight-j%maxHeight;
-            plane.geometry.vertices[(rowSize+1)*j + i].z = maxHeight*Math.sin(j/rowSize*3);
+            pl.geometry.vertices[(rowSize+1)*j + i].z = maxHeight*Math.sin(j/rowSize*3);
         }
     }
 
@@ -1246,26 +1246,32 @@ var phoMap = new THREE.TextureLoader().load('models/thermostat.png');
 
     function initFellas() {
       var femats = [];
-      var seTex = new THREE.TextureLoader().load("models/selam.jpg");
-      var seMat = new THREE.MeshPhongMaterial({color: 0x000000, alphaMap: seTex,transparent: true, opacity: 1, side: THREE.DoubleSide});
+      var seTex = new THREE.TextureLoader().load("models/selamP0.jpg");
+      var seMat = new THREE.MeshLambertMaterial({map: seTex /*alphaMap: seTex,transparent: true, opacity: 1, */,side: THREE.DoubleSide});
       femats.push(seMat);
-      var trTex = new THREE.TextureLoader().load("models/2realistictext.png");
-      var trMat = new THREE.MeshPhongMaterial({map: trTex,transparent: true, opacity: 1, side: THREE.DoubleSide});
+      var trTex = new THREE.TextureLoader().load("models/2rP0.jpg");
+      var trMat = new THREE.MeshLambertMaterial({map: trTex,side: THREE.DoubleSide});
       femats.push(trMat);
-      var brTex = new THREE.TextureLoader().load("models/brainz.jpg");
-      var brMat = new THREE.MeshPhongMaterial({color: 0x000000, alphaMap: brTex,transparent: true, opacity: 1, side: THREE.DoubleSide});
+      var brTex = new THREE.TextureLoader().load("models/brainzP0.jpg");
+      var brMat = new THREE.MeshLambertMaterial({map: brTex,side: THREE.DoubleSide});
       femats.push(brMat);
-      var cnTex = new THREE.TextureLoader().load("models/cinescoo.png");
-      var cnMat = new THREE.MeshPhongMaterial({map: cnTex,transparent: true, opacity: 1, side: THREE.DoubleSide});
+      var cnTex = new THREE.TextureLoader().load("models/cinescoP0.jpg");
+      var cnMat = new THREE.MeshLambertMaterial({map: cnTex,side: THREE.DoubleSide});
       femats.push(cnMat);
       var i;
       for (i = 0; i < fellasList.length; i++) { 
-        var p = new THREE.Mesh(new THREE.PlaneGeometry( 1, 1), vlajkaMat);
-        p.position.set(-0.6 + (i * dist), 0.5, 12);
+        //var p = new THREE.Mesh(new THREE.PlaneGeometry( 1, 1), vlajkaMat);
+
+        var p = new THREE.Mesh(new THREE.PlaneGeometry(150, 200, rowSize, rowSize), vlajkaMat);
+        p.scale.set(0.005,0.005,0.005);
+        initPlane(p);
+
+        p.position.set(-2 + (i * dist), 0.5, 12);
         p.rotation.y = getRadian(-90);
         if(i < (femats.length)) p.material = femats[i] ;
         p.name = fellasList[i];
         scene.add(p);
+        planes.push(p);
       }
     }
 
@@ -1277,24 +1283,16 @@ var phoMap = new THREE.TextureLoader().load('models/thermostat.png');
 
   // Create a light, set its position, and add it to the scene.
   var light = new THREE.PointLight(0xffffff);
-  light.position.set(-100,200,100);
-    
-  scene.add(light);
+  light.position.set(30,6,0);
+  //scene.add(light);
 
   var light2 = new THREE.PointLight(0xffffff);
-  light2.position.set(2,1.6,0);
+  light2.position.set(-8,-6,0);
   light2.castShadow = true;
   scene.add(light2);
 
-
-  var light4 = new THREE.PointLight(0xffffff);
-  light4.position.set(-6,1.8,1.8);
-  light4.distance = 6;
-  light4.castShadow = true;
-  scene.add(light4);
-
   let ambientLight = new THREE.AmbientLight(0x505050);
-  scene.add(ambientLight);
+ scene.add(ambientLight);
 
   var materiall = new THREE.MeshStandardMaterial({color: 0xffffff, roughness: 0.4,flatShading:true,/* envMap: textureCube,*/metalness: 1});
   var igAlpha = new THREE.TextureLoader().load("models/igAlphaa.png");
@@ -1302,21 +1300,10 @@ var phoMap = new THREE.TextureLoader().load('models/thermostat.png');
   var fbAlpha = new THREE.TextureLoader().load("models/fbAlpha.png");
   var fbMat = new THREE.MeshPhongMaterial({color: 0x000000, alphaMap: fbAlpha,transparent: true, opacity: 0.8, side: THREE.DoubleSide});
 
-    var igPlane = new THREE.Mesh(new THREE.PlaneGeometry( 1, 1), igMat);
-    igPlane.position.set(1, 0.5, 16);
-    igPlane.rotation.y = getRadian(90);
-    igPlane.name = "Instagram";
-    scene.add(igPlane);
-    var fbPlane = new THREE.Mesh(new THREE.PlaneGeometry( 1, 1), fbMat);
-    fbPlane.position.set(11, 0.3, 16);
-    fbPlane.rotation.y = getRadian(90);
-    fbPlane.name = "Facebook";
-    scene.add(fbPlane);
-
-    var gPlane = new THREE.Mesh(new THREE.PlaneGeometry( 10, 10), new THREE.ShadowMaterial());
-    //gPlane.position.set(1, 0.5, 24);
+    var gPlane = new THREE.Mesh(new THREE.PlaneBufferGeometry( 10, 10), new THREE.ShadowMaterial());
+    //gPlane.position.set(1, 0.5, 0);
     //gPlane.rotation.y = getRadian(90);
-    gPlane.rotation.x = getRadian(90);
+    gPlane.rotation.x = getRadian(-90);
     gPlane.receiveShadow = true;
     //gPlane.name = "Facebook";
     scene.add(gPlane);
@@ -1338,7 +1325,7 @@ var phoMap = new THREE.TextureLoader().load('models/thermostat.png');
    
     console.log('gizmooo');
 
-    gizmo.visible =false;
+    gizmo.visible = false;
 
     gizmo.traverse(function (o) {
       if (o.isMesh) {
@@ -1347,8 +1334,26 @@ var phoMap = new THREE.TextureLoader().load('models/thermostat.png');
     scene.add(gizmo);
   });
 
+  var contactloader = new THREE.GLTFLoader();
+ contactloader.load( "models/contactttrr.glb", function(gltf){
+    contact = gltf.scene;
+    contact.rotation.z = getRadian(-90);
+    contact.rotation.x = getRadian(-90);
+      contact.scale.set(0.6,0.6,0.6);
+
+    contact.position.set(-1,0.6,16);
+   
+    contact.visible = true;
+
+    contact.traverse(function (o) {
+      if (o.isMesh) {
+      }
+    });
+    scene.add(contact);
+  });
+
   var usloader = new THREE.GLTFLoader();
-  usloader.load( "models/buuss.glb", function(gltf){
+  usloader.load( "models/uss.glb", function(gltf){
     us = gltf.scene;
     if(ori)us.rotation.x = 91;
     //us.rotation.z = 10;
@@ -1364,6 +1369,7 @@ var phoMap = new THREE.TextureLoader().load('models/thermostat.png');
         if(o.name == "Plane") o.material = igMat;
         if(o.name == "Plane001") o.material = fbMat;
         o.material.roughness = 0.6;
+       o.material.flatShading = true;
         o.position.set(+1.6 + (usList.indexOf(o.name) * dist), 0.2,0);
       }
     });
@@ -1378,7 +1384,7 @@ var phoMap = new THREE.TextureLoader().load('models/thermostat.png');
     //tv.rotation.x = -90;
     tv.rotation.z = 30.4;
     tv.rotation.y = 155.4;
-    tv.scale.set(0.006,0.006,0.006);
+    tv.scale.set(0.01,0.01,0.01);
     
     tv.name="tv";
     //tv.visible = false;
@@ -1429,7 +1435,7 @@ var phoMap = new THREE.TextureLoader().load('models/thermostat.png');
     synth.rotation.x = 90;
     synth.rotation.z = 30.4;
     synth.rotation.y = 158.4;
-    synth.scale.set(0.32,0.32,0.32);
+    synth.scale.set(0.35,0.35,0.35);
     synth.name="synth";
     positioner(synth);
     synth.visible = true;
@@ -1467,7 +1473,8 @@ var phoMap = new THREE.TextureLoader().load('models/thermostat.png');
     //vr.rotation.x = 90;
     vr.rotation.z = 30.4;
     vr.rotation.y = 158.4;
-    vr.scale.set(0.3,0.3,0.3);
+    vr.scale.set(0.4,0.4,0.4);
+    if(ori == false) vr.scale.set(0.5,0.5,0.5);
     vr.castShadow = true;
     var vrMat = new THREE.MeshLambertMaterial({color: 0x1f1f1f,side: THREE.DoubleSide});
     vr.name="vr";
@@ -1498,7 +1505,7 @@ var phoMap = new THREE.TextureLoader().load('models/thermostat.png');
     phone.rotation.x = 90;
     phone.rotation.z = 30.4;
     phone.rotation.y = 155.4;
-    phone.scale.set(0.09,0.09,0.09);
+    phone.scale.set(0.13,0.13,0.13);
     //phone.position.set(0,0.5,0);
     phone.name="phone";
     positioner(phone);
@@ -1600,30 +1607,34 @@ function animate() {
     plane.rotation.z += 0.001;
   }
 
-
-  for(var j = 0; j < rowSize+1; j++) {
-        for(var i = 0; i < rowSize+1; i++) {
-            plane.geometry.vertices[(rowSize+1)*j + i].z = maxHeight*Math.sin(j/rowSize*3 + t*.05);
-            plane.geometry.vertices[(rowSize+1)*j + i].z += maxHeight/5*Math.sin(j/rowSize*12 + t*0.04);
-            plane.geometry.vertices[(rowSize+1)*j + i].z += maxHeight/13*Math.cos(j/rowSize*18 + t*0.2);
-
-            plane.geometry.vertices[(rowSize+1)*j + i].z += maxHeight*Math.cos(i/rowSize*3 + t*.05);
-            plane.geometry.vertices[(rowSize+1)*j + i].z += maxHeight/5*Math.cos(i/rowSize*12 + t*0.04);
-            plane.geometry.vertices[(rowSize+1)*j + i].z += maxHeight/13*Math.sin(i/rowSize*18 + t*0.2);
-        }
-    }
-    t+=0.55;
-
-    plane.geometry.verticesNeedUpdate = true;
+  planeFlow();
 
 
-
-    TWEEN.update();
+  TWEEN.update();
   // Render the scene.
   renderer.render(scene, camera);
   controls.update();
 
 }
+
+function planeFlow() {
+  for(var g = 0; g < planes.length; g++) {
+    var pl = planes[g];
+    for(var j = 0; j < rowSize+1; j++) {
+          for(var i = 0; i < rowSize+1; i++) {
+              pl.geometry.vertices[(rowSize+1)*j + i].z = maxHeight*Math.sin(j/rowSize*3 + t*.05);
+              pl.geometry.vertices[(rowSize+1)*j + i].z += maxHeight/5*Math.sin(j/rowSize*12 + t*0.04);
+              pl.geometry.vertices[(rowSize+1)*j + i].z += maxHeight/13*Math.cos(j/rowSize*18 + t*0.2);
+              pl.geometry.vertices[(rowSize+1)*j + i].z += maxHeight*Math.cos(i/rowSize*3 + t*.05);
+              pl.geometry.vertices[(rowSize+1)*j + i].z += maxHeight/5*Math.cos(i/rowSize*12 + t*0.04);
+              pl.geometry.vertices[(rowSize+1)*j + i].z += maxHeight/13*Math.sin(i/rowSize*18 + t*0.2);
+          }
+      }
+      t+=0.055;
+      pl.geometry.verticesNeedUpdate = true;
+  }
+}
+
   </script>
 </body>
 </html>

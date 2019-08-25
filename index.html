@@ -1210,7 +1210,7 @@ function positioner(ob) {
 /*
 var phoMap = new THREE.TextureLoader().load('models/thermostat.png');
     let phoMat =  new THREE.MeshLambertMaterial({ map : phoMap });*/
-    var envMap = new THREE.TextureLoader().load('models/plakat.jpg');
+    var envMap = new THREE.TextureLoader().load('https://raw.githubusercontent.com/Saculs/NotReal-WebGL/master/models/plakat.jpg');
     let vlajkaMat =  new THREE.MeshLambertMaterial({ map : envMap });
     plane = new THREE.Mesh(new THREE.PlaneGeometry(150, 200, rowSize, rowSize), vlajkaMat);
     plane.scale.set(0.005,0.005,0.005);
@@ -1280,16 +1280,16 @@ var phoMap = new THREE.TextureLoader().load('models/thermostat.png');
 
     function initFellas() {
       var femats = [];
-      var seTex = new THREE.TextureLoader().load("models/selamP0.jpg");
+      var seTex = new THREE.TextureLoader().load("https://raw.githubusercontent.com/Saculs/NotReal-WebGL/master/models/selamP0.jpg");
       var seMat = new THREE.MeshLambertMaterial({map: seTex /*alphaMap: seTex,transparent: true, opacity: 1, */,side: THREE.DoubleSide});
       femats.push(seMat);
-      var trTex = new THREE.TextureLoader().load("models/2rP0.jpg");
+      var trTex = new THREE.TextureLoader().load("https://raw.githubusercontent.com/Saculs/NotReal-WebGL/master/models/2rP0.jpg");
       var trMat = new THREE.MeshLambertMaterial({map: trTex,side: THREE.DoubleSide});
       femats.push(trMat);
-      var brTex = new THREE.TextureLoader().load("models/brainzP0.jpg");
+      var brTex = new THREE.TextureLoader().load("https://raw.githubusercontent.com/Saculs/NotReal-WebGL/master/models/brainzP0.jpg");
       var brMat = new THREE.MeshLambertMaterial({map: brTex,side: THREE.DoubleSide});
       femats.push(brMat);
-      var cnTex = new THREE.TextureLoader().load("models/cinescoP0.jpg");
+      var cnTex = new THREE.TextureLoader().load("https://raw.githubusercontent.com/Saculs/NotReal-WebGL/master/models/cinescoP0.jpg");
       var cnMat = new THREE.MeshLambertMaterial({map: cnTex,side: THREE.DoubleSide});
       femats.push(cnMat);
       var i;

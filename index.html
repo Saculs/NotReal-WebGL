@@ -214,13 +214,28 @@ h2 {
 
 @media screen and (min-width: 0px) {
   h2 {
-    font-size: 220%;
+    font-size: 180%;
   } 
   #theRest {
-    font-size: 220%;
+    font-size: 180%;
   }
   #hash {
-    font-size: 220%;
+    font-size: 180%;
+  }
+  #gizmo {
+    width:40px;
+    height:40px;
+  }
+}
+@media screen and (min-width: 230px) {
+  h2 {
+    font-size: 230%;
+  } 
+  #theRest {
+    font-size: 230%;
+  }
+  #hash {
+    font-size: 230%;
   }
   #gizmo {
     width:50px;
@@ -288,8 +303,8 @@ h2 {
     font-size: 500%;
   }
   #gizmo {
-    width: 135px;
-    height: 135px;
+    width: 110px;
+    height: 110px;
   }
 }
 
@@ -543,8 +558,8 @@ function init() {
     console.log("moveX ", moveX);
     console.log("moveY ", moveY);
     if(curCamPos){
-    camera.position.z = lerp(camera.position.z,(curCamPos.z - moveX * 0.0015),0.1);
-    camera.position.y = lerp(camera.position.y,(curCamPos.y + moveY *0.0015),0.1);
+    camera.position.z = lerp(camera.position.z,(curCamPos.z - moveX * 0.002),0.2);
+    camera.position.y = lerp(camera.position.y,(curCamPos.y + moveY *0.002),0.2);
     //izmo.position.set(camera.position.x + 0.2, camera.position.y + 0.038 ,camera.position.z + 0.039);
     }
   });

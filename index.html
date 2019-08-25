@@ -118,7 +118,6 @@ a {
    width: 100%;
    height: 100%;
 
-   pointer-events: none;
    overflow: hidden;
    z-index: 9999 !important;
 }
@@ -133,67 +132,18 @@ a {
    transform: translate(-50%, -50%);
 }
 
-
-h1 {
-    color:white;
-    position:absolute;
-    visibility: visible;
-    top:50%;
-    z-index:11000;
-    width:100%;
-    text-align: center;
-    /*transform: translate(0,-100%); */
-    font-family: 'favorit_stdregular_extended';
-    font-weight: 100;
-    /* letter-spacing: 40px; */
-    text-transform: uppercase;
-}
-
-@media screen and (min-width: 300px) {
-  h1 {
-    color:white;
-    position:absolute;
-    visibility: visible;
-    top:50%;
-    z-index:100000;
-    /*width:100%; */
-    text-align: center;
-    /*transform: translate(0,-100%); */
-    font-weight: 100;
-    font-size: 19px;
-    text-transform: uppercase;
-}
-}
-
-@media screen and (min-width: 800px) {
-  h1 {
-    color:white;
-    position:absolute;
-    visibility: visible;
-    top:50%;
-    z-index:100000;
-    width:100%;
-    text-align: center;
-    /*transform: translate(0,-100%); */
-    font-weight: 100;
-    text-transform: uppercase;
-    font-size: 24px;
-}
-}
-
 h2 {
     color:black;
     text-transform: uppercase;
     z-index:100;
    /* transform: translate(0,-100%); */
     font-family: 'favorit_stdbold_extended';
-    font-weight: 100;
     position: absolute;
     left: 0px;
     padding-left: 3%;
     top: 0px;
     font-size: 300%;
-    width: 65%;
+    width: 80%;
     line-height: 0.8em;
     margin-top: 0.4em;
 }
@@ -219,7 +169,6 @@ h2 {
   color:black;
   font-family: 'favorit_stdbold_extended';
   text-transform: uppercase;
-  font-weight: 600;
   font-size: 300%;
   left: 13px;
   white-space: initial;
@@ -230,7 +179,6 @@ h2 {
   color:black;
   font-family: 'favorit_stdbold_extended';
   text-transform: uppercase;
-  font-weight: 600;
   font-size: 300%;
   white-space: initial;
   line-height: 0.8em;
@@ -249,7 +197,7 @@ h2 {
     width:60px;
     height:60px;
     padding-right: 2%;
-    margin-top: 2%;
+    margin-top: 0.4em;
 }
 
 #my_image {
@@ -262,6 +210,89 @@ h2 {
     margin-right: -50%;
     transform: translate(-50%, -50%)
 }
+
+
+@media screen and (min-width: 0px) {
+  h2 {
+    font-size: 235%;
+  } 
+  #theRest {
+    font-size: 235%;
+  }
+  #hash {
+    font-size: 235%;
+  }
+  #gizmo {
+    width:50px;
+    height:50px;
+  }
+}
+
+@media screen and (min-width: 360px) {
+  h2 {
+    font-size: 310%;
+  }
+  #theRest {
+    font-size: 310%;
+  }
+  #hash {
+    font-size: 310%;
+  }
+  #gizmo {
+    width:70px;
+    height:70px;
+  }
+}
+
+@media screen and (min-width: 460px) {
+  h2 {
+    font-size: 420%;
+  }
+  #theRest {
+    font-size: 420%;
+  }
+  #hash {
+    font-size: 420%;
+  }
+  #gizmo {
+    width:90px;
+    height:90px;
+  }
+}
+
+@media screen and (min-width: 500px) {
+  h2 {
+    font-size: 450%;
+  }
+  #theRest {
+    font-size: 450%;
+  }
+  #hash {
+    font-size: 450%;
+  }
+  #gizmo {
+    width:110px;
+    height:110px;
+  }
+}
+
+
+@media screen and (min-width: 700px) {
+  h2 {
+    font-size: 600%;
+  }
+  #theRest {
+    font-size: 600%;
+  }
+  #hash {
+    font-size: 600%;
+  }
+  #gizmo {
+    width:135px;
+    height:135px;
+  }
+}
+
 </style>
   <meta charset="utf-8">
   <meta name="mobile-web-app-capable" content="yes">
@@ -281,7 +312,7 @@ h2 {
   <script type="text/javascript" src="js/main.js"></script>
 
   <script src="https://player.vimeo.com/api/player.js"></script>
-<div id="player" class="vimeo-wrapper" ><video id= "introVid" playsinline="" autoplay="" muted="" loop="" poster="/models/vidPoster.jpg" class=""><source src="clean_vid.mp4" type="video/mp4"></video></div>
+<div id="player" class="vimeo-wrapper" ><video id= "introVid" playsinline="" autoplay="" muted="" loop="" poster="/models/vidPoster.jpg" class=""><source src="https://raw.githubusercontent.com/Saculs/NotReal-WebGL/master/clean_vid.mp4" type="video/mp4"></video></div>
 
 
   <img id="gizmo" src="models/gizmo1.png"/>
@@ -291,9 +322,9 @@ h2 {
   <div id="cont">
       <h2>VR&AR</h2>
       <div id="info">
-        <p id="theRest">virtual <br> augmented <br> realtime <br> unreal</p>
+        <p id="theRest">virtual <br> augme<br>nted <br> realtime <br> unreal</p>
     </div>
-    <p id="hash">#<br>#<br>#<br>#</p>
+    <p id="hash">#<br>#<br>#<br>#<br>#</p>
   </div>
   </div>
 
@@ -301,7 +332,7 @@ h2 {
 
   <video id="video" loop crossOrigin="anonymous" webkit-playsinline style="display:none">
 			<!--<source src="textures/sintel.ogv" type='video/ogg; codecs="theora, vorbis"'>-->
-			<source src="clean_vid.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
+			<source src="https://raw.githubusercontent.com/Saculs/NotReal-WebGL/master/clean_vid.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
   </video>
 
   <div id="light" class='light'>
@@ -454,9 +485,12 @@ renderer.shadowMapEnabled = true;
 
   video = document.getElementById( 'video' );
 	videoTexture = new THREE.VideoTexture( video );
+  $('canvas').css( 'cursor', 'pointer' );
 
   setTimeout(function(){
-    if(firstPhase == true)initTrans();
+    if(firstPhase == true){
+      initTrans();
+    }
   },6000);
 
   // Create an event listener that resizes the renderer with the browser window.
@@ -629,7 +663,6 @@ var canvas = document.body.getElementsByTagName('canvas')[0];
 if(intersects.length > 0){
   console.log(intersects[0].object.name);
   var namee = intersects[0].object.name;
-  canvas.style.cursor = "pointer";
 }
 if (intersects.length > 0 && clickable.includes(namee)) {
   canvas.style.cursor = "pointer";
@@ -643,7 +676,7 @@ if (intersects.length > 0 && clickable.includes(namee)) {
 
 } else {
   console.log(phase);
-  canvas.style.cursor = "default";
+  //canvas.style.cursor = "default";
   }
 }
 
@@ -826,7 +859,7 @@ function textSetter(ob){
       container.style.visibility = 'visible';
       break;
     case "vr":
-      changeTexts('VR & AR',"#virtual #augmented #realtime #unreal");
+      changeTexts('VR & AR',"#virtual #augme-#nted #realtime #unreal");
       container.style.visibility = 'visible';
       break;
     case "synth":
@@ -858,35 +891,35 @@ function textSetter(ob){
   if(phase=="2"){
   switch(ob){
     case "Cone":
-      changeTexts("Kajetan Tvrdik", "#film #televison #photo#graphy #new-media");
+      changeTexts("Kajetan<br>Tvrdik", "#film #televison #photo#graphy #new-media");
       container.style.visibility = 'visible';
       break;
     case "Cube":
-      changeTexts("ADAMS SOUKUP", "#art #visual#izations #paint #image #materials #2D #Abstract #realistic");
+      changeTexts("ADAMS<br>SOUKUP", "#art #visual#izations #image #Abstract #realistic");
       container.style.visibility = 'visible';
       break;
     case "Cone001":
-      changeTexts("SEBASTIAN BAALBAKI", "#Structures #Substance#Suite #Textures #Artist#Support #Tech");
+      changeTexts("SEBASTIAN<br>BAALBAKI", "#Structures #Substance#Suite #Textures #Artist#Support #Tech");
       container.style.visibility = 'visible';
       break;
     case "AElias":
-      changeTexts("ELIAS BAUER", "#VR/AR #realtime #Unreal #Houdini #art #tech");
+      changeTexts("ELIAS<br>BAUER", "#VR/AR #realtime #Unreal #Houdini #art #tech");
 
 break;
     case "instance":
-      changeTexts("Hugo Pascalie", "#Art-#Direction #Paris #typo#graphy #Graphic#Design #Motion");
+      changeTexts("Hugo<br>Pascalie", "#Art-#Direction #Paris #typo#graphy #Graphic#Design #Motion");
       container.style.visibility = 'visible';
       break;
     case "ALucas":
-    changeTexts("Lucas Saidl", "#VR/AR #realtime #Unreal #Houdini #art #tech");
+    changeTexts("Lucas<br>Saidl", "#VR/AR #realtime #Unreal #Houdini #art #tech");
       container.style.visibility = 'visible';
       break;
     case "Sphere":
-    changeTexts("Richard Janecek", "#Film #Photo-#gammetry #art #digital #art");
+    changeTexts("Richard<br>Janecek", "#Film #Photo-#gammetry #art #digital #art");
       container.style.visibility = 'visible';
       break;
     case "Cylinder":
-    changeTexts("Matej martinec", "#Graphic#Design #Houdini #Typo#graphy #Print");
+    changeTexts("Matej<br>martinec", "#Graphic#Design #Houdini #Typo#graphy #Print");
       container.style.visibility = 'visible';
       break;
     default:
@@ -923,10 +956,10 @@ break;
   } else if(phase == "4"){
     switch(ob){
       case "Selam X":
-        changeTexts(ob, "#Creative#Direction #Visual#Identity #Animation #WebDesign #DigitalArt");
+        changeTexts(ob, "#Creative#Direction #Visual#Identity #Animation #WebDesign #Digital#Art");
         break;
       case "2Realistic":
-        changeTexts(ob, "#VR #interactive #unreal #visual-#izations #VFX");
+        changeTexts(ob, "#VR #inter#active #unreal #visual-#izations #VFX");
         break;
       case "Brainz":
         changeTexts(ob,"#360 #VR #AR #graphic-#design #websites");
@@ -943,7 +976,7 @@ break;
 
 }
 function changeTexts(str,strr){
-  $('h2').text(str);
+  $('h2').html(str);
   $('#theRest').html(strr.replace(/#/g, "<br />"));
   $('#hash').html( "#<br>".repeat((countBr(strr)) ) );
 }
@@ -1019,6 +1052,7 @@ tween.start();
 
 function initTrans(){
   video.play();
+  $('canvas').css( 'cursor', 'default' );
   var speed = 200;
   animateMove(camera.position, {x:-4, y: 0.7/*16*/, z: 0}, {x:0, y: 0, z: 0}, 500);
   firstPhase = false;

@@ -262,13 +262,13 @@ h2 {
 
 @media screen and (min-width: 500px) {
   h2 {
-    font-size: 450%;
+    font-size: 440%;
   }
   #theRest {
-    font-size: 450%;
+    font-size: 440%;
   }
   #hash {
-    font-size: 450%;
+    font-size: 440%;
   }
   #gizmo {
     width:100px;
@@ -465,7 +465,7 @@ function init() {
   // Create a renderer and add it to the DOM.
   renderer = new THREE.WebGLRenderer({antialias:true});
   renderer.setSize(WIDTH, HEIGHT);
-renderer.shadowMapEnabled = true;
+  //renderer.shadowMapEnabled = true;
 
 
   document.body.appendChild(renderer.domElement);
@@ -899,7 +899,7 @@ function textSetter(ob){
       container.style.visibility = 'visible';
       break;
     case "Cone001":
-      changeTexts("SEBASTIAN<br>BAALBAKI", "#Structures #Substance#Suite #Textures #Artist#Support #Tech");
+      changeTexts("SEBASTIAN<br>BAALBAKI", "#Structure #Substance#Suite #Textures #Artist#Support #Tech");
       container.style.visibility = 'visible';
       break;
     case "AElias":
@@ -1322,7 +1322,7 @@ var phoMap = new THREE.TextureLoader().load('models/thermostat.png');
 
   var light2 = new THREE.PointLight(0xffffff);
   light2.position.set(-8,-6,0);
-  light2.castShadow = true;
+  //light2.castShadow = true;
   scene.add(light2);
 
   let ambientLight = new THREE.AmbientLight(0x505050);

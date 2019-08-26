@@ -561,8 +561,8 @@ function init() {
     moveY = ((boxWidth/2) * rotatedX) / 45;
     */
     if(lastGamma == null|| lastBeta == null){
-      lastGamma = event.beta;
-    lastBeta = event.gamma;
+      lastGamma = event.gamma;
+    lastBeta = event.beta;
     } else {
       moveX = lastBeta - event.beta;
       moveY = lastGamma - event.gamma;

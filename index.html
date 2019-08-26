@@ -572,8 +572,8 @@ function init() {
     console.log("moveY ", moveY);
     if(curCamPos){
     
-    camera.position.z = lerp(camera.position.z,(curCamPos.z - moveY * 1),0.1);
-    camera.position.y = lerp(camera.position.y,(curCamPos.y + moveX * 1),0.1);
+    camera.position.z = lerp(camera.position.z,(curCamPos.z - moveY * 0.05),0.1);
+    camera.position.y = lerp(camera.position.y,(curCamPos.y + moveX * 0.05),0.1);
     /*
     camera.position.z = curCamPos.z - moveY * 0.02;
     camera.position.y = curCamPos.y + moveX *0.02;

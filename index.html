@@ -327,7 +327,7 @@ h2 {
   <script type="text/javascript" src="js/main.js"></script>
 
   <script src="https://player.vimeo.com/api/player.js"></script>
-<div id="player" class="vimeo-wrapper" ><video id= "introVid" autoplay loop muted playsinline poster="/models/vidPoster.jpg" class=""><source src="https://raw.githubusercontent.com/Saculs/NotReal-WebGL/master/clean_vid.mp4" type="video/mp4"></video></div>
+<div id="player" class="vimeo-wrapper" ><video id= "introVid" autoplay loop muted playsinline webkit-playsinline poster="/models/vidPoster.jpg" class=""><source src="https://raw.githubusercontent.com/Saculs/NotReal-WebGL/master/clean_vid.mp4" type="video/mp4"></video></div>
 
 
   <img id="gizmo" src="models/gizmo1.png"/>
@@ -345,7 +345,7 @@ h2 {
 
   <div class="popup"><div class="text"></div></div>
 
-  <video id="video" loop crossOrigin="anonymous" webkit-playsinline style="display:none">
+  <video id="video" loop muted crossOrigin="anonymous" webkit-playsinline style="display:none">
 			<!--<source src="textures/sintel.ogv" type='video/ogg; codecs="theora, vorbis"'>-->
 			<source src="https://raw.githubusercontent.com/Saculs/NotReal-WebGL/master/clean_vid.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
   </video>
@@ -553,9 +553,12 @@ function init() {
     rotatedX = Math.min(Math.max(parseInt(Math.floor(event.beta)), -45), 45),
     boxWidth = WIDTH,
     boxHeight = HEIGHT;
-
+/*
     moveX = ((boxWidth/2) * rotatedY) / 45;
     moveY = ((boxWidth/2) * rotatedX) / 45;
+    */
+    moveX = event.beta;
+    moveY = event.gamma;
     console.log("moveX ", moveX);
     console.log("moveY ", moveY);
     if(curCamPos){

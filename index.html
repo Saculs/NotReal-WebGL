@@ -566,8 +566,8 @@ function init() {
     camera.position.z = lerp(camera.position.z,(curCamPos.z - moveX * 0.005),0.1);
     camera.position.y = lerp(camera.position.y,(curCamPos.y + moveY *0.005),0.1);
     */
-    camera.position.z = curCamPos.z - moveX * 0.005;
-    camera.position.y = curCamPos.y + moveY *0.005;
+    camera.position.z = curCamPos.z - moveY * 0.02;
+    camera.position.y = curCamPos.y + moveX *0.02;
     //izmo.position.set(camera.position.x + 0.2, camera.position.y + 0.038 ,camera.position.z + 0.039);
     }
   });

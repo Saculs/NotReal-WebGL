@@ -327,7 +327,7 @@ h2 {
   <script type="text/javascript" src="js/main.js"></script>
 
   <script src="https://player.vimeo.com/api/player.js"></script>
-<div id="player" class="vimeo-wrapper" ><video id= "introVid" autoplay loop muted playsinline webkit-playsinline poster="/models/vidPoster.jpg" class=""><source src="https://raw.githubusercontent.com/Saculs/NotReal-WebGL/master/clean_vid.mp4" type="video/mp4"></video></div>
+<div id="player" class="vimeo-wrapper" ><video id= "introVid" muted autoplay loop playsinline webkit-playsinline poster="/models/vidPoster.jpg" class=""><source src="https://raw.githubusercontent.com/Saculs/NotReal-WebGL/master/clean_vid.mp4" type="video/mp4"></video></div>
 
 
   <img id="gizmo" src="models/gizmo1.png"/>
@@ -1074,6 +1074,7 @@ tween.start();
 }
 
 function initTrans(){
+  video.muted = true;
   video.play();
   $('canvas').css( 'cursor', 'default' );
   var speed = 200;
@@ -1082,7 +1083,6 @@ function initTrans(){
   phase = '1';
   $('#player').hide();
   clicker(vr);
-  
   /*
   //logo.visible = false;
         //example.style.visibility = 'visible';

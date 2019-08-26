@@ -327,7 +327,7 @@ h2 {
   <script type="text/javascript" src="js/main.js"></script>
 
   <script src="https://player.vimeo.com/api/player.js"></script>
-<div id="player" class="vimeo-wrapper" ><video id= "introVid" playsinline="" autoplay="" muted="" loop="" poster="/models/vidPoster.jpg" class=""><source src="https://raw.githubusercontent.com/Saculs/NotReal-WebGL/master/clean_vid.mp4" type="video/mp4"></video></div>
+<div id="player" class="vimeo-wrapper" ><video id= "introVid" autoplay loop muted playsinline poster="/models/vidPoster.jpg" class=""><source src="https://raw.githubusercontent.com/Saculs/NotReal-WebGL/master/clean_vid.mp4" type="video/mp4"></video></div>
 
 
   <img id="gizmo" src="models/gizmo1.png"/>
@@ -499,7 +499,7 @@ function init() {
 
 
   video = document.getElementById( 'video' );
-  video.playInLine = true;
+  //video.playInLine = true;
 	videoTexture = new THREE.VideoTexture( video );
   $('canvas').css( 'cursor', 'pointer' );
 

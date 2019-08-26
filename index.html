@@ -388,6 +388,9 @@ var moving;
 var moveX = 0;
 var moveY = 0;
 
+var lastGamma;
+var lastBeta;
+
 var gizmo;
 var tv;
 var skate;
@@ -550,21 +553,27 @@ function init() {
     event = event || window.event;
 
     var rotatedY =  Math.min(Math.max(parseInt(Math.floor(event.gamma)), -45), 45),
-    rotatedX = Math.min(Math.max(parseInt(Math.floor(event.beta)), -45), 45),
+    rotatedX =      Math.min(Math.max(parseInt(Math.floor(event.beta)), -45), 45),
     boxWidth = WIDTH,
     boxHeight = HEIGHT;
 /*
     moveX = ((boxWidth/2) * rotatedY) / 45;
     moveY = ((boxWidth/2) * rotatedX) / 45;
     */
-    moveX = event.beta;
-    moveY = event.gamma;
+    if(lastGamma == null|| lastBeta == null){
+      lastGamma = event.beta;
+    lastBeta = event.gamma;
+    } else {
+      moveX = lastBeta - event.beta;
+      moveY = lastGamma - event.gamma;
+    }
+
     console.log("moveX ", moveX);
     console.log("moveY ", moveY);
     if(curCamPos){
     
-    camera.position.z = lerp(camera.position.z,(curCamPos.z - moveX * 0.02),0.1);
-    camera.position.y = lerp(camera.position.y,(curCamPos.y + moveY *0.02),0.1);
+    camera.position.z = lerp(camera.position.z,(curCamPos.z - moveY * 0.02),0.1);
+    camera.position.y = lerp(camera.position.y,(curCamPos.y + moveX *0.02),0.1);
     /*
     camera.position.z = curCamPos.z - moveY * 0.02;
     camera.position.y = curCamPos.y + moveX *0.02;

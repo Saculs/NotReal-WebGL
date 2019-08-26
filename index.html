@@ -572,8 +572,8 @@ function init() {
     console.log("moveY ", moveY);
     if(curCamPos){
     
-    camera.position.z = lerp(camera.position.z,(curCamPos.z - moveY * 0.03),0.1);
-    camera.position.y = lerp(camera.position.y,(curCamPos.y + moveX * 0.03),0.1);
+    camera.position.z = lerp(camera.position.z,(curCamPos.z - moveY * 0.018),0.15);
+    camera.position.y = lerp(camera.position.y,(curCamPos.y + moveX * 0.018),0.15);
     /*
     camera.position.z = curCamPos.z - moveY * 0.02;
     camera.position.y = curCamPos.y + moveX *0.02;
@@ -1687,7 +1687,7 @@ function animate() {
               plane.geometry.vertices[(rowSize+1)*j + i].z += maxHeight/13*Math.sin(i/rowSize*18 + t*0.2);
           }
       }
-      t+=0.055;
+      t+=0.55;
       plane.geometry.verticesNeedUpdate = true;
 
 

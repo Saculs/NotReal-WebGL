@@ -572,8 +572,8 @@ function init() {
     console.log("moveY ", moveY);
     if(curCamPos){
     
-    camera.position.z = lerp(camera.position.z,(curCamPos.z - moveY * 0.01),0.1);
-    camera.position.y = lerp(camera.position.y,(curCamPos.y + moveX * 0.01),0.1);
+    camera.position.z = lerp(camera.position.z,(curCamPos.z - moveY * 0.03),0.1);
+    camera.position.y = lerp(camera.position.y,(curCamPos.y + moveX * 0.03),0.1);
     /*
     camera.position.z = curCamPos.z - moveY * 0.02;
     camera.position.y = curCamPos.y + moveX *0.02;
@@ -1044,6 +1044,8 @@ console.log("tween animating");
 curCamPos = target;
 // create the tween
 moving = true;
+lastBeta = null;
+lastGamma = null;
 var spee = speed ? speed : 4000;
 var tween = new TWEEN.Tween(vectorToAnimate).to(target, spee)
     .easing(TWEEN.Easing.Quintic.InOut)

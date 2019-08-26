@@ -499,6 +499,7 @@ function init() {
 
 
   video = document.getElementById( 'video' );
+  video.playInLine = true;
 	videoTexture = new THREE.VideoTexture( video );
   $('canvas').css( 'cursor', 'pointer' );
 
@@ -558,8 +559,8 @@ function init() {
     console.log("moveX ", moveX);
     console.log("moveY ", moveY);
     if(curCamPos){
-    //camera.position.z = lerp(camera.position.z,(curCamPos.z - moveX * 0.015),0.1);
-    //camera.position.y = lerp(camera.position.y,(curCamPos.y + moveY *0.015),0.1);
+    camera.position.z = lerp(camera.position.z,(curCamPos.z - moveX * 0.015),0.1);
+    camera.position.y = lerp(camera.position.y,(curCamPos.y + moveY *0.015),0.1);
     //izmo.position.set(camera.position.x + 0.2, camera.position.y + 0.038 ,camera.position.z + 0.039);
     }
   });
@@ -1227,7 +1228,7 @@ var phoMap = new THREE.TextureLoader().load('models/thermostat.png');
     let phoMat =  new THREE.MeshLambertMaterial({ map : phoMap });*/
     var envMap = new THREE.TextureLoader().load('https://raw.githubusercontent.com/Saculs/NotReal-WebGL/master/models/plakat.jpg');
     let vlajkaMat =  new THREE.MeshLambertMaterial({ map : envMap });
-    plane = new THREE.Mesh(new THREE.PlaneGeometry(150, 200, rowSize, rowSize), vlajkaMat);
+    plane = new THREE.Mesh(new THREE.PlaneGeometry(1.5, 2, 15,15), vlajkaMat);
     plane.scale.set(0.005,0.005,0.005);
     plane.rotation.y = getRadian(-90);
     plane.name = "flag";
@@ -1236,7 +1237,7 @@ var phoMap = new THREE.TextureLoader().load('models/thermostat.png');
     numberOfVerticies = plane.geometry.vertices.length;
     initPlane(plane);
     scene.add(plane);
-    planes.push(plane);
+    //planes.push(plane);
 
 
     function initPlane(pl) {
@@ -1358,7 +1359,7 @@ var phoMap = new THREE.TextureLoader().load('models/thermostat.png');
     scene.add(gPlane);
 
   var videoMat = new THREE.MeshLambertMaterial({ map : videoTexture});
-  
+  /*
   var gizmoloader = new THREE.GLTFLoader();
  gizmoloader.load( "models/gizmoo.glb", function(gltf){
     gizmo = gltf.scene;
@@ -1381,7 +1382,7 @@ var phoMap = new THREE.TextureLoader().load('models/thermostat.png');
       }
     });
     scene.add(gizmo);
-  });
+  });*/
 
   var contactloader = new THREE.GLTFLoader();
  contactloader.load( "models/contactttrr.glb", function(gltf){
@@ -1656,7 +1657,20 @@ function animate() {
     plane.rotation.z += 0.001;
   }
 
-  planeFlow();
+  //planeFlow();
+  for(var j = 0; j < rowSize+1; j++) {
+          for(var i = 0; i < rowSize+1; i++) {
+              plane.geometry.vertices[(rowSize+1)*j + i].z = maxHeight*Math.sin(j/rowSize*3 + t*.05);
+              plane.geometry.vertices[(rowSize+1)*j + i].z += maxHeight/5*Math.sin(j/rowSize*12 + t*0.04);
+              plane.geometry.vertices[(rowSize+1)*j + i].z += maxHeight/13*Math.cos(j/rowSize*18 + t*0.2);
+              plane.geometry.vertices[(rowSize+1)*j + i].z += maxHeight*Math.cos(i/rowSize*3 + t*.05);
+              plane.geometry.vertices[(rowSize+1)*j + i].z += maxHeight/5*Math.cos(i/rowSize*12 + t*0.04);
+              plane.geometry.vertices[(rowSize+1)*j + i].z += maxHeight/13*Math.sin(i/rowSize*18 + t*0.2);
+          }
+      }
+      t+=0.055;
+      plane.geometry.verticesNeedUpdate = true;
+  }
 
 
   TWEEN.update();

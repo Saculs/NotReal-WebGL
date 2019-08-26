@@ -1228,7 +1228,7 @@ var phoMap = new THREE.TextureLoader().load('models/thermostat.png');
     let phoMat =  new THREE.MeshLambertMaterial({ map : phoMap });*/
     var envMap = new THREE.TextureLoader().load('https://raw.githubusercontent.com/Saculs/NotReal-WebGL/master/models/plakat.jpg');
     let vlajkaMat =  new THREE.MeshLambertMaterial({ map : envMap });
-    plane = new THREE.Mesh(new THREE.PlaneGeometry(1.5, 2, 15,15), vlajkaMat);
+    plane = new THREE.Mesh(new THREE.PlaneGeometry(150, 200, rowSize,rowSize), vlajkaMat);
     plane.scale.set(0.005,0.005,0.005);
     plane.rotation.y = getRadian(-90);
     plane.name = "flag";
@@ -1312,16 +1312,16 @@ var phoMap = new THREE.TextureLoader().load('models/thermostat.png');
       for (i = 0; i < fellasList.length; i++) { 
         //var p = new THREE.Mesh(new THREE.PlaneGeometry( 1, 1), vlajkaMat);
 
-        var p = new THREE.Mesh(new THREE.PlaneGeometry(150, 200, rowSize, rowSize), vlajkaMat);
+        var p = new THREE.Mesh(new THREE.PlaneGeometry(150, 200, 15, 15), vlajkaMat);
         p.scale.set(0.005,0.005,0.005);
-        initPlane(p);
+        //initPlane(p);
 
         p.position.set(-2 + (i * dist), 0.5, 12);
         p.rotation.y = getRadian(-90);
         if(i < (femats.length)) p.material = femats[i] ;
         p.name = fellasList[i];
         scene.add(p);
-        planes.push(p);
+        //planes.push(p);
       }
     }
 

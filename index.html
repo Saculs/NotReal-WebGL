@@ -582,6 +582,8 @@ function init() {
       moveX = lastBeta - event.beta;
       moveY = lastGamma - event.gamma;
     }
+    console.log("Gamma ", event.gamma);
+    console.log("Betta  ", event.beta);
 
     console.log("moveX ", moveX);
     console.log("moveY ", moveY);
@@ -938,15 +940,15 @@ function textSetter(ob){
   }
   if(phase=="2"){
   switch(ob){
-    case "Cone":
+    case "Cylinder":
       changeTexts("Kajetan<br>Tvrdik", "#film #televison #photo#graphy #new-media");
       container.style.visibility = 'visible';
       break;
-    case "Cube":
+    case "Cone001":
       changeTexts("ADAMS<br>SOUKUP", "#art #visual#izations #image #Abstract #realistic");
       container.style.visibility = 'visible';
       break;
-    case "Cone001":
+    case "Cone":
       changeTexts("SEBASTIAN<br>BAALBAKI", "#Structure #Substance#Suite #Textures #Artist#Support #Tech");
       container.style.visibility = 'visible';
       break;
@@ -963,11 +965,12 @@ break;
       container.style.visibility = 'visible';
       break;
     case "Sphere":
-    changeTexts("Richard<br>Janecek", "#Film #Photo#gammetry #art #digital #art");
+    changeTexts("Matej<br>martinec", "#Graphic#Design #Houdini #Typo#graphy #Print");
       container.style.visibility = 'visible';
       break;
-    case "Cylinder":
-    changeTexts("Matej<br>martinec", "#Graphic#Design #Houdini #Typo#graphy #Print");
+    case "Cube":
+    changeTexts("Richard<br>Janecek", "#Film #Photo#gammetry #art #digital #art");
+    
       container.style.visibility = 'visible';
       break;
     default:
@@ -976,7 +979,7 @@ break;
   } else if(phase == "3"){
     switch(ob){
       case "Unreal Engine":
-        changeTexts("UNREAL", "#Realtime #VR&AR #Cinemato-#graphy");
+        changeTexts("UNREAL", "#Realtime #VR&AR #Cinemato#graphy");
         break;
       case "Houdini":
         changeTexts(ob, "#Procedural #VFX #Modelling");
@@ -1013,7 +1016,7 @@ break;
         changeTexts(ob,"#360 #VR&AR #graphic-#design #websites");
         break;
       case "Cinesco":
-        changeTexts(ob, "#creative-#studio #TV-ads #enter#tainment #VR #motion-#design");
+        changeTexts(ob, "#creative-#studio #TV-ads #enter#tainment #VR #motion#design");
         break; 
       default:
     }

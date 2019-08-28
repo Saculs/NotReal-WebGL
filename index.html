@@ -582,11 +582,8 @@ function init() {
       moveX = lastBeta - event.beta;
       moveY = lastGamma - event.gamma;
     }
-    console.log("Gamma ", event.gamma);
-    console.log("Betta  ", event.beta);
-
-    console.log("moveX ", moveX);
-    console.log("moveY ", moveY);
+    console.log("Gamma ", event.gamma, " Betta  ", event.beta);
+    console.log("moveY ", moveY, " moveX ", moveX);
     if(curCamPos){
     
     camera.position.z = lerp(camera.position.z,(curCamPos.z - moveY * 0.018),0.15);

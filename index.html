@@ -307,6 +307,21 @@ h2 {
     height: 110px;
   }
 }
+@media screen and (max-height: 460px) {
+  h2 {
+    font-size: 280%;
+  } 
+  #theRest {
+    font-size: 280%;
+  }
+  #hash {
+    font-size: 280%;
+  }
+  #gizmo {
+    width:60px;
+    height:60px;
+  }
+}
 
 </style>
   <meta charset="utf-8">
@@ -892,11 +907,11 @@ function textSetter(ob){
       container.style.visibility = 'visible';
       break;
     case "vr":
-      changeTexts('VR & AR',"#virtual #augme-#nted #realtime #unreal");
+      changeTexts('VR & AR',"#virtual #augme#nted #realtime #unreal");
       container.style.visibility = 'visible';
       break;
     case "synth":
-    changeTexts("Sound","#music #sound-#design #audio-#visual#ization");
+    changeTexts("Sound","#music #sound-#design #audio#visual#ization");
       container.style.visibility = 'visible';
       break;
     case "phone":
@@ -940,7 +955,7 @@ function textSetter(ob){
 
 break;
     case "instance":
-      changeTexts("Hugo<br>Pascalie", "#Art-#Direction #Paris #typo#graphy #Graphic#Design #Motion");
+      changeTexts("Hugo<br>Pascalie", "#Art#Direction #Paris #typo#graphy #Graphic#Design #Motion");
       container.style.visibility = 'visible';
       break;
     case "ALucas":
@@ -948,7 +963,7 @@ break;
       container.style.visibility = 'visible';
       break;
     case "Sphere":
-    changeTexts("Richard<br>Janecek", "#Film #Photo-#gammetry #art #digital #art");
+    changeTexts("Richard<br>Janecek", "#Film #Photo#gammetry #art #digital #art");
       container.style.visibility = 'visible';
       break;
     case "Cylinder":
@@ -967,10 +982,10 @@ break;
         changeTexts(ob, "#Procedural #VFX #Modelling");
         break;
       case "Blender":
-        changeTexts(ob, "#Open-#Source #Modelling");
+        changeTexts(ob, "#Open#Source #Modelling");
         break;
       case "Unity":
-        changeTexts(ob, "#VR&AR #multi-#platform");
+        changeTexts(ob, "#VR&AR #multi#platform");
         break;
       case "Substance":
         changeTexts(ob, "#Materials #Textures #surface #textures #photorealistic");
@@ -982,7 +997,7 @@ break;
         changeTexts(ob, "#3Dscans #realistic #photogammetry #realtime");
         break;
       case "Tensorflow":
-        changeTexts('Tensor flow', "#machine-learning #AI");
+        changeTexts('Tensor flow', "#machine#learning #AI");
         break;
       default:
     }

@@ -143,7 +143,7 @@ h2 {
     padding-left: 3%;
     top: 0px;
     font-size: 300%;
-    width: 80%;
+    width: 75%;
     line-height: 0.8em;
     margin-top: 0.4em;
 }
@@ -395,6 +395,10 @@ function lightbox_close() {
   //lightBoxVideo.pause();
 }
 
+function getRadian(x) {
+      return (Math.PI*x)/180;
+    }
+
 
 // Set up the scene, camera, and renderer as global variables.
 var scene, camera, renderer;
@@ -431,7 +435,7 @@ var video;
 
 var controls;
 
-var clickable = ["vr","phone","tv","flag","synth","skate", "vide", "arch"];
+var clickable = ["vr","phone","tv","flag","synth", "vide", "arch", "skate"];
 
 var usList = ["AElias", "ALucas",  "Cone", "Sphere" , "Cone001", "Cube", "Cylinder", "instance"];
 
@@ -522,7 +526,10 @@ function init() {
   video = document.getElementById( 'video' );
   //video.playInLine = true;
 	videoTexture = new THREE.VideoTexture( video );
-  $('canvas').css( 'cursor', 'pointer' );
+
+  setTimeout(function(){
+     $('html').css( 'cursor', 'pointer' );
+  },1000);
 
   setTimeout(function(){
     if(firstPhase == true){
@@ -709,24 +716,11 @@ mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 
 raycaster.setFromCamera( mouse, camera );
 var intersects = raycaster.intersectObjects( scene.children, true );
-var canvas = document.body.getElementsByTagName('canvas')[0];
+
 if(intersects.length > 0){
-  console.log(intersects[0].object.name);
-  var namee = intersects[0].object.name;
-}
-if (intersects.length > 0 && clickable.includes(namee)) {
-  canvas.style.cursor = "pointer";
-
-  if(phase == '2' && (namee == "Cone" || namee =="Sphere" || namee == "Cone001" || namee =="Cube" || namee == "ALucas" || namee =="Cylinder" || namee == "AElias" || namee =="instance")){
-    textSetter(namee);
-  } else if(phase =="2"){
-    container.style.visibility = 'hidden';
-    $("#my_image").hide();
-  }
-
+  $('html').css( 'cursor', 'pointer' );
 } else {
-  console.log(phase);
-  //canvas.style.cursor = "default";
+  $('html').css( 'cursor', 'default' );
   }
 }
 
@@ -779,6 +773,15 @@ if(phase != "4" && fellasList.includes(namee)){
  hScroll(1);
  return;
 }*/
+console.log(obj.position.z , curCamPos.z);
+
+if(Math.round(obj.position.z) > Math.round(curCamPos.z) || (usList.includes(namee) && Math.round(obj.position.z) < Math.round(curCamPos.z) != true)){
+  hScroll(1);
+  return;
+} else if(Math.round(obj.position.z) < Math.round(curCamPos.z)){
+  hScroll(-1);
+  return;
+}
 
 textSetter(namee);
 
@@ -1225,7 +1228,7 @@ function hScroll(e){
   console.log("scroll " + e);
   if(e < 0 && parseFloat(phase) > 1 && moving == false){
     console.log("move 1");
-    animateMove(camera.position,{x: -4  ,y: 0.7,z: curCamPos.z - 4},true,400);
+    animateMove(camera.position,{x: -4  ,y: 0.7,z: curCamPos.z - 4},true,600);
     phase = (parseInt(phase) - 1).toString();
     textSetter(textToSet());
   }
@@ -1233,7 +1236,7 @@ function hScroll(e){
     console.log("move 2");
     phase = (parseInt(phase) + 1).toString();
     textSetter(textToSet());
-    animateMove(camera.position,{x: -4 ,y: 0.7,z:  curCamPos.z + 4},true,400);
+    animateMove(camera.position,{x: -4 ,y: 0.7,z:  curCamPos.z + 4},true,600);
   }
 }
 
@@ -1286,9 +1289,6 @@ var phoMap = new THREE.TextureLoader().load('models/thermostat.png');
         }
     }
 
-    }
-    function getRadian(x) {
-      return (Math.PI*x)/180;
     }
 
     function initTools() {
@@ -1393,7 +1393,7 @@ var phoMap = new THREE.TextureLoader().load('models/thermostat.png');
     gPlane.rotation.x = getRadian(-90);
     gPlane.receiveShadow = true;
     //gPlane.name = "Facebook";
-    scene.add(gPlane);
+    //scene.add(gPlane);
 
   var videoMat = new THREE.MeshLambertMaterial({ map : videoTexture});
   /*
@@ -1555,7 +1555,7 @@ var phoMap = new THREE.TextureLoader().load('models/thermostat.png');
   });
 
   var vrloader = new THREE.GLTFLoader();
-  vrloader.load( "models/vvvvvrrrrrr.glb", function(gltf){
+  vrloader.load( "models/vr.glb", function(gltf){
       vr = gltf.scene;
     //vr.rotation.x = 90;
     vr.rotation.z = 30.4;
@@ -1654,7 +1654,7 @@ function animate() {
   if(us != null) us.traverse(function (o) {
       if (o.isMesh) {
         o.rotation.y += 0.0002;
-        o.rotation.z += 0.002;
+        o.rotation.z -= 0.0008;
       }
     });
 /*
@@ -1667,7 +1667,7 @@ function animate() {
    //skate.position.z = -4*Math.sin(t*0.001);
    //skate.position.y = -3*Math.sin(t*0.0005) - 1.5;
   }
-  if(vr){ vr.rotation.z += 0.001;
+  if(vr){ vr.rotation.z = getRadian(10*Math.sin(t*0.005));
     vr.rotation.y += 0.0001;
     }
     if(synth){ synth.rotation.z += 0.001;

@@ -103,7 +103,7 @@ canvas {
 
 a {
   text-decoration: none;
-  color:black;
+  color:white;
 }
 
 
@@ -133,7 +133,7 @@ a {
 }
 
 h2 {
-    color:black;
+    color:white;
     text-transform: uppercase;
     z-index:100;
    /* transform: translate(0,-100%); */
@@ -166,7 +166,7 @@ h2 {
 }
 
 #theRest {
-  color:black;
+  color:white;
   font-family: 'favorit_stdbold_extended';
   text-transform: uppercase;
   font-size: 300%;
@@ -176,7 +176,7 @@ h2 {
   margin-bottom: 0;
 }
 #hash {
-  color:black;
+  color:white;
   font-family: 'favorit_stdbold_extended';
   text-transform: uppercase;
   font-size: 300%;
@@ -488,10 +488,10 @@ function init() {
   // Create the scene and set the scene size.
   scene = new THREE.Scene();
 
-  const color = "white";
+  const color = "black";
   const density = 0.1;
   const near = 8;
-  const far = 20;
+  const far = 28;
   scene.fog = new THREE.Fog(color, near, far);
 
   var WIDTH = window.innerWidth,
@@ -1366,7 +1366,7 @@ var phoMap = new THREE.TextureLoader().load('models/thermostat.png');
 
   // Set the background color of the scene.
   //renderer.setClearColorHex(0x333F47, 1);
-  scene.background = new THREE.Color( 0xffffff );
+  scene.background = new THREE.Color( 0x000000 );
 
   // Create a light, set its position, and add it to the scene.
   var light = new THREE.PointLight(0xffffff);

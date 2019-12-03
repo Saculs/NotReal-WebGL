@@ -215,7 +215,7 @@ h2 {
 @media screen and (min-width: 0px) {
   h2 {
     font-size: 180%;
-  } 
+  }
   #theRest {
     font-size: 180%;
   }
@@ -230,7 +230,7 @@ h2 {
 @media screen and (min-width: 230px) {
   h2 {
     font-size: 230%;
-  } 
+  }
   #theRest {
     font-size: 230%;
   }
@@ -310,7 +310,7 @@ h2 {
 @media screen and (max-height: 460px) {
   h2 {
     font-size: 280%;
-  } 
+  }
   #theRest {
     font-size: 280%;
   }
@@ -545,7 +545,7 @@ function init() {
     camera.aspect = WIDTH / HEIGHT;
     camera.updateProjectionMatrix();
     ori = (WIDTH > HEIGHT) ? false : true;
-    document.getElementById('info').style.paddingRight = ori ? '3%' :'53%'; 
+    document.getElementById('info').style.paddingRight = ori ? '3%' :'53%';
   });
 
   document.onkeydown = function(e) {
@@ -595,7 +595,7 @@ function init() {
     console.log("Gamma ", event.gamma, " Betta  ", event.beta);
     console.log("moveY ", moveY, " moveX ", moveX);
     if(curCamPos){
-    
+
     camera.position.z = lerp(camera.position.z,(curCamPos.z - moveY * 0.018),0.15);
     camera.position.y = lerp(camera.position.y,(curCamPos.y + moveX * 0.018),0.15);
     /*
@@ -649,8 +649,8 @@ function handleTouchMove(evt) {
 
     //console.log(xDiff,yDiff);
 
-   
-    
+
+
     //controls.target.set(camera.position.x + 2,camera.position.y-0.3 /*0.6*/, camera.position.z);
 
     if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
@@ -752,7 +752,7 @@ function lerp (start, end, amt){
 function clicker(obj){
 
   var namee = obj.name;
-  document.getElementById('info').style.paddingRight = ori ? '3%' :'53%'; 
+  document.getElementById('info').style.paddingRight = ori ? '3%' :'53%';
 /*
 if(phase != "2" && usList.includes(namee)){
  hScroll(1);
@@ -973,7 +973,7 @@ break;
       break;
     case "Cube":
     changeTexts("Richard<br>Janecek", "#Film #Photo #gammetry #art #digital #art");
-    
+
       container.style.visibility = 'visible';
       break;
     default:
@@ -1020,7 +1020,7 @@ break;
         break;
       case "Cinesco":
         changeTexts(ob, "#TV-ads #enter#tainment #VR #motion #design");
-        break; 
+        break;
       default:
     }
   }
@@ -1197,14 +1197,14 @@ function vscroll(e){
     initTrans();
     return;
   }
- 
+
     if(phase =='1')c = 7;
     if(phase =='2')c = usList.length-1;
     if(phase =='3')c = toolsList.length-1;
     if(phase =='4')c = fellasList.length-1;
     if(phase =='5')c =  0;
   console.log("cccc ",c);
-  
+
 
   if(e < 0 && camera.position.x < (c * dist - 4) && moving == false){
     curObjectIndex = Math.floor((camera.position.x + dist + 4 )/ 10);
@@ -1251,7 +1251,7 @@ vscroll(delta);
 
 function positioner(ob) {
   var i = clickable.indexOf(ob.name) * dist;
-  ob.position.set(-1.6, 0.6, 0 + i);
+  ob.position.set(-1.6 + i, 0.6, 0 );
 }
 
     let uniforms = {
@@ -1319,7 +1319,7 @@ var phoMap = new THREE.TextureLoader().load('models/thermostat.png');
       mats.push(tfMat);
 
       var i;
-      for (i = 0; i < toolsList.length; i++) { 
+      for (i = 0; i < toolsList.length; i++) {
         var p = new THREE.Mesh(new THREE.PlaneGeometry( 1, 1), vlajkaMat);
         p.position.set(-0.6 + (i * dist), 0.5, 8);
         p.rotation.y = getRadian(-90);
@@ -1346,7 +1346,7 @@ var phoMap = new THREE.TextureLoader().load('models/thermostat.png');
       var cnMat = new THREE.MeshLambertMaterial({map: cnTex,side: THREE.DoubleSide});
       femats.push(cnMat);
       var i;
-      for (i = 0; i < fellasList.length; i++) { 
+      for (i = 0; i < fellasList.length; i++) {
         //var p = new THREE.Mesh(new THREE.PlaneGeometry( 1, 1), vlajkaMat);
 
         var p = new THREE.Mesh(new THREE.PlaneGeometry(150, 200, 15, 15), vlajkaMat);
@@ -1409,7 +1409,7 @@ var phoMap = new THREE.TextureLoader().load('models/thermostat.png');
       gizmo.scale.set(0.7,0.7,0.7);
     }
     gizmo.position.set(-3.8,0.739,0.04);
-   
+
     console.log('gizmooo');
 
     gizmo.visible = false;
@@ -1429,7 +1429,7 @@ var phoMap = new THREE.TextureLoader().load('models/thermostat.png');
       contact.scale.set(0.6,0.6,0.6);
 
     contact.position.set(-1,0.6,16);
-   
+
     contact.visible = true;
 
     contact.traverse(function (o) {
@@ -1445,7 +1445,7 @@ var phoMap = new THREE.TextureLoader().load('models/thermostat.png');
     if(ori)us.rotation.x = 91;
     //us.rotation.z = 10;
     //us.rotation.y = -95;
-  
+
     us.position.set(0,ori ? 0.7: 0.1,4);
     //us.name="use";
     us.visible = true;
@@ -1472,7 +1472,7 @@ var phoMap = new THREE.TextureLoader().load('models/thermostat.png');
     tv.rotation.z = 30.4;
     tv.rotation.y = 155.4;
     tv.scale.set(0.01,0.01,0.01);
-    
+
     tv.name="tv";
     //tv.visible = false;
     tv.callback = function() { console.log("Hello world!");};
@@ -1501,7 +1501,7 @@ var phoMap = new THREE.TextureLoader().load('models/thermostat.png');
     arch.rotation.z = 30.4;
     arch.rotation.y = 155.4;
     arch.scale.set(0.05,0.05,0.05);
-    
+
     arch.name="arch";
     positioner(arch);
     arch.visible = true;
@@ -1582,7 +1582,7 @@ var phoMap = new THREE.TextureLoader().load('models/thermostat.png');
     scene.add(vr);
   });
 
-  
+
 
   var phoneloader = new THREE.GLTFLoader();
   phoneloader.load( "models/phonere.glb", function(gltf){

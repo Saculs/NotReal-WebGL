@@ -1294,7 +1294,7 @@ var phoMap = new THREE.TextureLoader().load('models/thermostat.png');
     function initTools() {
       var mats = [];
       var ueTex = new THREE.TextureLoader().load("models/ue.png");
-      var ueMat = new THREE.MeshPhongMaterial({color: 0x000000, map: ueTex,transparent: true, opacity: 1, side: THREE.DoubleSide});
+      var ueMat = new THREE.MeshPhongMaterial({color: 0xffffff, map: ueTex,transparent: true, opacity: 1, side: THREE.DoubleSide});
       mats.push(ueMat);
       var huTex = new THREE.TextureLoader().load("models/houdini.png");
       var huMat = new THREE.MeshPhongMaterial({ map: huTex,transparent: true, opacity: 1, side: THREE.DoubleSide});

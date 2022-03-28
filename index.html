@@ -1,329 +1,356 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <title>NotReal</title>
   <link rel='shortcut icon' href='favicon.png' type='image/png' />
   <link rel="icon" sizes="192x192" href="nrico.png">
-  <link rel="manifest" href="manifest.webmanifest"/>
+  <link rel="manifest" href="manifest.webmanifest" />
   <!--<link href="Style.css" rel="stylesheet" type="text/css"/>-->
   <style>
+    html,
+    body {
+      position: fixed;
+      overflow: hidden;
+      overscroll-behavior: contain;
+    }
 
-html,
-body {
-  position: fixed;
-  overflow: hidden;
-  overscroll-behavior: contain;
-}
+    canvas {
+      display: block;
+      /* fix necessary to remove space at bottom of canvas */
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
 
-canvas {
-    display: block; /* fix necessary to remove space at bottom of canvas */
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
-}
-
-#fade {
-  display: none;
-  position: fixed;
-  top: 0%;
-  left: 0%;
-  width: 100%;
-  height: 100%;
-  background-color: black;
-  z-index: 1001;
-  -moz-opacity: 0.8;
-  opacity: .80;
-  filter: alpha(opacity=80);
-}
-
-
-
-#light {
-  display: none;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  max-width: 600px;
-  max-height: 360px;
-  margin-left: -300px;
-  margin-top: -180px;
-  z-index: 1002;
-  overflow: visible;
-}
-
-#boxclose {
-  float: right;
-  cursor: pointer;
-  color: #fff;
-  /*border: 1px solid #AEAEAE;*/
-  border-radius: 3px;
-
-  font-size: 31px;
-  font-weight: bold;
-  display: inline-block;
-  line-height: 0px;
-  padding: 11px 3px;
-  position: absolute;
-  right: 2px;
-  top: 2px;
-  z-index: 1002;
-  opacity: 0.9;
-}
-
-.boxclose:before {
-  content: "×";
-}
-
-#fade:hover ~ #boxclose {
-  display:none;
-}
-
-@font-face {
-    font-family: 'favorit_stdregular_extended';
-    src: url('FavoritStd/favoritstd-regularextended-webfont.woff2') format('woff2'),
-         url('FavoritStd/favoritstd-regularextended-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
-@font-face {
-    font-family: 'favorit_stdbold_extended';
-    src: url('FavoritStdBold/favorit-std-extended-bold-webfont.woff2') format('woff2'),
-         url('FavoritStdBold/favorit-std-extended-bold-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-
-}
+    #fade {
+      display: none;
+      position: fixed;
+      top: 0%;
+      left: 0%;
+      width: 100%;
+      height: 100%;
+      background-color: black;
+      z-index: 1001;
+      -moz-opacity: 0.8;
+      opacity: .80;
+      filter: alpha(opacity=80);
+    }
 
 
-a {
-  text-decoration: none;
-  color:white;
-}
+
+    #light {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      max-width: 600px;
+      max-height: 360px;
+      margin-left: -300px;
+      margin-top: -180px;
+      z-index: 1002;
+      overflow: visible;
+    }
+
+    #boxclose {
+      float: right;
+      cursor: pointer;
+      color: #fff;
+      /*border: 1px solid #AEAEAE;*/
+      border-radius: 3px;
+
+      font-size: 31px;
+      font-weight: bold;
+      display: inline-block;
+      line-height: 0px;
+      padding: 11px 3px;
+      position: absolute;
+      right: 2px;
+      top: 2px;
+      z-index: 1002;
+      opacity: 0.9;
+    }
+
+    .boxclose:before {
+      content: "×";
+    }
+
+    #fade:hover~#boxclose {
+      display: none;
+    }
+
+    @font-face {
+      font-family: 'favorit_stdregular_extended';
+      src: url('FavoritStd/favoritstd-regularextended-webfont.woff2') format('woff2'),
+        url('FavoritStd/favoritstd-regularextended-webfont.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+
+    }
+
+    @font-face {
+      font-family: 'favorit_stdbold_extended';
+      src: url('FavoritStdBold/favorit-std-extended-bold-webfont.woff2') format('woff2'),
+        url('FavoritStdBold/favorit-std-extended-bold-webfont.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+
+    }
 
 
-#player{
-  visibility:visible;
-}
-
-.vimeo-wrapper {
-   position: fixed;
-   top: 0;
-   left: 0;
-   width: 100%;
-   height: 100%;
-
-   overflow: hidden;
-   z-index: 9999 !important;
-}
-#introVid {
-   width: 100vw;
-   height: 56.25vw; /* Given a 16:9 aspect ratio, 9/16*100 = 56.25 */
-   min-height: 100vh;
-   min-width: 177.77vh; /* Given a 16:9 aspect ratio, 16/9*100 = 177.77 */
-   position: absolute;
-   top: 50%;
-   left: 50%;
-   transform: translate(-50%, -50%);
-}
-
-h2 {
-    color:white;
-    text-transform: uppercase;
-    z-index:100;
-   /* transform: translate(0,-100%); */
-    font-family: 'favorit_stdbold_extended';
-    position: absolute;
-    left: 0px;
-    padding-left: 3%;
-    top: 0px;
-    font-size: 300%;
-    width: 75%;
-    line-height: 0.8em;
-    margin-top: 0.4em;
-}
-
-#info {
-  position: absolute;
-  padding-left: 3%;
-  padding-bottom:2%;
-  padding-right:3%;
-  bottom:0;
-}
-
-#container {
-  position: absolute;
-  top: 0;
-  left:0;
-  width: 100%;
-  height: 100%;
-  line-height: 1.8em;
-}
-
-#theRest {
-  color:white;
-  font-family: 'favorit_stdbold_extended';
-  text-transform: uppercase;
-  font-size: 300%;
-  left: 13px;
-  white-space: initial;
-  line-height: 0.8em;
-  margin-bottom: 0;
-}
-#hash {
-  color:white;
-  font-family: 'favorit_stdbold_extended';
-  text-transform: uppercase;
-  font-size: 300%;
-  white-space: initial;
-  line-height: 0.8em;
-  margin-bottom: 2%;
-  position: absolute;
-  right: 0;
-  bottom: 0;
-    margin-right: 2%;
-    text-align: center;
-}
-
-#gizmo {
-  position: fixed;
-    top: 0;
-    right: 0;
-    width:60px;
-    height:60px;
-    margin-right: 2%;
-    margin-top: 0.4em;
-}
-
-#my_image {
-  position: absolute;
-  display: none;
-    top: 50%;
-    left: 50%;
-    width:25%;
-    height:auto;
-    margin-right: -50%;
-    transform: translate(-50%, -50%)
-}
+    a {
+      text-decoration: none;
+      color: white;
+    }
 
 
-@media screen and (min-width: 0px) {
-  h2 {
-    font-size: 180%;
-  }
-  #theRest {
-    font-size: 180%;
-  }
-  #hash {
-    font-size: 180%;
-  }
-  #gizmo {
-    width:35px;
-    height:35px;
-  }
-}
-@media screen and (min-width: 230px) {
-  h2 {
-    font-size: 230%;
-  }
-  #theRest {
-    font-size: 230%;
-  }
-  #hash {
-    font-size: 230%;
-  }
-  #gizmo {
-    width:45px;
-    height:45px;
-  }
-}
+    #player {
+      visibility: visible;
+    }
 
-@media screen and (min-width: 360px) {
-  h2 {
-    font-size: 300%;
-  }
-  #theRest {
-    font-size: 300%;
-  }
-  #hash {
-    font-size: 300%;
-  }
-  #gizmo {
-    width:65px;
-    height:65px;
-  }
-}
+    .vimeo-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
 
-@media screen and (min-width: 460px) {
-  h2 {
-    font-size: 410%;
-  }
-  #theRest {
-    font-size: 410%;
-  }
-  #hash {
-    font-size: 410%;
-  }
-  #gizmo {
-    width:85px;
-    height:85px;
-  }
-}
+      overflow: hidden;
+      z-index: 9999 !important;
+    }
 
-@media screen and (min-width: 500px) {
-  h2 {
-    font-size: 430%;
-  }
-  #theRest {
-    font-size: 430%;
-  }
-  #hash {
-    font-size: 430%;
-  }
-  #gizmo {
-    width:90px;
-    height:90px;
-  }
-}
+    #introVid {
+      width: 100vw;
+      height: 56.25vw;
+      /* Given a 16:9 aspect ratio, 9/16*100 = 56.25 */
+      min-height: 100vh;
+      min-width: 177.77vh;
+      /* Given a 16:9 aspect ratio, 16/9*100 = 177.77 */
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    h2 {
+      color: white;
+      text-transform: uppercase;
+      z-index: 100;
+      /* transform: translate(0,-100%); */
+      font-family: 'favorit_stdbold_extended';
+      position: absolute;
+      left: 0px;
+      padding-left: 3%;
+      top: 0px;
+      font-size: 300%;
+      width: 75%;
+      line-height: 0.8em;
+      margin-top: 0.4em;
+    }
+
+    #info {
+      position: absolute;
+      padding-left: 3%;
+      padding-bottom: 2%;
+      padding-right: 3%;
+      bottom: 0;
+    }
+
+    #container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      line-height: 1.8em;
+    }
+
+    #theRest {
+      color: white;
+      font-family: 'favorit_stdbold_extended';
+      text-transform: uppercase;
+      font-size: 300%;
+      left: 13px;
+      white-space: initial;
+      line-height: 0.8em;
+      margin-bottom: 0;
+    }
+
+    #hash {
+      color: white;
+      font-family: 'favorit_stdbold_extended';
+      text-transform: uppercase;
+      font-size: 300%;
+      white-space: initial;
+      line-height: 0.8em;
+      margin-bottom: 2%;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      margin-right: 2%;
+      text-align: center;
+    }
+
+    #gizmo {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 60px;
+      height: 60px;
+      margin-right: 2%;
+      margin-top: 0.4em;
+    }
+
+    #my_image {
+      position: absolute;
+      display: none;
+      top: 50%;
+      left: 50%;
+      width: 25%;
+      height: auto;
+      margin-right: -50%;
+      transform: translate(-50%, -50%)
+    }
 
 
-@media screen and (min-width: 700px) {
-  h2 {
-    font-size: 500%;
-  }
-  #theRest {
-    font-size: 500%;
-  }
-  #hash {
-    font-size: 500%;
-  }
-  #gizmo {
-    width: 100px;
-    height: 100px;
-  }
-}
-@media screen and (max-height: 460px) {
-  h2 {
-    font-size: 280%;
-  }
-  #theRest {
-    font-size: 280%;
-  }
-  #hash {
-    font-size: 280%;
-  }
-  #gizmo {
-    width:60px;
-    height:60px;
-  }
-}
+    @media screen and (min-width: 0px) {
+      h2 {
+        font-size: 180%;
+      }
 
-</style>
+      #theRest {
+        font-size: 180%;
+      }
+
+      #hash {
+        font-size: 180%;
+      }
+
+      #gizmo {
+        width: 35px;
+        height: 35px;
+      }
+    }
+
+    @media screen and (min-width: 230px) {
+      h2 {
+        font-size: 230%;
+      }
+
+      #theRest {
+        font-size: 230%;
+      }
+
+      #hash {
+        font-size: 230%;
+      }
+
+      #gizmo {
+        width: 45px;
+        height: 45px;
+      }
+    }
+
+    @media screen and (min-width: 360px) {
+      h2 {
+        font-size: 300%;
+      }
+
+      #theRest {
+        font-size: 300%;
+      }
+
+      #hash {
+        font-size: 300%;
+      }
+
+      #gizmo {
+        width: 65px;
+        height: 65px;
+      }
+    }
+
+    @media screen and (min-width: 460px) {
+      h2 {
+        font-size: 410%;
+      }
+
+      #theRest {
+        font-size: 410%;
+      }
+
+      #hash {
+        font-size: 410%;
+      }
+
+      #gizmo {
+        width: 85px;
+        height: 85px;
+      }
+    }
+
+    @media screen and (min-width: 500px) {
+      h2 {
+        font-size: 430%;
+      }
+
+      #theRest {
+        font-size: 430%;
+      }
+
+      #hash {
+        font-size: 430%;
+      }
+
+      #gizmo {
+        width: 90px;
+        height: 90px;
+      }
+    }
+
+
+    @media screen and (min-width: 700px) {
+      h2 {
+        font-size: 500%;
+      }
+
+      #theRest {
+        font-size: 500%;
+      }
+
+      #hash {
+        font-size: 500%;
+      }
+
+      #gizmo {
+        width: 100px;
+        height: 100px;
+      }
+    }
+
+    @media screen and (max-height: 460px) {
+      h2 {
+        font-size: 280%;
+      }
+
+      #theRest {
+        font-size: 280%;
+      }
+
+      #hash {
+        font-size: 280%;
+      }
+
+      #gizmo {
+        width: 60px;
+        height: 60px;
+      }
+    }
+  </style>
   <meta charset="utf-8">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
@@ -332,10 +359,11 @@ h2 {
   <meta name="description" content="Virtual and Augmented Reality production">
   <meta name="author" content="Not Real">
 
-<meta property="og:title" content="Notreal Virtual">
-<meta property="og:image" content="meta.jpg">
-<meta property="og:description" content="Virtual and Augmented Reality production">
+  <meta property="og:title" content="Notreal Virtual">
+  <meta property="og:image" content="meta.jpg">
+  <meta property="og:description" content="Virtual and Augmented Reality production">
 </head>
+
 <body style="margin: 0;">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.3.5/Tween.min.js"></script>
@@ -345,27 +373,33 @@ h2 {
   <script type="text/javascript" src="js/main.js"></script>
 
   <script src="https://player.vimeo.com/api/player.js"></script>
-<div id="player" class="vimeo-wrapper" ><video id= "introVid" muted autoplay loop playsinline webkit-playsinline poster="/models/vidPoster.jpg" class=""><source src="https://raw.githubusercontent.com/Saculs/NotReal-WebGL/master/clean_vid.mp4" type="video/mp4"></video></div>
+  <div id="player" class="vimeo-wrapper"><video id="introVid" muted autoplay loop playsinline webkit-playsinline
+      poster="/models/vidPoster.jpg" class="">
+      <source src="https://raw.githubusercontent.com/Saculs/NotReal-WebGL/master/clean_vid.mp4" type="video/mp4">
+      </video></div>
 
 
-  <img id="gizmo" src="models/gizmo1.png"/>
+  <img id="gizmo" src="models/gizmo1.png" />
 
   <!--<h1 id="example"></h1>-->
   <div id="container">
-  <div id="cont">
-      <h2>VR&AR</h2>
+    <div id="cont">
+      <h2>Real_<br>Virtual</h2>
       <div id="info">
-        <p id="theRest">virtual <br> augme<br>nted <br> realtime <br> unreal</p>
+        <p id="theRest">virtual <br> augme<br>nted <br> VFX<br> realtime</p>
+      </div>
+      <p id="hash">#<br>#<br>#<br>#<br>#</p>
     </div>
-    <p id="hash">#<br>#<br>#<br>#<br>#</p>
-  </div>
   </div>
 
-  <div class="popup"><div class="text"></div></div>
+  <div class="popup">
+    <div class="text"></div>
+  </div>
 
   <video id="video" loop muted crossOrigin="anonymous" webkit-playsinline style="display:none">
-			<!--<source src="textures/sintel.ogv" type='video/ogg; codecs="theora, vorbis"'>-->
-			<source src="https://raw.githubusercontent.com/Saculs/NotReal-WebGL/master/clean_vid.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
+    <!--<source src="textures/sintel.ogv" type='video/ogg; codecs="theora, vorbis"'>-->
+    <source src="https://raw.githubusercontent.com/Saculs/NotReal-WebGL/master/clean_vid.mp4"
+      type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
   </video>
 
   <div id="light" class='light'>
@@ -378,86 +412,86 @@ h2 {
   <div id="fade" onClick="lightbox_close();"></div>
 
   <script>
-function lightbox_open() {
-  //var lightBoxVideo = document.getElementById("VisaChipCardVideo");
-  //lightBoxVideo.play();
-  $('.light').append('<iframe width="560" height="315" src="https://www.youtube.com/embed/N2i-X9f01Ik?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>');
-  window.scrollTo(0, 0);
-  document.getElementById('light').style.display = 'block';
-  document.getElementById('fade').style.display = 'block';
-}
+    function lightbox_open() {
+      //var lightBoxVideo = document.getElementById("VisaChipCardVideo");
+      //lightBoxVideo.play();
+      $('.light').append('<iframe width="560" height="315" src="https://www.youtube.com/embed/N2i-X9f01Ik?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>');
+      window.scrollTo(0, 0);
+      document.getElementById('light').style.display = 'block';
+      document.getElementById('fade').style.display = 'block';
+    }
 
-function lightbox_close() {
-  $('.light').empty();
-  //var lightBoxVideo = document.getElementById("VisaChipCardVideo");
-  document.getElementById('light').style.display = 'none';
-  document.getElementById('fade').style.display = 'none';
-  //lightBoxVideo.pause();
-}
+    function lightbox_close() {
+      $('.light').empty();
+      //var lightBoxVideo = document.getElementById("VisaChipCardVideo");
+      document.getElementById('light').style.display = 'none';
+      document.getElementById('fade').style.display = 'none';
+      //lightBoxVideo.pause();
+    }
 
-function getRadian(x) {
-      return (Math.PI*x)/180;
+    function getRadian(x) {
+      return (Math.PI * x) / 180;
     }
 
 
-// Set up the scene, camera, and renderer as global variables.
-var scene, camera, renderer;
+    // Set up the scene, camera, and renderer as global variables.
+    var scene, camera, renderer;
 
-var dist = 10;
-var curObjectIndex = 0;
-var moving;
+    var dist = 10;
+    var curObjectIndex = 0;
+    var moving;
 
-var moveX = 0;
-var moveY = 0;
+    var moveX = 0;
+    var moveY = 0;
 
-var lastGamma;
-var lastBeta;
+    var lastGamma;
+    var lastBeta;
 
-var gizmo;
-var tv;
-var skate;
-var plane;
-var planes =[];
-var curCamPos;
-var synth;
-var phone;
-var vr;
-var vid;
-var arch;
+    var gizmo;
+    var tv;
+    var skate;
+    var plane;
+    var planes = [];
+    var curCamPos;
+    var synth;
+    var phone;
+    var vr;
+    var vid;
+    var arch;
 
-var mouseX;
-var mouseY;
+    var mouseX;
+    var mouseY;
 
-var phase = '0';
+    var phase = '0';
 
 
-var video;
+    var video;
 
-var controls;
+    var controls;
 
-var clickable = ["vr","phone","tv","flag","synth", "vide", "arch", "skate"];
+    var clickable = ["phone", "vr", "tv",  "flag", "synth", "vide", "arch", "skate"];
 
-var usList = ["ALucas", "AElias",  "Cone", "Sphere" , "Cone001", "Cube", "Cylinder", "instance"];
+    var usList = ["ALucas", "AElias", "Cone", "Sphere", "Cone001", "Cube", "Cylinder", "instance"];
 
-var toolsList = ["Unreal Engine", "Houdini", "Blender", "Unity" , "Substance", "Adobe", "Quixel" ,"Tensorflow"];
+    var toolsList = ["Unreal Engine", "Houdini", "Blender", "Unity", "Substance", "Adobe", "Quixel", "Tensorflow"];
 
-var fellasList = ["Selam X", "2Realistic", "Brainz", "Cinesco"];
+    var fellasList = ["Selam X", "2Realistic", "Brainz", "Cinesco"];
 
-var firstPhase = true;
+    var firstPhase = true;
 
-//var tween;
+    //var tween;
 
-var numberOfVerticies;
-var currentWaveHeight = 10;
-var rowSize = 150;
-var maxHeight = 20;
-var t = 0.0;
+    var numberOfVerticies;
+    var currentWaveHeight = 10;
+    var rowSize = 150;
+    var maxHeight = 20;
+    var t = 0.0;
 
-init();
-animate();
+    init();
+    animate();
 
-function vertexShader() {
-return `
+    function vertexShader() {
+      return `
 varying vec3 vUv;
 varying vec4 tvViewPosition;
 varying vec3 vecNormal;
@@ -469,9 +503,9 @@ void main() {
   gl_Position = projectionMatrix * tvViewPosition;
 }
 `
-}
-function fragmentShader() {
-return `
+    }
+    function fragmentShader() {
+      return `
   uniform vec3 colorA;
   uniform vec3 colorB;
   varying vec3 vUv;
@@ -480,1260 +514,1317 @@ return `
     gl_FragColor = vec4(mix(colorA, colorB, vUv.z), 1.0);
   }
 `
-}
-
-// Sets up the scene.
-function init() {
-
-  // Create the scene and set the scene size.
-  scene = new THREE.Scene();
-
-  const color = "black";
-  const density = 0.1;
-  const near = 8;
-  const far = 28;
-  scene.fog = new THREE.Fog(color, near, far);
-
-  var WIDTH = window.innerWidth,
-      HEIGHT = window.innerHeight;
-      window.scrollTo(0,1);
-
-
-  var ori = (WIDTH > HEIGHT) ? false : true;
-  console.log("ori ", ori.toString());
-
-  // Create a renderer and add it to the DOM.
-  renderer = new THREE.WebGLRenderer({antialias:true});
-  renderer.setSize(WIDTH, HEIGHT);
-  //renderer.shadowMapEnabled = true;
-
-
-  document.body.appendChild(renderer.domElement);
-
-  // Create a camera, zoom it out from the tv a bit, and add it to the scene.
-  camera = new THREE.PerspectiveCamera(45, WIDTH / HEIGHT, 0.001, 20000);
-  //camera.position.set(-3,6,0);
-  //camera.position.set(-3,0,0);
-  camera.position.set(-100,0,0);
-  scene.add(camera);
-
-  var example = document.getElementById('example');
- // example.textContent="Virtual";
-
-  var container = document.getElementById('container');
-
-
-  video = document.getElementById( 'video' );
-  //video.playInLine = true;
-	videoTexture = new THREE.VideoTexture( video );
-
-  setTimeout(function(){
-     $('html').css( 'cursor', 'pointer' );
-  },2000);
-
-  setTimeout(function(){
-    if(firstPhase == true){
-      initTrans();
     }
-  },12000);
 
-  // Create an event listener that resizes the renderer with the browser window.
-  window.addEventListener('resize', function() {
-     WIDTH = window.innerWidth,
+    // Sets up the scene.
+    function init() {
+
+      // Create the scene and set the scene size.
+      scene = new THREE.Scene();
+
+      const color = "black";
+      const density = 0.1;
+      const near = 8;
+      const far = 60;
+      scene.fog = new THREE.Fog(color, near, far);
+
+      var WIDTH = window.innerWidth,
         HEIGHT = window.innerHeight;
-    renderer.setSize(WIDTH, HEIGHT);
-    camera.aspect = WIDTH / HEIGHT;
-    camera.updateProjectionMatrix();
-    ori = (WIDTH > HEIGHT) ? false : true;
-    document.getElementById('info').style.paddingRight = ori ? '3%' :'53%';
-  });
+      window.scrollTo(0, 1);
 
-  document.onkeydown = function(e) {
-  if (!e) {
-    e = event;
-  }
-  e.stopPropagation();
-  if (e.keyCode == 27) {
-    lightbox_close();
-  }
-  console.log(e.keyCode);
-    switch (e.keyCode) {
-        case 37:
-           hScroll(-1);
+
+      var ori = (WIDTH > HEIGHT) ? false : true;
+      console.log("ori ", ori.toString());
+
+      // Create a renderer and add it to the DOM.
+      renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(WIDTH, HEIGHT);
+      //renderer.shadowMapEnabled = true;
+
+
+      document.body.appendChild(renderer.domElement);
+
+      // Create a camera, zoom it out from the tv a bit, and add it to the scene.
+      camera = new THREE.PerspectiveCamera(45, WIDTH / HEIGHT, 0.001, 20000);
+      //camera.position.set(-3,6,0);
+      //camera.position.set(-3,0,0);
+      camera.position.set(-100, 0, 0);
+      scene.add(camera);
+
+      var example = document.getElementById('example');
+      // example.textContent="Virtual";
+
+      var container = document.getElementById('container');
+
+
+      video = document.getElementById('video');
+      //video.playInLine = true;
+      videoTexture = new THREE.VideoTexture(video);
+
+      setTimeout(function () {
+        $('html').css('cursor', 'pointer');
+      }, 2000);
+
+      setTimeout(function () {
+        if (firstPhase == true) {
+          initTrans();
+        }
+      }, 4000);
+
+      // Create an event listener that resizes the renderer with the browser window.
+      window.addEventListener('resize', function () {
+        WIDTH = window.innerWidth,
+          HEIGHT = window.innerHeight;
+        renderer.setSize(WIDTH, HEIGHT);
+        camera.aspect = WIDTH / HEIGHT;
+        camera.updateProjectionMatrix();
+        ori = (WIDTH > HEIGHT) ? false : true;
+        document.getElementById('info').style.paddingRight = ori ? '3%' : '53%';
+      });
+
+      document.onkeydown = function (e) {
+        if (!e) {
+          e = event;
+        }
+        e.stopPropagation();
+        if (e.keyCode == 27) {
+          lightbox_close();
+        }
+        console.log(e.keyCode);
+        switch (e.keyCode) {
+          case 37:
+            hScroll(-1);
             break;
-        case 38:
+          case 38:
             vscroll(-1);
             break;
-        case 39:
-        hScroll(1);
-            break;
-        case 40:
-        vscroll(1);
-            break;
-    }
-}
-
-  window.addEventListener("deviceorientation", function(event) {
-    event.stopPropagation();
-    event = event || window.event;
-
-    var rotatedY =  Math.min(Math.max(parseInt(Math.floor(event.gamma)), -45), 45),
-    rotatedX =      Math.min(Math.max(parseInt(Math.floor(event.beta)), -45), 45),
-    boxWidth = WIDTH,
-    boxHeight = HEIGHT;
-/*
-    moveX = ((boxWidth/2) * rotatedY) / 45;
-    moveY = ((boxWidth/2) * rotatedX) / 45;
-    */
-    if(lastGamma == null|| lastBeta == null){
-      lastGamma = event.gamma;
-    lastBeta = event.beta;
-    } else {
-      moveX = lastBeta - event.beta;
-      moveY = lastGamma - event.gamma;
-    }
-    console.log("Gamma ", event.gamma, " Betta  ", event.beta);
-    console.log("moveY ", moveY, " moveX ", moveX);
-    if(curCamPos){
-
-    camera.position.z = lerp(camera.position.z,(curCamPos.z - moveY * 0.018),0.15);
-    camera.position.y = lerp(camera.position.y,(curCamPos.y + moveX * 0.018),0.15);
-    /*
-    camera.position.z = curCamPos.z - moveY * 0.02;
-    camera.position.y = curCamPos.y + moveX *0.02;
-    */
-    //izmo.position.set(camera.position.x + 0.2, camera.position.y + 0.038 ,camera.position.z + 0.039);
-    }
-  });
-
-
-  document.addEventListener('touchstart', handleTouchStart, false);
-  document.addEventListener('touchmove', handleTouchMove, false);
-  document.addEventListener("touchend", handleTouchEnd, false);
-
-  var xDown = null;
-var yDown = null;
-
-function getTouches(evt) {
-  return evt.touches ||             // browser API
-         evt.originalEvent.touches; // jQuery
-}
-
-function handleTouchStart(evt) {
-    const firstTouch = getTouches(evt)[0];
-    xDown = firstTouch.clientX /*- (window.innerWidth / 2)*/;
-    yDown = firstTouch.clientY /*- (window.innerHeight / 2)*/;
-};
-
-function handleTouchEnd() {
-  xDown = null;
-  yDown = null;
-}
-
-function handleTouchMove(evt) {
-  //e.preventDefault();
-    if ( ! xDown || ! yDown ) {
-        return;
-    }
-
-    var xUp = evt.touches[0].clientX /*- (window.innerWidth / 2)*/;
-    var yUp = evt.touches[0].clientY /*- (window.innerHeight / 2)*/;
-
-    console.log(xUp,yUp);
-
-    var xDiff = xDown - xUp;// (window.innerWidth / 2)
-    var yDiff = yDown - yUp;// (window.innerHeight / 2)
-
-    //xDiff = xDiff != 0 ? xDiff /  (window.innerWidth / 2) : xDiff;
-    //yDiff = yDiff != 0 ? yDiff /  (window.innerHeight / 2) : yDiff;
-
-    //console.log(xDiff,yDiff);
-
-
-
-    //controls.target.set(camera.position.x + 2,camera.position.y-0.3 /*0.6*/, camera.position.z);
-
-    if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
-      //camera.position.z = lerp(camera.position.z,(curCamPos.z - xDiff * 10),0.1);
-        if ( xDiff > 0 ) {
-            /* left swipe */
+          case 39:
             hScroll(1);
-        } else {
-            /* right swipe */
-            hScroll(-1);
+            break;
+          case 40:
+            vscroll(1);
+            break;
         }
-    } else {
-      //camera.position.x = lerp(camera.position.x,(curCamPos.y + yDiff * 10),0.1);
-        if ( yDiff > 0 ) {
+      }
+
+      window.addEventListener("deviceorientation", function (event) {
+        event.stopPropagation();
+        event = event || window.event;
+
+        var rotatedY = Math.min(Math.max(parseInt(Math.floor(event.gamma)), -45), 45),
+          rotatedX = Math.min(Math.max(parseInt(Math.floor(event.beta)), -45), 45),
+          boxWidth = WIDTH,
+          boxHeight = HEIGHT;
+        /*
+            moveX = ((boxWidth/2) * rotatedY) / 45;
+            moveY = ((boxWidth/2) * rotatedX) / 45;
+            */
+        if (lastGamma == null || lastBeta == null) {
+          lastGamma = event.gamma;
+          lastBeta = event.beta;
+        } else {
+          moveX = lastBeta - event.beta;
+          moveY = lastGamma - event.gamma;
+        }
+        console.log("Gamma ", event.gamma, " Betta  ", event.beta);
+        console.log("moveY ", moveY, " moveX ", moveX);
+        if (curCamPos) {
+
+          camera.position.z = lerp(camera.position.z, (curCamPos.z - moveY * 0.018), 0.15);
+          camera.position.y = lerp(camera.position.y, (curCamPos.y + moveX * 0.018), 0.15);
+          /*
+          camera.position.z = curCamPos.z - moveY * 0.02;
+          camera.position.y = curCamPos.y + moveX *0.02;
+          */
+          //izmo.position.set(camera.position.x + 0.2, camera.position.y + 0.038 ,camera.position.z + 0.039);
+        }
+      });
+
+
+      document.addEventListener('touchstart', handleTouchStart, false);
+      document.addEventListener('touchmove', handleTouchMove, false);
+      document.addEventListener("touchend", handleTouchEnd, false);
+
+      var xDown = null;
+      var yDown = null;
+
+      function getTouches(evt) {
+        return evt.touches ||             // browser API
+          evt.originalEvent.touches; // jQuery
+      }
+
+      function handleTouchStart(evt) {
+        const firstTouch = getTouches(evt)[0];
+        xDown = firstTouch.clientX /*- (window.innerWidth / 2)*/;
+        yDown = firstTouch.clientY /*- (window.innerHeight / 2)*/;
+      };
+
+      function handleTouchEnd() {
+        xDown = null;
+        yDown = null;
+      }
+
+      function handleTouchMove(evt) {
+        //e.preventDefault();
+        if (!xDown || !yDown) {
+          return;
+        }
+
+        var xUp = evt.touches[0].clientX /*- (window.innerWidth / 2)*/;
+        var yUp = evt.touches[0].clientY /*- (window.innerHeight / 2)*/;
+
+        console.log(xUp, yUp);
+
+        var xDiff = xDown - xUp;// (window.innerWidth / 2)
+        var yDiff = yDown - yUp;// (window.innerHeight / 2)
+
+        //xDiff = xDiff != 0 ? xDiff /  (window.innerWidth / 2) : xDiff;
+        //yDiff = yDiff != 0 ? yDiff /  (window.innerHeight / 2) : yDiff;
+
+        //console.log(xDiff,yDiff);
+
+
+
+        //controls.target.set(camera.position.x + 2,camera.position.y-0.3 /*0.6*/, camera.position.z);
+
+        if (Math.abs(xDiff) > Math.abs(yDiff)) {/*most significant*/
+          //camera.position.z = lerp(camera.position.z,(curCamPos.z - xDiff * 10),0.1);
+          if (xDiff > 0) {
+            /* left swipe */
+            //hScroll(1);
+          } else {
+            /* right swipe */
+            //hScroll(-1);
+          }
+        } else {
+          //camera.position.x = lerp(camera.position.x,(curCamPos.y + yDiff * 10),0.1);
+          if (yDiff > 0) {
             /* up swipe */
             //scroll(1);
-            vscroll(1);
-        } else {
+            //vscroll(1);
+          } else {
             /* down swipe */
             //scroll(-1);
-            vscroll(-1);
+            //vscroll(-1);
+          }
         }
-    }
-    /* reset values */
-    xDown = null;
-    yDown = null;
-};
+        /* reset values */
+        xDown = null;
+        yDown = null;
+      };
 
 
-  // initialize object to perform world/screen calculations
-var raycaster = new THREE.Raycaster();
-var mouse = new THREE.Vector2(), INTERSECTED;
-document.addEventListener( 'mousedown', onDocumentMouseDown, false );
-document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+      // initialize object to perform world/screen calculations
+      var raycaster = new THREE.Raycaster();
+      var mouse = new THREE.Vector2(), INTERSECTED;
+      document.addEventListener('mousedown', onDocumentMouseDown, false);
+      document.addEventListener('mousemove', onDocumentMouseMove, false);
 
-function onDocumentMouseMove( event ) {
+      function onDocumentMouseMove(event) {
 
-mouseX = (event.clientX - window.innerWidth / 2) ;
-mouseY = (event.clientY - window.innerHeight / 2);
-if(mouseX != 0){
-  mouseX = mouseX  / (window.innerWidth / 2);
-}
-if(mouseY != 0){
-  mouseY = mouseY  / (window.innerHeight / 2);
-}
+        mouseX = (event.clientX - window.innerWidth / 2);
+        mouseY = (event.clientY - window.innerHeight / 2);
+        if (mouseX != 0) {
+          mouseX = mouseX / (window.innerWidth / 2);
+        }
+        if (mouseY != 0) {
+          mouseY = mouseY / (window.innerHeight / 2);
+        }
 
-/*
-camera.position.x += ( mouseX - camera.position.x ) * 0.05;
-    camera.position.y += ( - mouseY - camera.position.y ) * 0.05;
-    */
-//console.log( mouseX, mouseY);
-if(ori == false && curCamPos != null){
-  //camera.position.z =  curCamPos.z - mouseX * 0.5;
-  //camera.position.y = curCamPos.y + mouseY * 0.5;
-  camera.position.z = lerp(camera.position.z,(curCamPos.z - mouseX * 0.5),0.1);
-  camera.position.y = lerp(camera.position.y,(curCamPos.y + mouseY * 0.5),0.1);
-}
-//set up camera position
-//camera.lookAt(scene.position);
+        /*
+        camera.position.x += ( mouseX - camera.position.x ) * 0.05;
+            camera.position.y += ( - mouseY - camera.position.y ) * 0.05;
+            */
+        //console.log( mouseX, mouseY);
+        if (ori == false && curCamPos != null) {
+          //camera.position.z =  curCamPos.z - mouseX * 0.5;
+          //camera.position.y = curCamPos.y + mouseY * 0.5;
+          camera.position.z = lerp(camera.position.z, (curCamPos.z - mouseX * 0.5), 0.1);
+          camera.position.y = lerp(camera.position.y, (curCamPos.y + mouseY * 0.5), 0.1);
+        }
+        //set up camera position
+        //camera.lookAt(scene.position);
 
-mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
 
-raycaster.setFromCamera( mouse, camera );
-var intersects = raycaster.intersectObjects( scene.children, true );
+        raycaster.setFromCamera(mouse, camera);
+        var intersects = raycaster.intersectObjects(scene.children, true);
 
-if(intersects.length > 0){
-  $('html').css( 'cursor', 'pointer' );
-} else {
-  $('html').css( 'cursor', 'default' );
-  }
-}
-
-function onDocumentMouseDown( event ) {
-  if(firstPhase == true){
-    initTrans();
-    return;
-  }
-
-mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-raycaster.setFromCamera( mouse, camera );
-var intersects = raycaster.intersectObjects(scene.children,true);
-var to;
-if(intersects.length > 0) var namee = intersects[0].object.name;
-  if ( intersects.length > 0/* && clickable.includes(intersects[0].object.name)*/)
-  {
-    clicker(intersects[ 0 ].object);
-    //lightbox_open();
-    //animateMove(camera.position,{x: to.position.x - 2, y: to.position.y,z: to.position.z + 0.5},to.position,1000);
-  }
-}
-
-function lerp (start, end, amt){
-  return (1-amt)*start+amt*end
-}
-
-
-function clicker(obj){
-
-  var namee = obj.name;
-  document.getElementById('info').style.paddingRight = ori ? '3%' :'53%';
-/*
-if(phase != "2" && usList.includes(namee)){
- hScroll(1);
- return;
-}
-else if ( (phase != "1" ||phase != "3") && (clickable.includes(namee) || toolsList.includes(namee)) ){
-  hScroll(clickable.includes(namee) ? -1 : 1);
-  return;
-}
-else if ( (phase != "1" ||phase != "3") && (usList.includes(namee) || fellasList.includes(namee)) ){
-  hScroll(usList.includes(namee) ? -1 : 1);
-  return;
-} else if ( (phase != "2" ||phase != "4") && (toolsList.includes(namee) || namee == "Instagram" || namee == "Facebook" ) ){
-  hScroll(toolsList.includes(namee) ? -1 : 1);
-  return;
-}
-if(phase != "4" && fellasList.includes(namee)){
- hScroll(1);
- return;
-}*/
-console.log(obj.position.z , curCamPos.z);
-
-if(Math.round(obj.position.z) > Math.round(curCamPos.z) || (usList.includes(namee) && Math.round(obj.position.z) < Math.round(curCamPos.z) != true)){
-  hScroll(1);
-  return;
-} else if(Math.round(obj.position.z) < Math.round(curCamPos.z)){
-  hScroll(-1);
-  return;
-}
-
-textSetter(namee);
-
-if(namee == "tv" ){
-  to = tv;
-  container.style.visibility = 'visible';
-}
-if(namee == "flag"){
-to = plane;
-container.style.visibility = 'visible';
-}
-if(namee == "skate"){
-to = skate;
-
-}
-if(namee == "synth"){
-to = synth;
-container.style.visibility = 'visible';
-}
-if(namee == "phone"){
-to = phone;
-container.style.visibility = 'visible';
-}
-if(namee == "vr"){
-to = vr;
-container.style.visibility = 'visible';
-}
-if(namee == "vide"){
-to = vid;
-container.style.visibility = 'visible';
-}
-if(namee == "arch"){
-to = arch;
-container.style.visibility = 'visible';
-}
-
-switch(namee) {
-  case "Selam X":
-    window.open('https://selam-x.com/', '_blank');
-  break;
-  case "2Realistic":
-    window.open('http://www.2realistic.com/', '_blank');
-    break;
-  case "Brainz":
-    window.open('http://brainz.cz/', '_blank');
-    break;
-  case "Cinesco":
-    window.open('http://www.cinesco.com/', '_blank');
-    break;
-  case "AElias":
-    window.open('http://www.zenbauhaus.wordpress.com/', '_blank');
-    break;
-  case "Sphere":
-    window.open('https://richardjanecek.com/', '_blank');
-    break;
-  case "instance":
-    window.open('https://hpascalie.myportfolio.com/', '_blank');
-    break;
-  case "Unreal Engine":
-    window.open('https://www.unrealengine.com/', '_blank');
-    break;
-  case "Houdini":
-    window.open('https://www.sidefx.com/', '_blank');
-    break;
-  case "Blender":
-    window.open('https://www.blender.org/foundation/', '_blank');
-    break;
-  case "Unity":
-    window.open('https://unity.com/solutions', '_blank');
-    break;
-  case "Substance":
-    window.open('https://www.substance3d.com/', '_blank');
-    break;
-  case "Adobe":
-    window.open('https://www.adobe.com/', '_blank');
-    break;
-  case "Quixel":
-    window.open('https://www.quixel.com/', '_blank');
-    break;
-  case "Tensorflow":
-    window.open('https://www.tensorflow.org/', '_blank');
-    break;
-case "Instagram":
-    window.open('https://www.instagram.com/notreal_virtual/', '_blank');
-    break;
-case "Facebook":
-    window.open('https://www.facebook.com/notrealvirtual/', '_blank');
-    break;
-    case "phone":
-  window.open('https://apps.notreal.xyz/', '_blank');
-  break;
-  case "tv":
-  window.open('https://digital.notreal.xyz/', '_blank');
-  break;
-  case "flag":
-  window.open('https://print.notreal.xyz/', '_blank');
-  break;
-  case "vide":
-  window.open('https://video.notreal.xyz/', '_blank');
-  break;
-  case "synth":
-  window.open('https://sound.notreal.xyz/', '_blank');
-  break;
-  case "skate":
-    window.open('https://skate.notreal.xyz/', '_blank');
-    break;
-  case "arch":
-  window.open('https://arch.notreal.xyz/', '_blank');
-  break;
-case "vr":
-    if(camera.position.x > -5) {window.open('https://vr.notreal.xyz/', '_blank');}
-  break;
-default:
-  // code block
-}
-
-}
-
-function textSetter(ob){
-
-  switch(ob) {
-    case "tv":
-      changeTexts('Digital',"#VFX #Campaigns #Ads #Brands");
-      container.style.visibility = 'visible';
-    break;
-    case "flag":
-     changeTexts('Prints',"#Design #Graphics #Poster #books");
-      container.style.visibility = 'visible';
-      break;
-    case "vr":
-      changeTexts('VR & AR',"#virtual #augme#nted #realtime #unreal");
-      container.style.visibility = 'visible';
-      break;
-    case "synth":
-    changeTexts("Sound","#music #sound#design #audio#visual#ization");
-      container.style.visibility = 'visible';
-      break;
-    case "phone":
-    changeTexts("Apps","#Design #Mobile #Website #UX&UI");
-      container.style.visibility = 'visible';
-      break;
-    case "vide":
-    changeTexts("Video",'#film #ads #movies #animation');
-        container.style.visibility = 'visible';
-        break;
-    case "arch":
-    changeTexts("Archviz","#archviz #realtime #vr&ar #unreal");
-        container.style.visibility = 'visible';
-        break;
-    case "skate":
-    changeTexts("Skate","#film");
-      container.style.visibility = 'visible';
-      break;
-    case "us":
-    changeTexts("US", "Get to know our team");
-    container.style.visibility = 'visible';
-      break;
-    default:
-  }
-  if(phase=="2"){
-  switch(ob){
-    case "Cylinder":
-      changeTexts("Kajetan<br>Tvrdik", "#film #televison #photo#graphy #new-media");
-      container.style.visibility = 'visible';
-      break;
-    case "Cone001":
-      changeTexts("ADAMS<br>SOUKUP", "#art #visual#izations #image #Abstract #realistic");
-      container.style.visibility = 'visible';
-      break;
-    case "Cone":
-      changeTexts("SEBASTIAN<br>BAALBAKI", "#Structure #Textures #Support #SUbstance");
-      container.style.visibility = 'visible';
-      break;
-    case "AElias":
-      changeTexts("ELIAS<br>BAUER", "#VR/AR #realtime #Unreal #Houdini #art #tech");
-
-break;
-    case "instance":
-      changeTexts("Hugo<br>Pascalie", "#Art #Direction #Paris #typo#graphy #Graphic #Design #Motion");
-      container.style.visibility = 'visible';
-      break;
-    case "ALucas":
-    changeTexts("Lucas<br>Saidl", "#VR/AR #realtime #Unreal #Houdini #art #tech");
-      container.style.visibility = 'visible';
-      break;
-    case "Sphere":
-    changeTexts("Matej<br>martinec", "#Graphic#Design #Houdini #Typo#graphy #Print");
-      container.style.visibility = 'visible';
-      break;
-    case "Cube":
-    changeTexts("Richard<br>Janecek", "#Film #Photo #gammetry #art #digital #art");
-
-      container.style.visibility = 'visible';
-      break;
-    default:
-      // code block
-  }
-  } else if(phase == "3"){
-    switch(ob){
-      case "Unreal Engine":
-        changeTexts("UNREAL", "#Realtime #VR&AR #Cinemato#graphy");
-        break;
-      case "Houdini":
-        changeTexts(ob, "#Procedural #VFX #Modelling");
-        break;
-      case "Blender":
-        changeTexts(ob, "#Open#Source #Modelling");
-        break;
-      case "Unity":
-        changeTexts(ob, "#VR&AR #multi#platform");
-        break;
-      case "Substance":
-        changeTexts(ob, "#Materials #Textures #surface #textures #photorealistic");
-        break;
-      case "Adobe":
-        changeTexts(ob, "#VFX #Editing #2D");
-        break;
-      case "Quixel":
-        changeTexts(ob, "#3Dscans #realistic #photogammetry #realtime");
-        break;
-      case "Tensorflow":
-        changeTexts('Tensor flow', "#machine#learning #AI");
-        break;
-      default:
-    }
-  } else if(phase == "4"){
-    switch(ob){
-      case "Selam X":
-        changeTexts(ob, "#Visual #Animation #WebDesign #Digital #Art");
-        break;
-      case "2Realistic":
-        changeTexts(ob, "#VR #inter#active #unreal #visual#izations #VFX");
-        break;
-      case "Brainz":
-        changeTexts(ob,"#360 #VR&AR #graphic #design #websites");
-        break;
-      case "Cinesco":
-        changeTexts(ob, "#TV-ads #enter#tainment #VR #motion #design");
-        break;
-      default:
-    }
-  }
-  else if (phase == "5") {
-    changeTextsToContact();
-  }
-
-}
-function changeTexts(str,strr){
-  $('h2').html(str);
-  $('#theRest').html(strr.replace(/#/g, "<br />"));
-  $('#hash').html( "#<br>".repeat((countBr(strr)) ) );
-}
-function changeTextsToContact(){
-  $('h2').text("Contact");
-  $('#theRest').html('<a href="https://instagram.com/notreal_virtual">Instagram</a> <br> <a href="https://facebook.com/notrealvirtual">Facebook</a> <br> <a href="+420 604 555 637">420<br>604 555 637</a>  <a href="info@notreal.xyz">info<br>notreal<br>xyz</a>');
-  $('#hash').html( " <br> <br> <br>+<br> <br>@<br>.<br> <br>");
-}
-function countBr(strr){
-  return (strr.match(/#/g) || []).length;
-}
-
-function animateScale(vectorToAnimate, target, options){
-console.log("animating");
-var speed = 300;
-// create the tween
-var tween = new TWEEN.Tween(vectorToAnimate).to(target, 2000)
-    .easing(TWEEN.Easing.Elastic.InOut)
-    .onComplete(function(){
-      setTimeout(function() {
-
-      }, 4000);
-    });
-    tween.onUpdate(function(){
-    });
-    // start the tween
-    tween.start();
-}
-
-function animateMove(vectorToAnimate, target, lookAt, speed){
-console.log("tween animating");
-curCamPos = target;
-// create the tween
-moving = true;
-lastBeta = null;
-lastGamma = null;
-var spee = speed ? speed : 4000;
-var tween = new TWEEN.Tween(vectorToAnimate).to(target, spee)
-    .easing(TWEEN.Easing.Quintic.InOut)
-    .onComplete(function(){
-      moving = false;
-      //console.log('tween done');
-      curCamPos = target;
-      //camera.position.z = lerp(camera.position.z,(curCamPos.z - moveX * 0.0015),0.1);
-    //camera.position.y = lerp(camera.position.y,(curCamPos.y + moveY *0.0015),0.1);
-    });
-    tween.onUpdate(function(){
-      camera.position.x = vectorToAnimate.x;
-      camera.position.y = vectorToAnimate.y/* + mouseY * 0.5 */;
-      camera.position.z = vectorToAnimate.z  /*- mouseX * 0.5 */;
-      //gizmo.position.set(camera.position.x + 0.2, camera.position.y + 0.038 ,camera.position.z + 0.039);
-    if(lookAt){
-        controls.target.set(vectorToAnimate.x + 2,vectorToAnimate.y-0.3 /*0.6*/, vectorToAnimate.z);
-        //camera.lookAt({x:vectorToAnimate.x + 2,y: vectorToAnimate.y,z:vectorToAnimate.z});
+        if (intersects.length > 0) {
+          $('html').css('cursor', 'pointer');
+        } else {
+          $('html').css('cursor', 'default');
+        }
       }
-    });
-    /*
-    if(lookAt){
-  var vec = camera.lookAt;
-  var tween2 = new TWEEN.Tween(vec).to(lookAt, 4000)
-    .easing(TWEEN.Easing.Quadratic.InOut)
-    .onComplete(function(){
-      console.log('done');
-    });
-    tween2.onUpdate(function(){
-      //console.log(camera.lookAt,vec);
-      //camera.lookAt(vec);
-      controls.target = vec;
-    });
-    tween2.start();
-  }*/
-   // start the tween
-tween.start();
-}
 
-function initTrans(){
-  video.muted = true;
-  video.play();
-  $('canvas').css( 'cursor', 'default' );
-  var speed = 200;
-  animateMove(camera.position, {x:-4, y: 0.7/*16*/, z: 0}, {x:0, y: 0, z: 0}, 500);
-  firstPhase = false;
-  phase = '1';
-  $('#player').hide();
-  clicker(vr);
-  /*
-  //logo.visible = false;
-        //example.style.visibility = 'visible';
-        setTimeout(function() {
-          example.style.visibility = 'visible';
-          example.innerHTML="Augmented";
-          setTimeout(function() {
-            example.innerHTML="Motion";
-            setTimeout(function() {
-              example.innerHTML="AI";
+      function onDocumentMouseDown(event) {
+        if (firstPhase == true) {
+          initTrans();
+          return;
+        }
+
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+        raycaster.setFromCamera(mouse, camera);
+        var intersects = raycaster.intersectObjects(scene.children, true);
+        var to;
+        if (intersects.length > 0) var namee = intersects[0].object.name;
+        if (intersects.length > 0/* && clickable.includes(intersects[0].object.name)*/) {
+          clicker(intersects[0].object);
+          //lightbox_open();
+          //animateMove(camera.position,{x: to.position.x - 2, y: to.position.y,z: to.position.z + 0.5},to.position,1000);
+        }
+      }
+
+      function lerp(start, end, amt) {
+        return (1 - amt) * start + amt * end
+      }
+
+
+      function clicker(obj) {
+
+        var namee = obj.name;
+        document.getElementById('info').style.paddingRight = ori ? '3%' : '53%';
+        /*
+        if(phase != "2" && usList.includes(namee)){
+         hScroll(1);
+         return;
+        }
+        else if ( (phase != "1" ||phase != "3") && (clickable.includes(namee) || toolsList.includes(namee)) ){
+          hScroll(clickable.includes(namee) ? -1 : 1);
+          return;
+        }
+        else if ( (phase != "1" ||phase != "3") && (usList.includes(namee) || fellasList.includes(namee)) ){
+          hScroll(usList.includes(namee) ? -1 : 1);
+          return;
+        } else if ( (phase != "2" ||phase != "4") && (toolsList.includes(namee) || namee == "Instagram" || namee == "Facebook" ) ){
+          hScroll(toolsList.includes(namee) ? -1 : 1);
+          return;
+        }
+        if(phase != "4" && fellasList.includes(namee)){
+         hScroll(1);
+         return;
+        }*/
+        console.log(obj.position.z, curCamPos.z);
+
+        if (Math.round(obj.position.z) > Math.round(curCamPos.z) || (usList.includes(namee) && Math.round(obj.position.z) < Math.round(curCamPos.z) != true)) {
+          //hScroll(1);      //Scrolls on clicK
+          return;
+        } else if (Math.round(obj.position.z) < Math.round(curCamPos.z)) {
+          //hScroll(-1); //Scrolls on clicK
+          return;
+        }
+
+        
+        
+        
+        
+        if (namee == "contact") {
+        console.log("phonee");
+        //moveToContact();
+        
+        if (Math.round(curCamPos.z) != 3) {
+          //hScroll(1);      //Scrolls on clicK
+          console.log("ToContact");
+          moveToContact();
+          changeTextsToContact();
+          return;
+        } else {
+          //hScroll(-1); //Scrolls on clicK
+          console.log("FrooomContact");
+          moveFromContact();
+          return;
+        }
+        
+        }
+
+
+        textSetter(namee);
+
+        if (namee == "tv") {
+          to = tv;
+          container.style.visibility = 'visible';
+        }
+        if (namee == "flag") {
+          to = plane;
+          container.style.visibility = 'visible';
+        }
+        if (namee == "skate") {
+          to = skate;
+
+        }
+        if (namee == "synth") {
+          to = synth;
+          container.style.visibility = 'visible';
+        }
+        if (namee == "phone") {
+          to = phone;
+          container.style.visibility = 'visible';
+        
+        }
+        if (namee == "vr") {
+          to = vr;
+          container.style.visibility = 'visible';
+        }
+        if (namee == "vide") {
+          to = vid;
+          container.style.visibility = 'visible';
+        }
+        if (namee == "arch") {
+          to = arch;
+          container.style.visibility = 'visible';
+        }
+
+        switch (namee) {
+          case "Selam X":
+            window.open('https://selam-x.com/', '_blank');
+            break;
+          case "2Realistic":
+            window.open('http://www.2realistic.com/', '_blank');
+            break;
+          case "Brainz":
+            window.open('http://brainz.cz/', '_blank');
+            break;
+          case "Cinesco":
+            window.open('http://www.cinesco.com/', '_blank');
+            break;
+          case "AElias":
+            window.open('http://www.zenbauhaus.wordpress.com/', '_blank');
+            break;
+          case "Sphere":
+            window.open('https://richardjanecek.com/', '_blank');
+            break;
+          case "instance":
+            window.open('https://hpascalie.myportfolio.com/', '_blank');
+            break;
+          case "Unreal Engine":
+            window.open('https://www.unrealengine.com/', '_blank');
+            break;
+          case "Houdini":
+            window.open('https://www.sidefx.com/', '_blank');
+            break;
+          case "Blender":
+            window.open('https://www.blender.org/foundation/', '_blank');
+            break;
+          case "Unity":
+            window.open('https://unity.com/solutions', '_blank');
+            break;
+          case "Substance":
+            window.open('https://www.substance3d.com/', '_blank');
+            break;
+          case "Adobe":
+            window.open('https://www.adobe.com/', '_blank');
+            break;
+          case "Quixel":
+            window.open('https://www.quixel.com/', '_blank');
+            break;
+          case "Tensorflow":
+            window.open('https://www.tensorflow.org/', '_blank');
+            break;
+          case "Instagram":
+            window.open('https://www.instagram.com/notreal_virtual/', '_blank');
+            break;
+          case "Facebook":
+            window.open('https://www.facebook.com/notrealvirtual/', '_blank');
+            break;
+          case "phone":
+            //window.open('https://apps.notreal.xyz/', '_blank');
+            window.open('https://digital.notreal.xyz/', '_blank');
+            break;
+          case "tv":
+            window.open('https://digital.notreal.xyz/', '_blank');
+            break;
+          case "flag":
+            window.open('https://print.notreal.xyz/', '_blank');
+            break;
+          case "vide":
+            window.open('https://video.notreal.xyz/', '_blank');
+            break;
+          case "synth":
+            window.open('https://sound.notreal.xyz/', '_blank');
+            break;
+          case "skate":
+            window.open('https://skate.notreal.xyz/', '_blank');
+            break;
+          case "arch":
+            window.open('https://arch.notreal.xyz/', '_blank');
+            break;
+          case "vr":
+            if (camera.position.x > -5) { window.open('https://vr.notreal.xyz/', '_blank'); }
+            break;
+          default:
+          // code block
+        }
+
+      }
+
+      function textSetter(ob) {
+
+        switch (ob) {
+          case "tv":
+            changeTexts('Digital', "#VFX #Campaigns #Ads #Brands");
+            container.style.visibility = 'visible';
+            break;
+          case "flag":
+            changeTexts('Prints', "#Design #Graphics #Poster #books");
+            container.style.visibility = 'visible';
+            break;
+          case "vr":
+            changeTexts('VR & AR', "#virtual #augme#nted #realtime #unreal");
+            container.style.visibility = 'visible';
+            break;
+          case "synth":
+            changeTexts("Sound", "#music #sound#design #audio#visual#ization");
+            container.style.visibility = 'visible';
+            break;
+          case "phone":
+            changeTexts("Apps", "#Design #Mobile #Website #UX&UI");
+            container.style.visibility = 'visible';
+            break;
+          case "vide":
+            changeTexts("Video", '#film #ads #movies #animation');
+            container.style.visibility = 'visible';
+            break;
+          case "arch":
+            changeTexts("Archviz", "#archviz #realtime #vr&ar #unreal");
+            container.style.visibility = 'visible';
+            break;
+          case "skate":
+            changeTexts("Skate", "#film");
+            container.style.visibility = 'visible';
+            break;
+          case "us":
+            changeTexts("US", "Get to know our team");
+            container.style.visibility = 'visible';
+            break;
+          default:
+        }
+        if (phase == "2") {
+          switch (ob) {
+            case "Cylinder":
+              changeTexts("Kajetan<br>Tvrdik", "#film #televison #photo#graphy #new-media");
+              container.style.visibility = 'visible';
+              break;
+            case "Cone001":
+              changeTexts("ADAMS<br>SOUKUP", "#art #visual#izations #image #Abstract #realistic");
+              container.style.visibility = 'visible';
+              break;
+            case "Cone":
+              changeTexts("SEBASTIAN<br>BAALBAKI", "#Structure #Textures #Support #SUbstance");
+              container.style.visibility = 'visible';
+              break;
+            case "AElias":
+              changeTexts("ELIAS<br>BAUER", "#VR/AR #realtime #Unreal #Houdini #art #tech");
+
+              break;
+            case "instance":
+              changeTexts("Hugo<br>Pascalie", "#Art #Direction #Paris #typo#graphy #Graphic #Design #Motion");
+              container.style.visibility = 'visible';
+              break;
+            case "ALucas":
+              changeTexts("Lucas<br>Saidl", "#VR/AR #realtime #Unreal #Houdini #art #tech");
+              container.style.visibility = 'visible';
+              break;
+            case "Sphere":
+              changeTexts("Matej<br>martinec", "#Graphic#Design #Houdini #Typo#graphy #Print");
+              container.style.visibility = 'visible';
+              break;
+            case "Cube":
+              changeTexts("Richard<br>Janecek", "#Film #Photo #gammetry #art #digital #art");
+
+              container.style.visibility = 'visible';
+              break;
+            default:
+            // code block
+          }
+        } else if (phase == "3") {
+          switch (ob) {
+            case "Unreal Engine":
+              changeTexts("UNREAL", "#Realtime #VR&AR #Cinemato#graphy");
+              break;
+            case "Houdini":
+              changeTexts(ob, "#Procedural #VFX #Modelling");
+              break;
+            case "Blender":
+              changeTexts(ob, "#Open#Source #Modelling");
+              break;
+            case "Unity":
+              changeTexts(ob, "#VR&AR #multi#platform");
+              break;
+            case "Substance":
+              changeTexts(ob, "#Materials #Textures #surface #textures #photorealistic");
+              break;
+            case "Adobe":
+              changeTexts(ob, "#VFX #Editing #2D");
+              break;
+            case "Quixel":
+              changeTexts(ob, "#3Dscans #realistic #photogammetry #realtime");
+              break;
+            case "Tensorflow":
+              changeTexts('Tensor flow', "#machine#learning #AI");
+              break;
+            default:
+          }
+        } else if (phase == "4") {
+          switch (ob) {
+            case "Selam X":
+              changeTexts(ob, "#Visual #Animation #WebDesign #Digital #Art");
+              break;
+            case "2Realistic":
+              changeTexts(ob, "#VR #inter#active #unreal #visual#izations #VFX");
+              break;
+            case "Brainz":
+              changeTexts(ob, "#360 #VR&AR #graphic #design #websites");
+              break;
+            case "Cinesco":
+              changeTexts(ob, "#TV-ads #enter#tainment #VR #motion #design");
+              break;
+            default:
+          }
+        }
+        else if (phase == "5") {
+          changeTextsToContact();
+        }
+
+      }
+      function changeTexts(str, strr) {
+        $('h2').html(str);
+        $('#theRest').html(strr.replace(/#/g, "<br />"));
+        $('#hash').html("#<br>".repeat((countBr(strr))));
+      }
+      function changeTextsToContact() {
+        $('h2').text("Contact");
+        $('#theRest').html('<a href="https://instagram.com/notreal_virtual">Instagram</a> <br> <a href="+420 604 555 637">420<br>604 555 637</a>  <a href="info@notreal.xyz">info<br>notreal<br>xyz</a>');
+        $('#hash').html(" <br> <br> <br>+<br> <br>@<br>.<br> <br>");
+      }
+      function countBr(strr) {
+        return (strr.match(/#/g) || []).length;
+      }
+
+      function animateScale(vectorToAnimate, target, options) {
+        console.log("animating");
+        var speed = 300;
+        // create the tween
+        var tween = new TWEEN.Tween(vectorToAnimate).to(target, 2000)
+          .easing(TWEEN.Easing.Elastic.InOut)
+          .onComplete(function () {
+            setTimeout(function () {
+
+            }, 4000);
+          });
+        tween.onUpdate(function () {
+        });
+        // start the tween
+        tween.start();
+      }
+
+      function animateMove(vectorToAnimate, target, lookAt, speed) {
+        console.log("tween animating");
+        curCamPos = target;
+        // create the tween
+        moving = true;
+        lastBeta = null;
+        lastGamma = null;
+        var spee = speed ? speed : 4000;
+        var tween = new TWEEN.Tween(vectorToAnimate).to(target, spee)
+          .easing(TWEEN.Easing.Quintic.InOut)
+          .onComplete(function () {
+            moving = false;
+            //console.log('tween done');
+            curCamPos = target;
+            //camera.position.z = lerp(camera.position.z,(curCamPos.z - moveX * 0.0015),0.1);
+            //camera.position.y = lerp(camera.position.y,(curCamPos.y + moveY *0.0015),0.1);
+          });
+        tween.onUpdate(function () {
+          camera.position.x = vectorToAnimate.x;
+          camera.position.y = vectorToAnimate.y/* + mouseY * 0.5 */;
+          camera.position.z = vectorToAnimate.z  /*- mouseX * 0.5 */;
+          //gizmo.position.set(camera.position.x + 0.2, camera.position.y + 0.038 ,camera.position.z + 0.039);
+          if (lookAt) {
+            controls.target.set(vectorToAnimate.x + 2, vectorToAnimate.y - 0.3 /*0.6*/, vectorToAnimate.z);
+            //camera.lookAt({x:vectorToAnimate.x + 2,y: vectorToAnimate.y,z:vectorToAnimate.z});
+          }
+        });
+        /*
+        if(lookAt){
+      var vec = camera.lookAt;
+      var tween2 = new TWEEN.Tween(vec).to(lookAt, 4000)
+        .easing(TWEEN.Easing.Quadratic.InOut)
+        .onComplete(function(){
+          console.log('done');
+        });
+        tween2.onUpdate(function(){
+          //console.log(camera.lookAt,vec);
+          //camera.lookAt(vec);
+          controls.target = vec;
+        });
+        tween2.start();
+      }*/
+        // start the tween
+        tween.start();
+      }
+
+      function initTrans() {
+        video.muted = true;
+        video.play();
+        $('canvas').css('cursor', 'default');
+        var speed = 200;
+        animateMove(camera.position, { x: -4, y: 0.7/*16*/, z: 0 }, { x: 0, y: 0, z: 0 }, 800);
+        firstPhase = false;
+        phase = '1';
+        $('#player').hide();
+        clicker(vr);
+        /*
+        //logo.visible = false;
+              //example.style.visibility = 'visible';
               setTimeout(function() {
-                example.innerHTML="PR";
+                example.style.visibility = 'visible';
+                example.innerHTML="Augmented";
                 setTimeout(function() {
-                  example.innerHTML="Creative";
+                  example.innerHTML="Motion";
                   setTimeout(function() {
-                    example.innerHTML="something";
+                    example.innerHTML="AI";
                     setTimeout(function() {
-                      example.innerHTML="";
+                      example.innerHTML="PR";
+                      setTimeout(function() {
+                        example.innerHTML="Creative";
+                        setTimeout(function() {
+                          example.innerHTML="something";
+                          setTimeout(function() {
+                            example.innerHTML="";
+                          }, speed);
+                        }, speed);
+                      }, speed);
                     }, speed);
                   }, speed);
                 }, speed);
-              }, speed);
-            }, speed);
-          }, speed);
-        }, 200);
-        */
-}
+              }, 200);
+              */
+      }
+      function moveToContact() {
+        animateMove(camera.position, { x: 0.2, y: 0.7/*16*/, z: 3}, { x: 0, y: 0, z: curCamPos.z - 4  }, 500);
+      }
 
-function scroll(e){
-  if(firstPhase == true){
-    initTrans();
-    return;
-  }
+      function moveFromContact(){
+        animateMove(camera.position, { x: -4, y: 0.7/*16*/, z: 0 }, { x: 0, y: 0, z: curCamPos.z + 4 }, 500);
+      }
 
-  console.log("scroll " + e);
-  if(e < 0 && camera.position.z > -1.1 && camera.position.z < 1.1 && curCamPos.z == 0 && curCamPos.y == 0 && camera.position.x < 0 && camera.position.x > -10){
-    console.log("move 1");
-    animateMove(camera.position,{x: 12 , y: 0,z: 0},{x:11,y:0,z:0},1000);
-    phase = '2';
-  }
-  else if(e > 0 && camera.position.x > 10){
-    console.log("move 2");
-    animateMove(camera.position,{x: -3, y: 0, z: 0},{x:0,y:0,z:0},1000);
-    container.style.visibility='hidden';
-    phase = '1';
-  }
-  else if(e < 0 && camera.position.x < 10 && curCamPos.y != 0 && curCamPos.z != 0 ){
-    console.log("move 3");
-    animateMove(camera.position,{x: -3, y: 0, z: 0},{x:0,y:0,z:0},1000);
-    container.style.visibility='hidden';
-    phase = '1';
-  }
-
-}
-
-function textToSet() {
-  switch(phase){
-    case "1":
-      return clickable[curObjectIndex];
-      break;
-    case "2":
-      return usList[curObjectIndex];
-      break;
-    case "3":
-      return toolsList[curObjectIndex];
-      break;
-    case "4":
-      return fellasList[curObjectIndex];
-      break;
-    case '5':
-      return 'Contact';
-    default:
-  }
-}
-
-function vscroll(e){
-  var c = 7;
-  if(firstPhase == true){
-    initTrans();
-    return;
-  }
-
-    if(phase =='1')c = 7;
-    if(phase =='2')c = usList.length-1;
-    if(phase =='3')c = toolsList.length-1;
-    if(phase =='4')c = fellasList.length-1;
-    if(phase =='5')c =  0;
-  console.log("cccc ",c);
-
-
-  if(e < 0 && camera.position.x < (c * dist - 4) && moving == false){
-    curObjectIndex = Math.floor((camera.position.x + dist + 4 )/ 10);
-    console.log(curObjectIndex);
-    animateMove(camera.position,{x: camera.position.x + dist, y: 0.7,z: curCamPos.z},true,200);
-    textSetter(textToSet());
-  }
-  else if(e > 0 && camera.position.x > -3 && moving == false){
-    curObjectIndex = Math.floor((camera.position.x - dist + 4 )/ 10);
-    animateMove(camera.position,{x: camera.position.x - dist ,y: 0.7,z:  curCamPos.z},true,200);
-    textSetter(textToSet());
-  }
-}
-
-function hScroll(e){
-  if(firstPhase == true){
-    initTrans();
-    return;
-  }
-  curObjectIndex = 0;
-  console.log("scroll " + e);
-  if(e < 0 && parseFloat(phase) > 1 && moving == false){
-    console.log("move 1");
-    animateMove(camera.position,{x: -4  ,y: 0.7,z: curCamPos.z - 4},true,600);
-    phase = (parseInt(phase) - 1).toString();
-    textSetter(textToSet());
-  }
-  else if(e > 0 && parseFloat(phase) < 5 && moving == false){
-    console.log("move 2");
-    phase = (parseInt(phase) + 1).toString();
-    textSetter(textToSet());
-    animateMove(camera.position,{x: -4 ,y: 0.7,z:  curCamPos.z + 4},true,600);
-  }
-}
-
-window.addEventListener("wheel", function(e) {
-var e = window.event || e; // old IE support
-var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
-vscroll(delta);
-
-//console.log("scrolled "+ delta.toString());
-//camera.position.y += event.wheelDeltaY * 0.1;;
-}, true);
-
-function positioner(ob) {
-  var i = clickable.indexOf(ob.name) * dist;
-  ob.position.set(-1.6 + i, 0.6, 0 );
-}
-
-    let uniforms = {
-    colorB: {type: 'vec3', value: new THREE.Color(0xACB6E5)},
-    colorA: {type: 'vec3', value: new THREE.Color(0x74ebd5)}
-}
-    let material =  new THREE.ShaderMaterial({
-      uniforms: uniforms,
-      fragmentShader: fragmentShader(),
-      vertexShader: vertexShader(),
-});
-/*
-var phoMap = new THREE.TextureLoader().load('models/thermostat.png');
-    let phoMat =  new THREE.MeshLambertMaterial({ map : phoMap });*/
-    var envMap = new THREE.TextureLoader().load('https://raw.githubusercontent.com/Saculs/NotReal-WebGL/master/models/plakat.jpg');
-    let vlajkaMat =  new THREE.MeshLambertMaterial({ map : envMap });
-    plane = new THREE.Mesh(new THREE.PlaneGeometry(150, 200, rowSize,rowSize), vlajkaMat);
-    plane.scale.set(0.005,0.005,0.005);
-    plane.rotation.y = getRadian(-90);
-    plane.name = "flag";
-    positioner(plane);
-    //plane.visible = false;
-    numberOfVerticies = plane.geometry.vertices.length;
-    initPlane(plane);
-    scene.add(plane);
-    //planes.push(plane);
-
-
-    function initPlane(pl) {
-
-    for(var j = 0; j < rowSize+1; j++) {
-        for(var i = 0; i < rowSize+1; i++) {
-            //plane.geometry.vertices[(rowSize+1)*j + i].z = maxHeight-j%maxHeight;
-            pl.geometry.vertices[(rowSize+1)*j + i].z = maxHeight*Math.sin(j/rowSize*3);
+      function scroll(e) {
+        if (firstPhase == true) {
+          initTrans();
+          return;
         }
-    }
 
-    }
+        console.log("scroll " + e);
+        if (e < 0 && camera.position.z > -1.1 && camera.position.z < 1.1 && curCamPos.z == 0 && curCamPos.y == 0 && camera.position.x < 0 && camera.position.x > -10) {
+          console.log("move 1");
+          animateMove(camera.position, { x: 12, y: 0, z: 0 }, { x: 11, y: 0, z: 0 }, 1000);
+          phase = '2';
+        }
+        else if (e > 0 && camera.position.x > 10) {
+          console.log("move 2");
+          animateMove(camera.position, { x: -3, y: 0, z: 0 }, { x: 0, y: 0, z: 0 }, 1000);
+          container.style.visibility = 'hidden';
+          phase = '1';
+        }
+        else if (e < 0 && camera.position.x < 10 && curCamPos.y != 0 && curCamPos.z != 0) {
+          console.log("move 3");
+          animateMove(camera.position, { x: -3, y: 0, z: 0 }, { x: 0, y: 0, z: 0 }, 1000);
+          container.style.visibility = 'hidden';
+          phase = '1';
+        }
 
-    function initTools() {
-      var mats = [];
-      var ueTex = new THREE.TextureLoader().load("models/ue.png");
-      var ueMat = new THREE.MeshPhongMaterial({color: 0xffffff, map: ueTex,transparent: true, opacity: 1, side: THREE.DoubleSide});
-      mats.push(ueMat);
-      var huTex = new THREE.TextureLoader().load("models/houdini.png");
-      var huMat = new THREE.MeshPhongMaterial({ map: huTex,transparent: true, opacity: 1, side: THREE.DoubleSide});
-      mats.push(huMat);
-      var blTex = new THREE.TextureLoader().load("models/blender.png");
-      var blMat = new THREE.MeshPhongMaterial({ map: blTex,transparent: true, opacity: 1, side: THREE.DoubleSide});
-      mats.push(blMat);
-      var unTex = new THREE.TextureLoader().load("models/unity.png");
-      var unMat = new THREE.MeshPhongMaterial({ map: unTex,transparent: true, opacity: 1, side: THREE.DoubleSide});
-      mats.push(unMat);
-      var paTex = new THREE.TextureLoader().load("models/painter.png");
-      var paMat = new THREE.MeshPhongMaterial({ map: paTex,transparent: true, opacity: 1, side: THREE.DoubleSide});
-      mats.push(paMat);
-      var dsTex = new THREE.TextureLoader().load("models/adobee.png");
-      var dsMat = new THREE.MeshPhongMaterial({map: dsTex,transparent: true, opacity: 1, side: THREE.DoubleSide});
-      mats.push(dsMat);
-      var qiTex = new THREE.TextureLoader().load("models/quixel.png");
-      var qiMat = new THREE.MeshPhongMaterial({ map: qiTex,transparent: true, opacity: 1, side: THREE.DoubleSide});
-      mats.push(qiMat);
-      var tfTex = new THREE.TextureLoader().load("models/tensorflow.png");
-      var tfMat = new THREE.MeshPhongMaterial({ map: tfTex,transparent: true, opacity: 1, side: THREE.DoubleSide});
-      mats.push(tfMat);
-
-      var i;
-      for (i = 0; i < toolsList.length; i++) {
-        var p = new THREE.Mesh(new THREE.PlaneGeometry( 1, 1), vlajkaMat);
-        p.position.set(-0.6 + (i * dist), 0.5, 8);
-        p.rotation.y = getRadian(-90);
-        if(i < (mats.length)) p.material =mats[i] ;
-        p.name = toolsList[i];
-        scene.add(p);
       }
-    }
 
-    initTools();
-
-    function initFellas() {
-      var femats = [];
-      var seTex = new THREE.TextureLoader().load("https://raw.githubusercontent.com/Saculs/NotReal-WebGL/master/models/selamP0.JPG");
-      var seMat = new THREE.MeshLambertMaterial({map: seTex /*alphaMap: seTex,transparent: true, opacity: 1, */,side: THREE.DoubleSide});
-      femats.push(seMat);
-      var trTex = new THREE.TextureLoader().load("https://raw.githubusercontent.com/Saculs/NotReal-WebGL/master/models/2rP0.JPG");
-      var trMat = new THREE.MeshLambertMaterial({map: trTex,side: THREE.DoubleSide});
-      femats.push(trMat);
-      var brTex = new THREE.TextureLoader().load("https://raw.githubusercontent.com/Saculs/NotReal-WebGL/master/models/brainzP0.JPG");
-      var brMat = new THREE.MeshLambertMaterial({map: brTex,side: THREE.DoubleSide});
-      femats.push(brMat);
-      var cnTex = new THREE.TextureLoader().load("https://raw.githubusercontent.com/Saculs/NotReal-WebGL/master/models/cinescoP0.JPG");
-      var cnMat = new THREE.MeshLambertMaterial({map: cnTex,side: THREE.DoubleSide});
-      femats.push(cnMat);
-      var i;
-      for (i = 0; i < fellasList.length; i++) {
-        //var p = new THREE.Mesh(new THREE.PlaneGeometry( 1, 1), vlajkaMat);
-
-        var p = new THREE.Mesh(new THREE.PlaneGeometry(150, 200, 15, 15), vlajkaMat);
-        p.scale.set(0.005,0.005,0.005);
-        //initPlane(p);
-
-        p.position.set(-2 + (i * dist), 0.5, 12);
-        p.rotation.y = getRadian(-90);
-        if(i < (femats.length)) p.material = femats[i] ;
-        p.name = fellasList[i];
-        scene.add(p);
-        //planes.push(p);
+      function textToSet() {
+        switch (phase) {
+          case "1":
+            return clickable[curObjectIndex];
+            break;
+          case "2":
+            return usList[curObjectIndex];
+            break;
+          case "3":
+            return toolsList[curObjectIndex];
+            break;
+          case "4":
+            return fellasList[curObjectIndex];
+            break;
+          case '5':
+            return 'Contact';
+          default:
+        }
       }
-    }
 
-   initFellas();
+      function vscroll(e) {
+        var c = 7;
+        if (firstPhase == true) {
+          initTrans();
+          return;
+        }
+        return;
+        if (phase == '1') c = 7;
+        if (phase == '2') c = usList.length - 1;
+        if (phase == '3') c = toolsList.length - 1;
+        if (phase == '4') c = fellasList.length - 1;
+        if (phase == '5') c = 0;
+        console.log("cccc ", c);
 
-  // Set the background color of the scene.
-  //renderer.setClearColorHex(0x333F47, 1);
-  scene.background = new THREE.Color( 0x000000 );
 
-  // Create a light, set its position, and add it to the scene.
-  var light = new THREE.PointLight(0xffffff);
-  light.position.set(30,6,0);
-  //scene.add(light);
-
-  var light2 = new THREE.PointLight(0xffffff);
-  light2.position.set(-8,-6,0);
-  //light2.castShadow = true;
-  scene.add(light2);
-
-  let ambientLight = new THREE.AmbientLight(0x505050);
- scene.add(ambientLight);
-
-  var materiall = new THREE.MeshStandardMaterial({color: 0xffffff, roughness: 0.4,flatShading:true,/* envMap: textureCube,*/metalness: 1});
-  var igAlpha = new THREE.TextureLoader().load("models/igAlphaa.png");
-  var igMat = new THREE.MeshPhongMaterial({color: 0x000000, alphaMap: igAlpha,transparent: true, opacity: 0.8, side: THREE.DoubleSide});
-  var fbAlpha = new THREE.TextureLoader().load("models/fbAlpha.png");
-  var fbMat = new THREE.MeshPhongMaterial({color: 0x000000, alphaMap: fbAlpha,transparent: true, opacity: 0.8, side: THREE.DoubleSide});
-
-    var gPlane = new THREE.Mesh(new THREE.PlaneBufferGeometry( 10, 10), new THREE.ShadowMaterial());
-    //gPlane.position.set(1, 0.5, 0);
-    //gPlane.rotation.y = getRadian(90);
-    gPlane.rotation.x = getRadian(-90);
-    gPlane.receiveShadow = true;
-    //gPlane.name = "Facebook";
-    //scene.add(gPlane);
-
-  var videoMat = new THREE.MeshLambertMaterial({ map : videoTexture});
-  /*
-  var gizmoloader = new THREE.GLTFLoader();
- gizmoloader.load( "models/gizmoo.glb", function(gltf){
-    gizmo = gltf.scene;
-    gizmo.rotation.y = getRadian(-90);
-    if(ori){
-      gizmo.scale.set(0.004,0.004,0.004);
-    }
-    else
-    {
-      gizmo.scale.set(0.7,0.7,0.7);
-    }
-    gizmo.position.set(-3.8,0.739,0.04);
-
-    console.log('gizmooo');
-
-    gizmo.visible = false;
-
-    gizmo.traverse(function (o) {
-      if (o.isMesh) {
+        if (e < 0 && camera.position.x < (c * dist - 4) && moving == false) {
+          curObjectIndex = Math.floor((camera.position.x + dist + 4) / 10);
+          console.log(curObjectIndex);
+          animateMove(camera.position, { x: camera.position.x + dist, y: 0.7, z: curCamPos.z }, true, 200);
+          textSetter(textToSet());
+        }
+        else if (e > 0 && camera.position.x > -3 && moving == false) {
+          curObjectIndex = Math.floor((camera.position.x - dist + 4) / 10);
+          animateMove(camera.position, { x: camera.position.x - dist, y: 0.7, z: curCamPos.z }, true, 200);
+          textSetter(textToSet());
+        }
       }
-    });
-    scene.add(gizmo);
-  });*/
 
-  var contactloader = new THREE.GLTFLoader();
- contactloader.load( "models/contactttrr.glb", function(gltf){
-    contact = gltf.scene;
-    contact.rotation.z = getRadian(-90);
-    contact.rotation.x = getRadian(-90);
-      contact.scale.set(0.6,0.6,0.6);
-
-    contact.position.set(-1,0.6,16);
-
-    contact.visible = true;
-
-    contact.traverse(function (o) {
-      if (o.isMesh) {
+      function hScroll(e) {
+        if (firstPhase == true) {
+          initTrans();
+          return;
+        }
+        curObjectIndex = 0;
+        console.log("scroll " + e);
+        if (e < 0 && parseFloat(phase) > 1 && moving == false) {
+          console.log("move 1");
+          animateMove(camera.position, { x: -4, y: 0.7, z: curCamPos.z - 4 }, true, 600);
+          phase = (parseInt(phase) - 1).toString();
+          textSetter(textToSet());
+        }
+        else if (e > 0 && parseFloat(phase) < 5 && moving == false) {
+          console.log("move 2");
+          phase = (parseInt(phase) + 1).toString();
+          textSetter(textToSet());
+          animateMove(camera.position, { x: -4, y: 0.7, z: curCamPos.z + 4 }, true, 600);
+        }
       }
-    });
-    scene.add(contact);
-  });
 
-  var usloader = new THREE.GLTFLoader();
-  usloader.load( "models/uss.glb", function(gltf){
-    us = gltf.scene;
-    if(ori)us.rotation.x = 91;
-    //us.rotation.z = 10;
-    //us.rotation.y = -95;
+      window.addEventListener("wheel", function (e) {
+        var e = window.event || e; // old IE support
+        var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+        vscroll(delta); //scrolls on wheel
 
-    us.position.set(0,ori ? 0.7: 0.1,4);
-    //us.name="use";
-    us.visible = true;
-    us.traverse(function (o) {
-      if (o.isMesh) {
-        clickable.push(o.name.toString());
-        //usList.push(o.name.toString());
-        if(o.name == "Plane") o.material = igMat;
-        if(o.name == "Plane001") o.material = fbMat;
-        o.material.roughness = 0.6;
-       o.material.flatShading = true;
-        o.position.set(+1.6 + (usList.indexOf(o.name) * dist), 0.2,0);
+        //console.log("scrolled "+ delta.toString());
+        //camera.position.y += event.wheelDeltaY * 0.1;;
+      }, true);
+
+      function positioner(ob , y, z) {
+        var i = clickable.indexOf(ob.name) /* * dist */;
+        var zi = 0.6;
+        if(z != null){
+          zi = zi + z;
+        }
+        
+        ob.position.set(-1 + i, zi, y);
       }
-    });
-    scene.add(us);
-  });
-
-  // Load in the mesh and add it to the scene.
-  var loader = new THREE.GLTFLoader();
-  loader.load( "models/TVv.glb", function(gltf){
-    //mesh = new THREE.Mesh(geometry, material);
-    tv = gltf.scene;
-    //tv.rotation.x = -90;
-    tv.rotation.z = 30.4;
-    tv.rotation.y = 155.4;
-    tv.scale.set(0.01,0.01,0.01);
-
-    tv.name="tv";
-    //tv.visible = false;
-    tv.callback = function() { console.log("Hello world!");};
-    tv.traverse(function (o) {
-      if (o.isMesh) {
-        if(o.name == "Retro_TV_2") o.material= videoMat;
-        o.name = "tv";
+      
+      function positioner_obsolete(ob) {
+        var i = clickable.indexOf(ob.name) * dist;
+        ob.position.set(-1.6 + i, 0.6, 0);
       }
-    });
-    positioner(tv);
-    /*if(ori == true){
-      tv.position.set(1,0.6,0);
-    }
-    else {
-      tv.position.set(1,0,0);
-    }*/
-    scene.add(tv);
-  });
 
-  var archloader = new THREE.GLTFLoader();
-  archloader.load( "models/Arch.glb", function(gltf){
-    //var material = new THREE.MeshLambertMaterial({color: 0x55B663});
-    //mesh = new THREE.Mesh(geometry, material);
-    arch = gltf.scene;
-    arch.rotation.x = 90;
-    arch.rotation.z = 30.4;
-    arch.rotation.y = 155.4;
-    arch.scale.set(0.05,0.05,0.05);
-
-    arch.name="arch";
-    positioner(arch);
-    arch.visible = true;
-    arch.callback = function() { console.log("Hello world!");};
-    arch.traverse(function (o) {
-      if (o.isMesh) {
-        o.name = "arch";
+      let uniforms = {
+        colorB: { type: 'vec3', value: new THREE.Color(0xACB6E5) },
+        colorA: { type: 'vec3', value: new THREE.Color(0x74ebd5) }
       }
-    });
-    scene.add(arch);
-  });
+      let material = new THREE.ShaderMaterial({
+        uniforms: uniforms,
+        fragmentShader: fragmentShader(),
+        vertexShader: vertexShader(),
+      });
+      /*
+      var phoMap = new THREE.TextureLoader().load('models/thermostat.png');
+          let phoMat =  new THREE.MeshLambertMaterial({ map : phoMap });*/
+      var envMap = new THREE.TextureLoader().load('https://raw.githubusercontent.com/Saculs/NotReal-WebGL/master/models/plakat.jpg');
+      let vlajkaMat = new THREE.MeshLambertMaterial({ map: envMap });
+      plane = new THREE.Mesh(new THREE.PlaneGeometry(150, 200, rowSize, rowSize), vlajkaMat);
+      plane.scale.set(0.005, 0.005, 0.005);
+      plane.rotation.y = getRadian(-90);
+      plane.name = "flag";
+      positioner(plane, -1.1 , 1);
+      //plane.visible = false;
+      numberOfVerticies = plane.geometry.vertices.length;
+      initPlane(plane);
+      scene.add(plane);
+      //planes.push(plane);
 
-  var synthloader = new THREE.GLTFLoader();
-  synthloader.load( "models/synth.glb", function(gltf){
-    //var material = new THREE.MeshLambertMaterial({color: 0x55B663});
-    //mesh = new THREE.Mesh(geometry, material);
-    synth = gltf.scene;
-    synth.rotation.x = 90;
-    synth.rotation.z = 30.4;
-    synth.rotation.y = 158.4;
-    synth.scale.set(0.35,0.35,0.35);
-    synth.name="synth";
-    positioner(synth);
-    synth.visible = true;
-    //synth.callback = function() { console.log("Hello world!");};
-    synth.traverse(function (o) {
-      if (o.isMesh) {
-        o.name = "synth";
-      }
-    });
-    scene.add(synth);
-  });
 
-  var vidloader = new THREE.GLTFLoader();
-  vidloader.load( "models/video.glb", function(gltf){
-      vid = gltf.scene;
-    //vid.rotation.x = 90;
-    vid.rotation.z = 35.4;
-    vid.rotation.y = -158.4;
-    vid.scale.set(0.4,0.4,0.4);
-    vid.name="vide";
-    positioner(vid);
-    vid.visible = true;
-    //synth.callback = function() { console.log("Hello world!");};
-    vid.traverse(function (o) {
-      if (o.isMesh) {
-        o.name = "vide";
-      }
-    });
-    scene.add(vid);
-  });
+      function initPlane(pl) {
 
-  var vrloader = new THREE.GLTFLoader();
-  vrloader.load( "models/vr.glb", function(gltf){
-      vr = gltf.scene;
-    //vr.rotation.x = 90;
-    vr.rotation.z = 30.4;
-    vr.rotation.y = 158.4;
-    vr.scale.set(0.4,0.4,0.4);
-    if(ori == false) vr.scale.set(0.5,0.5,0.5);
-    vr.castShadow = true;
-    var vrMat = new THREE.MeshLambertMaterial({color: 0x1f1f1f,side: THREE.DoubleSide});
-    vr.name="vr";
-    vr.visible = true;
-    //synth.callback = function() { console.log("Hello world!");};
-    vr.traverse(function (o) {
-      if (o.isMesh) {
-        if(o.name == 'Screen')o.material = videoMat;
-        else o.material = vrMat;
-       o.name = "vr";
+        for (var j = 0; j < rowSize + 1; j++) {
+          for (var i = 0; i < rowSize + 1; i++) {
+            //plane.geometry.vertices[(rowSize+1)*j + i].z = maxHeight-j%maxHeight;
+            pl.geometry.vertices[(rowSize + 1) * j + i].z = maxHeight * Math.sin(j / rowSize * 3);
+          }
+        }
+
       }
-    });/*
+
+      function initTools() {
+        var mats = [];
+        var ueTex = new THREE.TextureLoader().load("models/ue.png");
+        var ueMat = new THREE.MeshPhongMaterial({ color: 0xffffff, map: ueTex, transparent: true, opacity: 1, side: THREE.DoubleSide });
+        mats.push(ueMat);
+        var huTex = new THREE.TextureLoader().load("models/houdini.png");
+        var huMat = new THREE.MeshPhongMaterial({ map: huTex, transparent: true, opacity: 1, side: THREE.DoubleSide });
+        mats.push(huMat);
+        var blTex = new THREE.TextureLoader().load("models/blender.png");
+        var blMat = new THREE.MeshPhongMaterial({ map: blTex, transparent: true, opacity: 1, side: THREE.DoubleSide });
+        mats.push(blMat);
+        var unTex = new THREE.TextureLoader().load("models/unity.png");
+        var unMat = new THREE.MeshPhongMaterial({ map: unTex, transparent: true, opacity: 1, side: THREE.DoubleSide });
+        mats.push(unMat);
+        var paTex = new THREE.TextureLoader().load("models/painter.png");
+        var paMat = new THREE.MeshPhongMaterial({ map: paTex, transparent: true, opacity: 1, side: THREE.DoubleSide });
+        mats.push(paMat);
+        var dsTex = new THREE.TextureLoader().load("models/adobee.png");
+        var dsMat = new THREE.MeshPhongMaterial({ map: dsTex, transparent: true, opacity: 1, side: THREE.DoubleSide });
+        mats.push(dsMat);
+        var qiTex = new THREE.TextureLoader().load("models/quixel.png");
+        var qiMat = new THREE.MeshPhongMaterial({ map: qiTex, transparent: true, opacity: 1, side: THREE.DoubleSide });
+        mats.push(qiMat);
+        var tfTex = new THREE.TextureLoader().load("models/tensorflow.png");
+        var tfMat = new THREE.MeshPhongMaterial({ map: tfTex, transparent: true, opacity: 1, side: THREE.DoubleSide });
+        mats.push(tfMat);
+
+        var i;
+        for (i = 0; i < toolsList.length; i++) {
+          var p = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), vlajkaMat);
+          p.position.set(-0.6 + (i * dist), 0.5, 8);
+          p.rotation.y = getRadian(-90);
+          if (i < (mats.length)) p.material = mats[i];
+          p.name = toolsList[i];
+          scene.add(p);
+        }
+      }
+
+      //initTools();
+
+      function initFellas() {
+        var femats = [];
+        var seTex = new THREE.TextureLoader().load("https://raw.githubusercontent.com/Saculs/NotReal-WebGL/master/models/selamP0.JPG");
+        var seMat = new THREE.MeshLambertMaterial({ map: seTex /*alphaMap: seTex,transparent: true, opacity: 1, */, side: THREE.DoubleSide });
+        femats.push(seMat);
+        var trTex = new THREE.TextureLoader().load("https://raw.githubusercontent.com/Saculs/NotReal-WebGL/master/models/2rP0.JPG");
+        var trMat = new THREE.MeshLambertMaterial({ map: trTex, side: THREE.DoubleSide });
+        femats.push(trMat);
+        var brTex = new THREE.TextureLoader().load("https://raw.githubusercontent.com/Saculs/NotReal-WebGL/master/models/brainzP0.JPG");
+        var brMat = new THREE.MeshLambertMaterial({ map: brTex, side: THREE.DoubleSide });
+        femats.push(brMat);
+        var cnTex = new THREE.TextureLoader().load("https://raw.githubusercontent.com/Saculs/NotReal-WebGL/master/models/cinescoP0.JPG");
+        var cnMat = new THREE.MeshLambertMaterial({ map: cnTex, side: THREE.DoubleSide });
+        femats.push(cnMat);
+        var i;
+        for (i = 0; i < fellasList.length; i++) {
+          //var p = new THREE.Mesh(new THREE.PlaneGeometry( 1, 1), vlajkaMat);
+
+          var p = new THREE.Mesh(new THREE.PlaneGeometry(150, 200, 15, 15), vlajkaMat);
+          p.scale.set(0.005, 0.005, 0.005);
+          //initPlane(p);
+
+          p.position.set(-2 + (i * dist), 0.5, 12);
+          p.rotation.y = getRadian(-90);
+          if (i < (femats.length)) p.material = femats[i];
+          p.name = fellasList[i];
+          scene.add(p);
+          //planes.push(p);
+        }
+      }
+
+      //initFellas();
+
+      // Set the background color of the scene.
+      //renderer.setClearColorHex(0x333F47, 1);
+      scene.background = new THREE.Color(0x000000);
+
+      // Create a light, set its position, and add it to the scene.
+      var light = new THREE.PointLight(0xffffff);
+      light.position.set(30, 6, 0);
+      //scene.add(light);
+
+      var light2 = new THREE.PointLight(0xffffff);
+      light2.position.set(-8, -6, 0);
+      //light2.castShadow = true;
+      scene.add(light2);
+
+      let ambientLight = new THREE.AmbientLight(0x505050);
+      scene.add(ambientLight);
+
+      var materiall = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.4, flatShading: true,/* envMap: textureCube,*/metalness: 1 });
+      var igAlpha = new THREE.TextureLoader().load("models/igAlphaa.png");
+      var igMat = new THREE.MeshPhongMaterial({ color: 0x000000, alphaMap: igAlpha, transparent: true, opacity: 0.8, side: THREE.DoubleSide });
+      var fbAlpha = new THREE.TextureLoader().load("models/fbAlpha.png");
+      var fbMat = new THREE.MeshPhongMaterial({ color: 0x000000, alphaMap: fbAlpha, transparent: true, opacity: 0.8, side: THREE.DoubleSide });
+
+      var gPlane = new THREE.Mesh(new THREE.PlaneBufferGeometry(10, 10), new THREE.ShadowMaterial());
+      //gPlane.position.set(1, 0.5, 0);
+      //gPlane.rotation.y = getRadian(90);
+      gPlane.rotation.x = getRadian(-90);
+      gPlane.receiveShadow = true;
+      //gPlane.name = "Facebook";
+      //scene.add(gPlane);
+
+      var videoMat = new THREE.MeshLambertMaterial({ map: videoTexture });
+      /*
+      var gizmoloader = new THREE.GLTFLoader();
+     gizmoloader.load( "models/gizmoo.glb", function(gltf){
+        gizmo = gltf.scene;
+        gizmo.rotation.y = getRadian(-90);
+        if(ori){
+          gizmo.scale.set(0.004,0.004,0.004);
+        }
+        else
+        {
+          gizmo.scale.set(0.7,0.7,0.7);
+        }
+        gizmo.position.set(-3.8,0.739,0.04);
+    
+        console.log('gizmooo');
+    
+        gizmo.visible = false;
+    
+        gizmo.traverse(function (o) {
+          if (o.isMesh) {
+          }
+        });
+        scene.add(gizmo);
+      });*/
+
+      var contactloader = new THREE.GLTFLoader();
+      contactloader.load("models/contactttrr.glb", function (gltf) {
+        contact = gltf.scene;
+        contact.rotation.z = getRadian(-90);
+        contact.rotation.x = getRadian(-90);
+        contact.scale.set(0.6, 0.6, 0.6);
+
+        contact.position.set(3, 0.6, 3);
+
+        contact.visible = true;
+        contact.name = "contact";
+
+        contact.traverse(function (o) {
+          if (o.isMesh) {
+            o.name = "contact";
+          }
+        });
+        scene.add(contact);
+      });
+/*
+      var usloader = new THREE.GLTFLoader();
+      usloader.load("models/uss.glb", function (gltf) {
+        us = gltf.scene;
+        if (ori) us.rotation.x = 91;
+        //us.rotation.z = 10;
+        //us.rotation.y = -95;
+
+        us.position.set(0, ori ? 0.7 : 0.1, 4);
+        //us.name="use";
+        us.visible = true;
+        us.traverse(function (o) {
+          if (o.isMesh) {
+            clickable.push(o.name.toString());
+            //usList.push(o.name.toString());
+            if (o.name == "Plane") o.material = igMat;
+            if (o.name == "Plane001") o.material = fbMat;
+            o.material.roughness = 0.6;
+            o.material.flatShading = true;
+            o.position.set(+1.6 + (usList.indexOf(o.name) * dist), 0.2, 0);
+          }
+        });
+        scene.add(us);
+      });
+*/
+      // Load in the mesh and add it to the scene.
+      var loader = new THREE.GLTFLoader();
+      loader.load("models/TVv.glb", function (gltf) {
+        //mesh = new THREE.Mesh(geometry, material);
+        tv = gltf.scene;
+        //tv.rotation.x = -90;
+        tv.rotation.z = 30.4;
+        tv.rotation.y = 155.4;
+        tv.scale.set(0.01, 0.01, 0.01);
+
+        tv.name = "tv";
+        //tv.visible = false;
+        tv.callback = function () { console.log("Hello world!"); };
+        tv.traverse(function (o) {
+          if (o.isMesh) {
+            if (o.name == "Retro_TV_2") o.material = videoMat;
+            o.name = "tv";
+          }
+        });
+        positioner(tv, 1.2, 0.6);
+        //positioner(tv, 0);
+        
+        /*if(ori == true){
+          tv.position.set(1,0.6,0);
+        }
+        else {
+          tv.position.set(1,0,0);
+        }*/
+        scene.add(tv);
+      });
+/*
+      var archloader = new THREE.GLTFLoader();
+      archloader.load("models/Arch.glb", function (gltf) {
+        //var material = new THREE.MeshLambertMaterial({color: 0x55B663});
+        //mesh = new THREE.Mesh(geometry, material);
+        arch = gltf.scene;
+        arch.rotation.x = 90;
+        arch.rotation.z = 30.4;
+        arch.rotation.y = 155.4;
+        arch.scale.set(0.05, 0.05, 0.05);
+
+        arch.name = "arch";
+        positioner(arch);
+        arch.visible = true;
+        arch.callback = function () { console.log("Hello world!"); };
+        arch.traverse(function (o) {
+          if (o.isMesh) {
+            o.name = "arch";
+          }
+        });
+        scene.add(arch);
+      });
+
+      var synthloader = new THREE.GLTFLoader();
+      synthloader.load("models/synth.glb", function (gltf) {
+        //var material = new THREE.MeshLambertMaterial({color: 0x55B663});
+        //mesh = new THREE.Mesh(geometry, material);
+        synth = gltf.scene;
+        synth.rotation.x = 90;
+        synth.rotation.z = 30.4;
+        synth.rotation.y = 158.4;
+        synth.scale.set(0.35, 0.35, 0.35);
+        synth.name = "synth";
+        positioner(synth);
+        synth.visible = true;
+        //synth.callback = function() { console.log("Hello world!");};
+        synth.traverse(function (o) {
+          if (o.isMesh) {
+            o.name = "synth";
+          }
+        });
+       scene.add(synth);
+      });
+
+      var vidloader = new THREE.GLTFLoader();
+      vidloader.load("models/video.glb", function (gltf) {
+        vid = gltf.scene;
+        //vid.rotation.x = 90;
+        vid.rotation.z = 35.4;
+        vid.rotation.y = -158.4;
+        vid.scale.set(0.4, 0.4, 0.4);
+        vid.name = "vide";
+        positioner(vid, 0);
+        vid.visible = true;
+        //synth.callback = function() { console.log("Hello world!");};
+        vid.traverse(function (o) {
+          if (o.isMesh) {
+            o.name = "vide";
+          }
+        });
+        scene.add(vid);
+      });
+*/
+      var vrloader = new THREE.GLTFLoader();
+      vrloader.load("models/vr.glb", function (gltf) {
+        vr = gltf.scene;
+        //vr.rotation.x = 90;
+        vr.rotation.z = 30.4;
+        vr.rotation.y = 158.4;
+        vr.scale.set(0.4, 0.4, 0.4);
+        if (ori == false) vr.scale.set(0.5, 0.5, 0.5);
+        vr.castShadow = true;
+        var vrMat = new THREE.MeshLambertMaterial({ color: 0x1f1f1f, side: THREE.DoubleSide });
+        vr.name = "vr";
+        vr.visible = true;
+        //synth.callback = function() { console.log("Hello world!");};
+        vr.traverse(function (o) {
+          if (o.isMesh) {
+            if (o.name == 'Screen') o.material = videoMat;
+            else o.material = vrMat;
+            o.name = "vr";
+          }
+        });/*
     if(ori){
       vr.position.set(-1.6,0.5,0);
     } else{
       vr.position.set(-1.6,0,0);
-    }*/positioner(vr);
-    scene.add(vr);
-  });
+    }*/positioner(vr, -1.8);
+        scene.add(vr);
+      });
 
 
 
-  var phoneloader = new THREE.GLTFLoader();
-  phoneloader.load( "models/phonere.glb", function(gltf){
-    //var material = new THREE.MeshLambertMaterial({color: 0x55B663});
-    //mesh = new THREE.Mesh(geometry, material);
-    phone = gltf.scene;
-    phone.rotation.x = 90;
-    phone.rotation.z = 30.4;
-    phone.rotation.y = 155.4;
-    phone.scale.set(0.13,0.13,0.13);
-    //phone.position.set(0,0.5,0);
-    phone.name="phone";
-    positioner(phone);
-    phone.visible = true;
-    //synth.callback = function() { console.log("Hello world!");};
-    phone.traverse(function (o) {
-      if (o.isMesh) {
-        if(o.name == "Phone_01_Cube.037_0"){
-          o.material = videoMat;
-        }
-        else o.material = materiall
-        o.name = "phone";
+      var phoneloader = new THREE.GLTFLoader();
+      phoneloader.load("models/phonere.glb", function (gltf) {
+        //var material = new THREE.MeshLambertMaterial({color: 0x55B663});
+        //mesh = new THREE.Mesh(geometry, material);
+        phone = gltf.scene;
+        phone.rotation.x = 90;
+        phone.rotation.z = 30.4;
+        phone.rotation.y = 155.4;
+        phone.scale.set(0.13, 0.13, 0.13);
+        //phone.position.set(0,0.5,0);
+        phone.name = "phone";
+        positioner(phone, 0);
+       
+        phone.visible = true;
+        //synth.callback = function() { console.log("Hello world!");};
+        phone.traverse(function (o) {
+          if (o.isMesh) {
+            if (o.name == "Phone_01_Cube.037_0") {
+              o.material = videoMat;
+            }
+            else o.material = materiall
+            o.name = "phone";
 
-      }
-    });
-    scene.add(phone);
-  });
-
-  // Load in the mesh and add it to the scene.
-  var loaderSkate = new THREE.GLTFLoader();
-  loaderSkate.load( "models/what.glb", function(gltf){
-    //var material = new THREE.MeshLambertMaterial({color: 0x55B663});
-    //mesh = new THREE.Mesh(geometry, material);
-    skate = gltf.scene;
-    skate.rotation.x = 180;
-    skate.rotation.z = 45;
-    skate.rotation.y = 90;
-    skate.scale.set(0.3,0.3,0.3);
-    skate.name = "skate";
-    positioner(skate);
-    skate.traverse(function (o) {
-      if (o.isMesh) {
-        o.name = "skate";
-      }
-    });
-    scene.add(skate);
-  });
-
-
-  var geoGround = new THREE.PlaneBufferGeometry( 100,100 );
-  var ground = new THREE.Mesh( geoGround, new THREE.MeshPhongMaterial({color:"white",wireframe:true, }));
-  ground.rotation.z = Math.PI/180 * -45;
-  ground.rotation.x = Math.PI/180 * -90;
-  ground.position.y=-0.5;
-  //scene.add(ground);
-
-  // Add OrbitControls so that we can pan around with the mouse.
- controls = new THREE.OrbitControls(camera, renderer.domElement);
-
-}
-// Renders the scene and updates the render as needed.
-function animate() {
-
-  // Read more about requestAnimationFrame at http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
-  requestAnimationFrame(animate);
-  if(tv) tv.rotation.z += 0.001;
-  if(tv) tv.rotation.y += 0.0001;
-
-  if(us != null) us.traverse(function (o) {
-      if (o.isMesh) {
-        o.rotation.y += 0.0002;
-        o.rotation.z -= 0.0008;
-      }
-    });
-/*
-  if(gizmo){
-    gizmo.position.set(camera.position.x + 0.2, camera.position.y + 0.038 ,camera.position.z + 0.039);
-  }
-*/
-  if(skate){ skate.rotation.z += 0.001;
-  skate.rotation.y += 0.0001;
-   //skate.position.z = -4*Math.sin(t*0.001);
-   //skate.position.y = -3*Math.sin(t*0.0005) - 1.5;
-  }
-  if(vr){ vr.rotation.z = getRadian(10*Math.sin(t*0.005));
-    vr.rotation.y += 0.0001;
-    }
-    if(synth){ synth.rotation.z += 0.001;
-    synth.rotation.y += 0.0001;
-    //synth.position.z = -0.4*Math.sin(t*0.001) ;
-     //synth.position.y = -0.2*Math.sin(t*0.0005) + 1;
-    }
-
-    if(phone){ phone.rotation.z += 0.001;
-    phone.rotation.y += 0.0001;
-     //phone.position.z = -0.2*Math.sin(t*0.001) + 0.3;
-     //phone.position.y = -0.3*Math.sin(t*0.0005) - 0.5;
-    }
-
-    if(vid){ vid.rotation.z += 0.001;
-    vid.rotation.y += 0.0001;
-    }
-
-    if(arch){ arch.rotation.z += 0.001;
-    arch.rotation.y += 0.0001;
-    }
-
-  if(plane){
-    plane.rotation.z += 0.001;
-  }
-
-  //planeFlow();
-  for(var j = 0; j < rowSize+1; j++) {
-          for(var i = 0; i < rowSize+1; i++) {
-              plane.geometry.vertices[(rowSize+1)*j + i].z = maxHeight*Math.sin(j/rowSize*3 + t*.05);
-              plane.geometry.vertices[(rowSize+1)*j + i].z += maxHeight/5*Math.sin(j/rowSize*12 + t*0.04);
-              plane.geometry.vertices[(rowSize+1)*j + i].z += maxHeight/13*Math.cos(j/rowSize*18 + t*0.2);
-              plane.geometry.vertices[(rowSize+1)*j + i].z += maxHeight*Math.cos(i/rowSize*3 + t*.05);
-              plane.geometry.vertices[(rowSize+1)*j + i].z += maxHeight/5*Math.cos(i/rowSize*12 + t*0.04);
-              plane.geometry.vertices[(rowSize+1)*j + i].z += maxHeight/13*Math.sin(i/rowSize*18 + t*0.2);
           }
+        });
+        scene.add(phone);
+      });
+/*
+      // Load in the mesh and add it to the scene.
+      var loaderSkate = new THREE.GLTFLoader();
+      loaderSkate.load("models/what.glb", function (gltf) {
+        //var material = new THREE.MeshLambertMaterial({color: 0x55B663});
+        //mesh = new THREE.Mesh(geometry, material);
+        skate = gltf.scene;
+        skate.rotation.x = 180;
+        skate.rotation.z = 45;
+        skate.rotation.y = 90;
+        skate.scale.set(0.3, 0.3, 0.3);
+        skate.name = "skate";
+        positioner(skate);
+        skate.traverse(function (o) {
+          if (o.isMesh) {
+            o.name = "skate";
+          }
+        });
+        scene.add(skate);
+      });
+*/
+
+      var geoGround = new THREE.PlaneBufferGeometry(100, 100,8,8);
+      var ground = new THREE.Mesh(geoGround, new THREE.MeshPhongMaterial({ color: "white", wireframe: true, }));
+      //var ground = new THREE.Mesh(geoGround, new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.4, flatShading: true,/* envMap: textureCube,*/metalness: 0 }));
+      ground.rotation.z = Math.PI / 180 * -45;
+      ground.rotation.x = Math.PI / 180 * -90;
+      ground.position.y = -0.5;
+      scene.add(ground);
+
+      // Add OrbitControls so that we can pan around with the mouse.
+      controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+    }
+    // Renders the scene and updates the render as needed.
+    function animate() {
+
+      // Read more about requestAnimationFrame at http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
+      requestAnimationFrame(animate);
+      if (tv) tv.rotation.z += 0.0003;
+      //if (tv) tv.rotation.y += 0.0001;
+/*
+      if (us != null) us.traverse(function (o) {
+        if (o.isMesh) {
+          o.rotation.y += 0.0002;
+          o.rotation.z -= 0.0008;
+        }
+      });
+
+      */
+      /*
+        if(gizmo){
+          gizmo.position.set(camera.position.x + 0.2, camera.position.y + 0.038 ,camera.position.z + 0.039);
+        }
+      */
+      if (skate) {
+        skate.rotation.z += 0.001;
+        skate.rotation.y += 0.0001;
+        //skate.position.z = -4*Math.sin(t*0.001);
+        //skate.position.y = -3*Math.sin(t*0.0005) - 1.5;
       }
-      t+=0.55;
+      if (vr) {
+        vr.rotation.z = getRadian(10 * Math.sin(t * 0.005));
+        vr.rotation.y += 0.0001;
+      }
+      if (synth) {
+        synth.rotation.z += 0.001;
+        synth.rotation.y += 0.0001;
+        //synth.position.z = -0.4*Math.sin(t*0.001) ;
+        //synth.position.y = -0.2*Math.sin(t*0.0005) + 1;
+      }
+
+      if (phone) {
+        phone.rotation.z += 0.001;
+        phone.rotation.y += 0.0001;
+        //phone.position.z = -0.2*Math.sin(t*0.001) + 0.3;
+        //phone.position.y = -0.3*Math.sin(t*0.0005) - 0.5;
+      }
+
+      if (vid) {
+        vid.rotation.z += 0.001;
+        vid.rotation.y += 0.0001;
+      }
+
+      if (arch) {
+        arch.rotation.z += 0.001;
+        arch.rotation.y += 0.0001;
+      }
+
+      if (plane) {
+        plane.rotation.z += 0.001;
+      }
+
+      //planeFlow();
+      for (var j = 0; j < rowSize + 1; j++) {
+        for (var i = 0; i < rowSize + 1; i++) {
+          plane.geometry.vertices[(rowSize + 1) * j + i].z = maxHeight * Math.sin(j / rowSize * 3 + t * .05);
+          plane.geometry.vertices[(rowSize + 1) * j + i].z += maxHeight / 5 * Math.sin(j / rowSize * 12 + t * 0.04);
+          plane.geometry.vertices[(rowSize + 1) * j + i].z += maxHeight / 13 * Math.cos(j / rowSize * 18 + t * 0.2);
+          plane.geometry.vertices[(rowSize + 1) * j + i].z += maxHeight * Math.cos(i / rowSize * 3 + t * .05);
+          plane.geometry.vertices[(rowSize + 1) * j + i].z += maxHeight / 5 * Math.cos(i / rowSize * 12 + t * 0.04);
+          plane.geometry.vertices[(rowSize + 1) * j + i].z += maxHeight / 13 * Math.sin(i / rowSize * 18 + t * 0.2);
+        }
+      }
+      t += 0.55;
       plane.geometry.verticesNeedUpdate = true;
 
 
-  TWEEN.update();
-  // Render the scene.
-  renderer.render(scene, camera);
-  controls.update();
+      TWEEN.update();
+      // Render the scene.
+      renderer.render(scene, camera);
+      controls.update();
 
-}
+    }
 
-function planeFlow() {
-  for(var g = 0; g < planes.length; g++) {
-    var pl = planes[g];
-    for(var j = 0; j < rowSize+1; j++) {
-          for(var i = 0; i < rowSize+1; i++) {
-              pl.geometry.vertices[(rowSize+1)*j + i].z = maxHeight*Math.sin(j/rowSize*3 + t*.05);
-              pl.geometry.vertices[(rowSize+1)*j + i].z += maxHeight/5*Math.sin(j/rowSize*12 + t*0.04);
-              pl.geometry.vertices[(rowSize+1)*j + i].z += maxHeight/13*Math.cos(j/rowSize*18 + t*0.2);
-              pl.geometry.vertices[(rowSize+1)*j + i].z += maxHeight*Math.cos(i/rowSize*3 + t*.05);
-              pl.geometry.vertices[(rowSize+1)*j + i].z += maxHeight/5*Math.cos(i/rowSize*12 + t*0.04);
-              pl.geometry.vertices[(rowSize+1)*j + i].z += maxHeight/13*Math.sin(i/rowSize*18 + t*0.2);
+    function planeFlow() {
+      for (var g = 0; g < planes.length; g++) {
+        var pl = planes[g];
+        for (var j = 0; j < rowSize + 1; j++) {
+          for (var i = 0; i < rowSize + 1; i++) {
+            pl.geometry.vertices[(rowSize + 1) * j + i].z = maxHeight * Math.sin(j / rowSize * 3 + t * .05);
+            pl.geometry.vertices[(rowSize + 1) * j + i].z += maxHeight / 5 * Math.sin(j / rowSize * 12 + t * 0.04);
+            pl.geometry.vertices[(rowSize + 1) * j + i].z += maxHeight / 13 * Math.cos(j / rowSize * 18 + t * 0.2);
+            pl.geometry.vertices[(rowSize + 1) * j + i].z += maxHeight * Math.cos(i / rowSize * 3 + t * .05);
+            pl.geometry.vertices[(rowSize + 1) * j + i].z += maxHeight / 5 * Math.cos(i / rowSize * 12 + t * 0.04);
+            pl.geometry.vertices[(rowSize + 1) * j + i].z += maxHeight / 13 * Math.sin(i / rowSize * 18 + t * 0.2);
           }
+        }
+        t += 0.055;
+        pl.geometry.verticesNeedUpdate = true;
       }
-      t+=0.055;
-      pl.geometry.verticesNeedUpdate = true;
-  }
-}
+    }
 
   </script>
 </body>
+
 </html>
